@@ -3,17 +3,19 @@
     "curly": true,
     "eqeqeq": true,
     "eqnull": true,
-    "es3": true,
+
+
     "immed": true,
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "quotmark": "single",
+    "quotmark": "double",
     "sub": true,
-    "strict": true,
-    "undef": true,
-    "unused": true,
+    "strict": false,
 
+    "undef": false,
+    "unused": true,
+    "funcscope": false,
     "browser": true,
     "jquery": false,
     

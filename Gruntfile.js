@@ -1,8 +1,8 @@
-/* global require, process */
+/*jslint es5: false */
 module.exports = function(grunt) {
     'use strict';
 
-    require('time-grunt')(grunt);
+    //require('time-grunt')(grunt);
 
     // Define project configuration
     var project = {
@@ -17,7 +17,9 @@ module.exports = function(grunt) {
         files: {
             js: [
                 'js/*.js',
-                '!js/*.min.js'
+                '!js/*.min.js',
+                'spec/*.js',
+                '!spec/*.min.js'
             ],
 
             get config() {
