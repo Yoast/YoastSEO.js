@@ -6,6 +6,7 @@
 YoastSEO = function( args ) {
     window.YoastSEO_loader = this;
     this.config = args;
+    this.filters = {};
     this.inputs = {};
 	this.loadQueue();
     this.stringHelper = new YoastSEO_StringHelper();
@@ -54,6 +55,57 @@ YoastSEO.prototype.removeFromQueue = function( func ) {
 	}
 };
 
+/**
+ * Enables hooking a callable to a specific data filter supported by YoastSEO.
+ *
+ * @param filter The name of the filter
+ * @param callable The callable
+ * @param priority (optional) Used to specify the order in which the callables associated with a particular filter are called. Lower numbers correspond with earlier execution.
+ * @param context (optional) Object for passing context parameters to the callables.
+ */
+YoastSEO.prototype.addFilter = function(filter, callable, priority, context) {
+    // Default priority to 10
+    var prio = typeof priority === 'number' ?  priority : 10;
+
+    var callableObject = {
+        callable: callable,
+        priority: prio,
+        context: context
+    };
+
+    if ( this.filters.hasOwnProperty( filter ) === false ) {
+        Object.defineProperty(this.filters, filter, {value: [], writable: true});
+    }
+
+    this.filters[filter].push( callableObject );
+}
+
+/**
+ * Calls the callables added to a filter hook. See the YoastSEO.js Readme for a list of supported filter hooks.
+ *
+ * @param filter The name of the filter
+ * @param data The data to filter
+ * @param context (optional) Object for passing context parameters to the callable.
+ * @returns {*} The filtered data
+ */
+YoastSEO.prototype.applyFilters = function(filter, data, context) {
+    var callChain = this.filters[filter];
+
+    if ( callChain instanceof Array && callChain.length > 0 ) {
+        callChain.sort( function( a, b ) {
+            return a.priority - b.priority;
+        });
+
+        var data = data;
+
+        for (var callableObject in callChain) {
+            var callable = callChain[callableObject].callable;
+
+            data = callable(data, context);
+        }
+        return data;
+    }
+}
 
 /**
  * creates the elements for the snippetPreview
