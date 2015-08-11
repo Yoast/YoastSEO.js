@@ -96,8 +96,6 @@ YoastSEO.prototype.applyFilters = function(filter, data, context) {
             return a.priority - b.priority;
         });
 
-        var data = data;
-
         for (var callableObject in callChain) {
             var callable = callChain[callableObject].callable;
 
