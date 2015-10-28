@@ -1307,8 +1307,10 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
+		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
+							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
 	}
+	dialog.innerHTML += "<span class=bufferbar></span>";
 };
 
 /**
@@ -2381,7 +2383,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
+	ev.currentTarget.parentElement.className = "snippet_container editIcon";
 };
 
 /**
