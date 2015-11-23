@@ -1066,11 +1066,14 @@ YoastSEO.App = function( args ) {
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
 
-	this.getData();
+	if ( this.ouputTargetExists() ) {
+		this.getData();
 
-	this.showLoadingDialog();
-	this.createSnippetPreview();
-	this.runAnalyzer();
+		this.showLoadingDialog();
+		this.createSnippetPreview();
+		this.runAnalyzer();
+	}
+
 };
 
 /**
@@ -1144,6 +1147,17 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 	translations = translations || defaultTranslations;
 
 	return new YoastSEO.Jed( translations );
+};
+
+/**
+ * Checks if target output exists
+ */
+YoastSEO.App.prototype.ouputTargetExists = function() {
+	var targetElement = document.getElementById( this.config.targets.output );
+	if ( targetElement ) {
+		return true;
+	}
+	return false;
 };
 
 /**
@@ -1398,9 +1412,11 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
-	this.getData();
-	this.removeLoadingDialog();
-	this.runAnalyzer();
+	if ( this.ouputTargetExists() ) {
+		this.getData();
+		this.removeLoadingDialog();
+		this.runAnalyzer();
+	}
 };
 
 /**
@@ -1418,13 +1434,15 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * @param plugins
  */
 YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
-	dialog.textContent = "";
-	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
-							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
+	var dialog = document.getElementById( "YoastSEO-plugin-loading" ) || false;
+	if ( dialog ) {
+		dialog.textContent = "";
+		for ( var plugin in this.pluggable.plugins ) {
+			dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
+								plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
+		}
+		dialog.innerHTML += "<span class=bufferbar></span>";
 	}
-	dialog.innerHTML += "<span class=bufferbar></span>";
 };
 
 /**
