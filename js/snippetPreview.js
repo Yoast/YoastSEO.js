@@ -90,6 +90,10 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
+	if ( cite.indexOf( "/" ) !== ( cite.length - 1 ) ) {
+		cite = cite + "/";
+	}
+
 	return this.formatKeywordUrl( cite );
 };
 
