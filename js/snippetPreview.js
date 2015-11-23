@@ -93,6 +93,7 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	if ( cite.indexOf( "/" ) !== ( cite.length - 1 ) ) {
 		cite = cite + "/";
 	}
+	cite = cite.replace( /\s/g, "-" );
 
 	return this.formatKeywordUrl( cite );
 };
