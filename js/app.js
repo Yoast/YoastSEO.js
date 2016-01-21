@@ -3,6 +3,7 @@
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
+var isEmpty = require( "lodash/lang/isEmpty" );
 
 var SnippetPreview = require( "./snippetPreview.js" );
 
@@ -214,7 +215,9 @@ YoastSEO.App.prototype.getData = function() {
 	if ( !isUndefined( this.snippetPreview ) ) {
 		var data = this.snippetPreview.getAnalyzerData();
 
-		this.rawData.pageTitle = data.title;
+		if ( !isEmpty( data.title ) ) {
+			this.rawData.pageTitle = data.title;
+		}
 		this.rawData.url = data.url;
 		this.rawData.meta = data.metaDesc;
 	}
