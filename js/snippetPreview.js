@@ -687,6 +687,12 @@ SnippetPreview.prototype.getMetaText = function() {
 				}
 			}
 		}
+		metaText = stripHTMLTags(
+			this.refObj.rawData.text.substring(
+				curStart,
+				curStart + YoastSEO.analyzerConfig.maxMeta
+			)
+		);
 	}
 	if ( stripHTMLTags( metaText ) === "" ) {
 		return this.opts.placeholder.metaDesc;
