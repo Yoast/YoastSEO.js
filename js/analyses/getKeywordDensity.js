@@ -9,9 +9,9 @@ var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
  * @param {string} keyword The keyword to match.
  * @returns {number} The keyword density.
  */
-module.exports = function( text, keyword ) {
-	var wordCount = countWords( text );
-	var keywordCount = matchWords ( text, keyword );
+module.exports = function( valueObject ) {
+	var wordCount = countWords( valueObject.text );
+	var keywordCount = matchWords ( valueObject.text, valueObject.keyword );
 	var keywordDensity = ( keywordCount / wordCount ) * 100;
 	return keywordDensity.toFixed( 1 );
 };

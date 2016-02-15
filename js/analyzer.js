@@ -5,6 +5,8 @@ var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" )
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
 
+var valueObject = {};
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -26,6 +28,8 @@ var analyzerConfig = require( "./config/config.js" );
  */
 var Analyzer = function( args ) {
 	this.config = args;
+	valueObject = args;
+
 	this.checkConfig();
 	this.init( args );
 
@@ -176,7 +180,7 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
  */
 Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );
-	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
+	return [ { test: "wordCount", result: countWords( valueObject.text ) } ];
 };
 
 /**
@@ -185,7 +189,7 @@ Analyzer.prototype.wordCount = function() {
  */
 Analyzer.prototype.keyphraseSizeCheck = function() {
 	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
+	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( valueObject.keyword ) } ];
 };
 
 /**
@@ -196,10 +200,10 @@ Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = countWords( this.config.text );
+	var keywordCount = countWords(valueObject.text );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.config.keyword );
+		var density = getKeywordDensity( valueObject );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
 		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
