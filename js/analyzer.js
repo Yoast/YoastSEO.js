@@ -263,7 +263,7 @@ Analyzer.prototype.stopwords = function() {
  */
 Analyzer.prototype.fleschReading = function() {
 	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
-	var score = calculateFleschReading( this.config.text );
+	var score = calculateFleschReading( valueObject );
 	if ( score < 0 ) {
 		score = 0;
 	}
