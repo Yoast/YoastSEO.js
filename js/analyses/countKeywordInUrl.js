@@ -8,7 +8,9 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @param {string} keyword The keyword to match
  * @returns {int} Number of times the keyword is found.
  */
-module.exports = function( url, keyword ) {
+module.exports = function( valueObject ) {
+	var keyword = valueObject.keyword;
+	var url = valueObject.url;
 	keyword = keyword.replace( "'", "" );
 	keyword = keyword.replace( /\s/ig, "-" );
 

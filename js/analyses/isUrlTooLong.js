@@ -9,7 +9,9 @@ var analyzerConfig = require( "../config/analyzerConfig" )();
  * @param {string} keyword The keyword
  * @returns {boolean} true if the URL is too long, false if it isn't
  */
-module.exports = function( url, keyword ) {
+module.exports = function( valueObject ) {
+	var url = valueObject.url;
+	var keyword = valueObject.keyword;
 	var urlLength = url.length;
 	var keywordLength = keyword.length;
 	var isUrlTooLong = false;
