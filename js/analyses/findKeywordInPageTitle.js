@@ -11,7 +11,9 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {object} result with the matches and position.
  */
 
-module.exports = function( text, keyword ) {
+module.exports = function( valueObject ) {
+	var text = valueObject.text;
+	var keyword = valueObject.keyword;
 	var result = { matches: 0, position: -1 };
 	result.matches = wordMatch( text, keyword );
 	result.position = text.toLocaleLowerCase().indexOf( keyword );

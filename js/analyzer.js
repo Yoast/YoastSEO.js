@@ -5,7 +5,7 @@ var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" )
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
 
-var valueObject = {};
+var valueObject;
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -327,8 +327,8 @@ Analyzer.prototype.imageCount = function() {
  */
 Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result = this.config.pageTitle.length;
+	if ( typeof valueObject.pageTitle !== "undefined" ) {
+		result[ 0 ].result = valueObject.pageTitle.length;
 	}
 	return result;
 };
@@ -342,8 +342,8 @@ Analyzer.prototype.pageTitleLength = function() {
 Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
+	if ( typeof valueObject.pageTitle !== "undefined" && typeof valueObject.keyword !== "undefined" ) {
+		result[0].result = findKeywordInPageTitle( valueObject );
 	}
 	return result;
 };
@@ -355,7 +355,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  */
 Analyzer.prototype.firstParagraph = function() {
 	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( valueObject ) } ];
 	return result;
 };
 
@@ -368,9 +368,9 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
 	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
-		this.config.meta !== "" && this.config.keyword !== "" ) {
-		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
+	if ( typeof valueObject.meta !== "undefined" && typeof valueObject.keyword !== "undefined" &&
+		valueObject.meta !== "" && valueObject.keyword !== "" ) {
+		result[ 0 ].result = wordMatch( valueObject.meta, valueObject.keyword );
 	}
 
 	return result;
@@ -382,8 +382,8 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
  */
 Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if ( typeof  this.config.meta !== "undefined" ) {
-		result[ 0 ].result =  this.config.meta.length;
+	if ( typeof  valueObject.meta !== "undefined" ) {
+		result[ 0 ].result =  valueObject.meta.length;
 	}
 
 	return result;
