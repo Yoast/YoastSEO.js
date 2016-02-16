@@ -231,7 +231,7 @@ Analyzer.prototype.keywordCount = function() {
 Analyzer.prototype.subHeadings = function() {
 	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "subHeadings", result: getSubheadings( valueObject ) } ];
 
 	return result;
 };
