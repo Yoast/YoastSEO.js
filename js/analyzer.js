@@ -318,7 +318,7 @@ Analyzer.prototype.linkCount = function() {
  */
 Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
+	return [ { test: "imageCount", result: countImages( valueObject ) } ];
 };
 
 /**

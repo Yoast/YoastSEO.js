@@ -55,8 +55,9 @@ var matchImageTags = function( imageMatches, keyword ) {
  * @param {string} keyword The keyword to check in alttags
  * @returns {object} Object containing all types of found images
  */
-module.exports = function( text, keyword ) {
-
+module.exports = function( valueObject ) {
+	var text = valueObject.text;
+	var keyword = valueObject.keyword;
 	var imageMatches = matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 	var imageCount =  matchImageTags( imageMatches, keyword );
 

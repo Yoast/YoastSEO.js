@@ -1,31 +1,60 @@
 var imageCountFunction = require( "../../js/analyses/getImageStatistics.js" );
-var imageCount;
+var imageCount, valueObject;
 
 describe( "Counts images in an text", function(){
 	it( "returns object with the imagecount", function(){
-		imageCount = imageCountFunction( "string <img src='http://plaatje' alt='keyword' />", "keyword" );
+
+		valueObject = {
+			text: "string <img src='http://plaatje' alt='keyword' />",
+			keyword: "keyword"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.altKeyword ).toBe( 1 );
 		expect( imageCount.total ).toBe( 1 );
 		expect( imageCount.noAlt ).toBe( 0 );
 
-		imageCount = imageCountFunction( "string <img src='http://plaatje' alt='keyword' />", "" );
+		valueObject = {
+			text: "string <img src='http://plaatje' alt='keyword' />",
+			keyword: ""
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.noAlt ).toBe( 0 );
 		expect( imageCount.altNaKeyword ).toBe( 1 );
 
-		imageCount = imageCountFunction( "<img src='http://picture.com' alt='текст' />", "текст");
+		valueObject = {
+			text:  "<img src='http://picture.com' alt='текст' />",
+			keyword:  "текст"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.altKeyword ).toBe( 1 );
 
-		imageCount = imageCountFunction( "<img src='http://picture.com' alt='maïs' />", "maïs");
+		valueObject = {
+			text: "<img src='http://picture.com' alt='maïs' />",
+			keyword: "maïs"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.altKeyword ).toBe( 1 );
 
-		imageCount = imageCountFunction( '<img src="http://picture.com" alt="Yoast\'s analyzer" />', "Yoast's analyzer" );
+		valueObject = {
+			text: '<img src="http://picture.com" alt="Yoast\'s analyzer" />',
+			keyword: "Yoast's analyzer"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.altKeyword ).toBe( 1 );
 
-		imageCount = imageCountFunction(
-			"<img src='' alt='something' />" +
+		valueObject = {
+			text:"<img src='' alt='something' />" +
 			"<img src='' />" +
-			"<img src='' />"
-		, "keyword" );
+			"<img src='' />",
+			keyword: "keyword"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount ).toEqual({
 			total: 3,
 			alt: 1,
@@ -34,10 +63,12 @@ describe( "Counts images in an text", function(){
 			altNaKeyword: 0
 		});
 
-		imageCount = imageCountFunction(
-			"<img src='http://google.com/keyword' alt='hi' />",
-			"keyword"
-		);
+		valueObject = {
+			text: "<img src='http://google.com/keyword' alt='hi' />",
+			keyword: "keyword"
+		};
+
+		imageCount = imageCountFunction( valueObject );
 		expect( imageCount.altKeyword ).toBe( 0 );
 	});
 });
