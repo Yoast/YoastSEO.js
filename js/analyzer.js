@@ -299,13 +299,13 @@ Analyzer.prototype.fleschReading = function() {
  */
 Analyzer.prototype.linkCount = function() {
 	var countLinks = require( "./analyses/getLinkStatistics.js" );
-	var keyword = this.config.keyword;
+	var keyword = valueObject.keyword;
 
 	if ( typeof keyword === "undefined" ) {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( valueObject ) } ];
 };
 
 /**

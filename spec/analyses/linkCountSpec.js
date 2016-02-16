@@ -1,28 +1,54 @@
 var linkCount = require( "../../js/analyses/getLinkStatistics.js" );
 var foundLinks;
+var valueObject;
 
 describe("Tests a string for anchors and analyzes these", function(){
 	it("returns an object with all linktypes found", function(){
-		foundLinks = linkCount( "string <a href='http://yoast.com'>link</a>", "test", "http://yoast.com");
+		valueObject = {
+			text: "string <a href='http://yoast.com'>link</a>",
+			keyword: "test",
+			baseUrl: "http://yoast.com"
+		};
+
+		foundLinks = linkCount( valueObject );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 0 );
 		expect( foundLinks.totalKeyword ).toBe( 0 );
 
-		foundLinks = linkCount( "string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>", "link", "http://yoast.com");
+		valueObject = {
+			text: "string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>",
+			keyword: "link",
+			baseUrl: "http://yoast.com"
+		};
+
+		foundLinks = linkCount( valueObject );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
 		expect( foundLinks.totalKeyword ).toBe( 2 );
 
-		foundLinks = linkCount( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", "link", "http://yoast.com");
+		valueObject = {
+			text:  "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>",
+			keyword: "link",
+			baseUrl: "http://yoast.com"
+		};
+
+		foundLinks = linkCount( valueObject );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.otherTotal ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 	});
 
 	it( "should return all special types", function() {
-		foundLinks = linkCount( "hello", "keyword", "http://example.org" );
+		valueObject = {
+			text: "hello",
+			keyword: "test",
+			baseUrl: "http://example.org"
+		};
+
+		foundLinks = linkCount( valueObject );
+
 		expect( foundLinks ).toEqual({
 			total: 0,
 			totalNaKeyword: 0,
@@ -38,8 +64,8 @@ describe("Tests a string for anchors and analyzes these", function(){
 			otherNofollow: 0
 		});
 
-		foundLinks = linkCount(
-			"<a href='http://example.org/test123'>test123</a>" +
+		valueObject = {
+			text: "<a href='http://example.org/test123'>test123</a>" +
 			"<a href='http://example.org/test123' rel='nofollow'>test123</a>" +
 			"<a href='http://example.org/test123'>keyword</a>" +
 			"<a href='http://yoast.com' rel='nofollow'>test123</a>" +
@@ -50,9 +76,12 @@ describe("Tests a string for anchors and analyzes these", function(){
 			"" +
 			"" +
 			"",
-			"keyword",
-			"http://example.org"
-		);
+			keyword: "keyword",
+			baseUrl: "http://example.org"
+		};
+
+		var foundLinks = linkCount( valueObject );
+
 		expect( foundLinks ).toEqual({
 			total: 8,
 			totalNaKeyword: 0,
