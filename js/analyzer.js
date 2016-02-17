@@ -50,6 +50,7 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 	this.config = args;
+	valueObject = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
@@ -398,7 +399,7 @@ Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
 	if ( typeof valueObject.keyword !== "undefined" && typeof valueObject.url !== "undefined" ) {
-		score = checkForKeywordInUrl( valueObject.url, valueObject.keyword );
+		score = checkForKeywordInUrl( valueObject );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -412,8 +413,7 @@ Analyzer.prototype.urlKeyword = function() {
 Analyzer.prototype.urlLength = function() {
 	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		valueObject.url,
-		valueObject.keyword
+		valueObject
 	) } } ];
 	return result;
 };
