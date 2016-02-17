@@ -201,13 +201,13 @@ Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = countWords(valueObject.text );
+	var keywordCount = countWords( valueObject.text );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( valueObject );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords(valueObject.text, valueObject.keyword );
+		this.__store.keywordCount = matchWords( valueObject.text, valueObject.keyword );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}

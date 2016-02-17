@@ -396,8 +396,8 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  * matches:the number of ocurrences of the keyword for each match
  */
 module.exports = function( valueObject ) {
-	text = valueObject.text;
-	keyword = valueObject.keyword;
+	var text = valueObject.text;
+	var keyword = valueObject.keyword;
 	var matches;
 	var result = { count: 0 };
 	text = stripSomeTags( text );
@@ -615,7 +615,7 @@ Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = countWords(valueObject.text );
+	var keywordCount = countWords( valueObject.text );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( valueObject );
