@@ -13,7 +13,9 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  * count: the number of matches
  * matches:the number of ocurrences of the keyword for each match
  */
-module.exports = function( text, keyword ) {
+module.exports = function( valueObject ) {
+	var text = valueObject.text;
+	var keyword = valueObject.keyword;
 	var matches;
 	var result = { count: 0 };
 	text = stripSomeTags( text );

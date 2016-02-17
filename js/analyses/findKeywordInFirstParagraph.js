@@ -12,7 +12,9 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @param {string} keyword The keyword to match in paragraphs.
  * @returns {number} The number of occurences of the keyword in the first paragraph.
  */
-module.exports = function( text, keyword ) {
+module.exports = function( valueObject ) {
+	var text = valueObject.text;
+	var keyword = valueObject.keyword;
 	var paragraph;
 
 	//matches everything between the <p> and </p> tags.

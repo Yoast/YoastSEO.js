@@ -9,7 +9,8 @@ var stopwords = require( "../analyses/checkStringForStopwords.js" );
  * @returns {array} stopwords found in URL
  */
 
-module.exports = function( url ) {
+module.exports = function( valueObject ) {
+	var url = valueObject.url;
 	url = url.replace( /[-_]/g, " " );
 	return stopwords( url );
 };

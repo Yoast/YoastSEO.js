@@ -5,6 +5,8 @@ var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" )
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
 
+var valueObject;
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -26,6 +28,8 @@ var analyzerConfig = require( "./config/config.js" );
  */
 var Analyzer = function( args ) {
 	this.config = args;
+	valueObject = args;
+
 	this.checkConfig();
 	this.init( args );
 
@@ -46,6 +50,7 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 	this.config = args;
+	valueObject = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
@@ -176,7 +181,7 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
  */
 Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );
-	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
+	return [ { test: "wordCount", result: countWords( valueObject.text ) } ];
 };
 
 /**
@@ -185,7 +190,7 @@ Analyzer.prototype.wordCount = function() {
  */
 Analyzer.prototype.keyphraseSizeCheck = function() {
 	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
+	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( valueObject.keyword ) } ];
 };
 
 /**
@@ -196,13 +201,13 @@ Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = countWords( this.config.text );
+	var keywordCount = countWords( valueObject.text );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.config.keyword );
+		var density = getKeywordDensity( valueObject );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
+		this.__store.keywordCount = matchWords( valueObject.text, valueObject.keyword );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -215,7 +220,7 @@ Analyzer.prototype.keywordDensity = function() {
  */
 Analyzer.prototype.keywordCount = function() {
 	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
+	var keywordCount = matchTextWithWord( valueObject.text, valueObject.keyword );
 
 	return keywordCount;
 };
@@ -227,7 +232,7 @@ Analyzer.prototype.keywordCount = function() {
 Analyzer.prototype.subHeadings = function() {
 	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "subHeadings", result: getSubheadings( valueObject ) } ];
 
 	return result;
 };
@@ -238,7 +243,7 @@ Analyzer.prototype.subHeadings = function() {
  */
 Analyzer.prototype.stopwords = function() {
 	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
-	var matches = checkStringForStopwords( this.config.keyword );
+	var matches = checkStringForStopwords( valueObject.keyword );
 
 	/* Matchestext is used for scoring, we should move this to the scoring */
 	var matchesText = matches.join( ", " );
@@ -259,7 +264,7 @@ Analyzer.prototype.stopwords = function() {
  */
 Analyzer.prototype.fleschReading = function() {
 	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
-	var score = calculateFleschReading( this.config.text );
+	var score = calculateFleschReading( valueObject );
 	if ( score < 0 ) {
 		score = 0;
 	}
@@ -295,13 +300,13 @@ Analyzer.prototype.fleschReading = function() {
  */
 Analyzer.prototype.linkCount = function() {
 	var countLinks = require( "./analyses/getLinkStatistics.js" );
-	var keyword = this.config.keyword;
+	var keyword = valueObject.keyword;
 
 	if ( typeof keyword === "undefined" ) {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( valueObject ) } ];
 };
 
 /**
@@ -314,7 +319,7 @@ Analyzer.prototype.linkCount = function() {
  */
 Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
+	return [ { test: "imageCount", result: countImages( valueObject ) } ];
 };
 
 /**
@@ -323,8 +328,8 @@ Analyzer.prototype.imageCount = function() {
  */
 Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result = this.config.pageTitle.length;
+	if ( typeof valueObject.pageTitle !== "undefined" ) {
+		result[ 0 ].result = valueObject.pageTitle.length;
 	}
 	return result;
 };
@@ -338,8 +343,8 @@ Analyzer.prototype.pageTitleLength = function() {
 Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
+	if ( typeof valueObject.pageTitle !== "undefined" && typeof valueObject.keyword !== "undefined" ) {
+		result[0].result = findKeywordInPageTitle( valueObject );
 	}
 	return result;
 };
@@ -351,7 +356,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  */
 Analyzer.prototype.firstParagraph = function() {
 	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( valueObject ) } ];
 	return result;
 };
 
@@ -364,9 +369,9 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
 	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
-		this.config.meta !== "" && this.config.keyword !== "" ) {
-		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
+	if ( typeof valueObject.meta !== "undefined" && typeof valueObject.keyword !== "undefined" &&
+		valueObject.meta !== "" && valueObject.keyword !== "" ) {
+		result[ 0 ].result = wordMatch( valueObject.meta, valueObject.keyword );
 	}
 
 	return result;
@@ -378,8 +383,8 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
  */
 Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if ( typeof  this.config.meta !== "undefined" ) {
-		result[ 0 ].result =  this.config.meta.length;
+	if ( typeof  valueObject.meta !== "undefined" ) {
+		result[ 0 ].result =  valueObject.meta.length;
 	}
 
 	return result;
@@ -393,8 +398,8 @@ Analyzer.prototype.urlKeyword = function() {
 	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 	var score = 0;
 
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
+	if ( typeof valueObject.keyword !== "undefined" && typeof valueObject.url !== "undefined" ) {
+		score = checkForKeywordInUrl( valueObject );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -408,10 +413,7 @@ Analyzer.prototype.urlKeyword = function() {
 Analyzer.prototype.urlLength = function() {
 	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.config.url,
-		this.config.keyword,
-		this.config.maxSlugLength,
-		this.config.maxUrlLength
+		valueObject
 	) } } ];
 	return result;
 };
@@ -422,7 +424,7 @@ Analyzer.prototype.urlLength = function() {
  */
 Analyzer.prototype.urlStopwords = function() {
 	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
-	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
+	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( valueObject ) } ];
 
 	return result;
 };
@@ -433,9 +435,9 @@ Analyzer.prototype.urlStopwords = function() {
  */
 Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
+	if ( typeof valueObject.keyword !== "undefined" && typeof valueObject.usedKeywords !== "undefined" ) {
 		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
-		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
+		result[0].result = checkForKeywordDoubles( valueObject );
 	}
 	return result;
 };
