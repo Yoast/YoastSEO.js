@@ -1,4 +1,33 @@
+/* global modules */
+
 var isUndefined = require( "lodash/lang/isUndefined" );
+
+/**
+ * Calculate the length of the array.
+ * @param {array} The array to calculate the length of.
+ * @returns {number} The length of the passed array.
+ */
+var calculateLength = function( array ) {
+	if ( isUndefined( array ) ) {
+		return 0;
+	}
+
+	return array.length;
+};
+
+/**
+ * Check whether or not an array has a particular index.
+ * @param {array} The array to check.
+ * @param {number|string} index The wanted index.
+ * @returns {boolean} Whether or not the index exists.
+ */
+var indexExists = function ( array, index ) {
+	if ( isUndefined( array ) || isUndefined( index ) || array.indexOf( index ) === -1 ) {
+		return false;
+	}
+
+	return true;
+};
 
 /**
  * Collection constructor.
@@ -83,32 +112,5 @@ Collection.prototype.removeItem = function( index ) {
 
 	return true;
 };
-
-/**
- * Calculate the length of the array.
- * @param {array} The array to calculate the length of.
- * @returns {number} The length of the passed array.
- */
-var calculateLength = function( array ) {
-	if ( isUndefined( array ) ) {
-		return 0;
-	}
-
-	return array.length;
-};
-
-/**
- * Check whether or not an array has a particular index.
- * @param {array} The array to check.
- * @param {number|string} index The wanted index.
- * @returns {boolean} Whether or not the index exists.
- */
-var indexExists = function ( array, index ) {
-	if ( isUndefined( array ) || isUndefined( index ) || array.indexOf( index ) === -1 ) {
-		return false;
-	}
-
-	return true;
-}
 
 modules.export = Collection;
