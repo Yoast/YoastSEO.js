@@ -21,7 +21,7 @@ var calculateLength = function( array ) {
  * @param {number|string} index The wanted index.
  * @returns {boolean} Whether or not the index exists.
  */
-var indexExists = function ( array, index ) {
+var indexExists = function( array, index ) {
 	if ( isUndefined( array ) || isUndefined( index ) || array.indexOf( index ) === -1 ) {
 		return false;
 	}
