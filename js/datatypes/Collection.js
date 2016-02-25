@@ -1,4 +1,4 @@
-/* global modules */
+/* global module */
 var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
@@ -44,7 +44,7 @@ var Collection = function( items ) {
  * @returns {boolean|*} False or the item that exists on the current index.
  */
 Collection.prototype.getCurrentItem = function() {
-	return this.getItemByIndex( this._iterator );1
+	return this.getItemByIndex( this._iterator );
 };
 
 /**
