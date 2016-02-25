@@ -1,10 +1,9 @@
 /* global modules */
-
 var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
  * Calculate the length of the array.
- * @param {array} The array to calculate the length of.
+ * @param {array} array The array to calculate the length of.
  * @returns {number} The length of the passed array.
  */
 var calculateLength = function( array ) {
@@ -17,7 +16,7 @@ var calculateLength = function( array ) {
 
 /**
  * Check whether or not an array has a particular index.
- * @param {array} The array to check.
+ * @param {array} array The array to check.
  * @param {number|string} index The wanted index.
  * @returns {boolean} Whether or not the index exists.
  */
@@ -84,7 +83,7 @@ Collection.prototype.getItemByIndex = function( index ) {
 /**
  * Add an item to the collection and recalculate the total collection size.
  * @param {*} item The item to be added to the collection.
- * @returns {boolean}
+ * @returns {boolean} True or false depending on if the item was successfully added to the collection.
  */
 Collection.prototype.addItem = function( item ) {
 	if ( isUndefined( item ) ) {
@@ -100,7 +99,7 @@ Collection.prototype.addItem = function( item ) {
 /**
  * Remove an item from the collection by its index and recalculate the total collection size.
  * @param {number|string} index The index to search for.
- * @returns {boolean}
+ * @returns {boolean} True or false depending on if the item was successfully removed from the collection.
  */
 Collection.prototype.removeItem = function( index ) {
 	if ( indexExists( this._items, index ) === false ) {
