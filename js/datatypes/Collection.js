@@ -21,7 +21,7 @@ var calculateLength = function( array ) {
  * @returns {boolean} Whether or not the index exists.
  */
 var indexExists = function( array, index ) {
-	if ( isUndefined( array ) || isUndefined( index ) || array.indexOf( index ) === -1 ) {
+	if ( isUndefined( array ) || isUndefined( index ) || isUndefined( array[ index ] ) ) {
 		return false;
 	}
 
@@ -40,6 +40,14 @@ var Collection = function( items ) {
 };
 
 /**
+ * Get the item in the collection that the iterator is currently pointing to.
+ * @returns {boolean|*} False or the item that exists on the current index.
+ */
+Collection.prototype.getCurrentItem = function() {
+	return this.getItemByIndex( this._iterator );1
+};
+
+/**
  * Get the next item in the collection.
  * @returns {*} The next item in the collection or false if none exists.
  */
@@ -50,7 +58,7 @@ Collection.prototype.getNextItem = function() {
 
 	this._iterator += 1;
 
-	return this.getItemByIndex( this._iterator );
+	return this.getCurrentItem();
 };
 
 /**
@@ -64,7 +72,7 @@ Collection.prototype.getPreviousItem = function() {
 
 	this._iterator -= 1;
 
-	return this.getItemByIndex( this._iterator );
+	return this.getCurrentItem();
 };
 
 /**
@@ -112,4 +120,12 @@ Collection.prototype.removeItem = function( index ) {
 	return true;
 };
 
-modules.export = Collection;
+/**
+ * Return the amount of available items in the collection.
+ * @returns {number} The total amount of items in the collection.
+ */
+Collection.prototype.getLength = function() {
+	return calculateLength( this._items );
+};
+
+module.exports = Collection;
