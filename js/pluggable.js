@@ -1,8 +1,10 @@
 /* global console: true */
 /* global setTimeout: true */
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
+var isUndefined = require( "lodash/lang" );
+var forEach = require( "lodash/collection" );
+var reduce = require( "lodash/collection" );
+var isString = require( "lodash/lang" );
+var isFunction = require( "lodash/lang" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -37,6 +39,7 @@ var Pluggable = function( app ) {
 	this.plugins = {};
 	this.modifications = {};
 	this.customTests = [];
+	this._customAssessments = {};
 
 	// Allow plugins 1500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
@@ -212,6 +215,39 @@ Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginNam
 		"scoring": scoring,
 		"prio": prio
 	} );
+
+	return true;
+};
+
+/**
+ * Register an assessment for a specific plugin
+ *
+ * @param {string} name The name of the assessment.
+ * @param {function} assessment The function to run as an assessment.
+ * @param {string} pluginName The name of the plugin associated with the assessment.
+ * @return {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Pluggable.prototype._registerAssessment = function( name, assessment, pluginName ) {
+	if ( ! isString( name ) ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		return false;
+	}
+
+	if ( ! isFunction( assessment ) ) {
+		console.error( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `assessment` to be a function." );
+		return false;
+	}
+
+	if ( ! isString( pluginName ) ) {
+		console.error( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `pluginName` to be a strign." );
+		return false;
+	}
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	this._customAssessments[ name ] = assessment;
 
 	return true;
 };
