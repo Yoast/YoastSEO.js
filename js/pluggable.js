@@ -174,50 +174,10 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 /**
  * Register test for a specific plugin
  *
- * @param   {string}      name          The name of the test.
- * @param   {function}    analysis      The function to be run within the test.
- * @param   {object}      scoring       The scoring associated with the test.
- * @param   {string}      pluginName    The name of the plugin associated with the test.
- * @param   {number}      priority      The priority that this test has.
- * @returns {boolean}                   Whether or not the test was successfully registered.
- * @private
+ * @deprecated
  */
-Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	if ( typeof name !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-		return false;
-	}
-
-	if ( typeof analysis !== "function" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ? priority : 10;
-
-	// Prefix the name with the pluginName so the test name is always unique.
-	name = pluginName + "-" + name;
-
-	this.customTests.push( {
-		"name": name,
-		"analysis": analysis,
-		"scoring": scoring,
-		"prio": prio
-	} );
-
-	return true;
+Pluggable.prototype._registerTest = function() {
+	console.error ( "This function is deprecated, please use _registerAssessment" );
 };
 
 /**
