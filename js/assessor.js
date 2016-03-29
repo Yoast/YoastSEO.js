@@ -153,7 +153,7 @@ Assessor.prototype.calculateOverallScore  = function() {
 };
 
 /**
- * Register an assessment for a specific plugin
+ * Register an assessment to add it to the internal assessments object.
  *
  * @param {string} name The name of the assessment.
  * @param {object} assessment The object containing function to run as an assessment and it's requirements.

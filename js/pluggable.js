@@ -182,6 +182,7 @@ Pluggable.prototype._registerTest = function() {
 /**
  * Register an assessment for a specific plugin
  *
+ * @param {object} assessor The assessor object where the assessments needs to be added.
  * @param {string} name The name of the assessment.
  * @param {function} assessment The function to run as an assessment.
  * @param {string} pluginName The name of the plugin associated with the assessment.

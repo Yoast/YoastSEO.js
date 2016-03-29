@@ -602,11 +602,11 @@ App.prototype.registerTest = function() {
 };
 
 /**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
+ * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
+ * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
  *
- * Score 0 results in a grey circle
- * Scores 1, 2, 3 and 4 result in a red circle
+ * Score 0 results in a grey circle if it is not explicitly set by using setscore
+ * Scores 0, 1, 2, 3 and 4 result in a red circle
  * Scores 6 and 7 result in a yellow circle
  * Scores 8, 9 and 10 result in a green circle
  *
