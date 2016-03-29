@@ -5,8 +5,6 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
-var isString = require( "lodash/isString" );
-var isObject = require( "lodash/isObject" );
 var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
@@ -39,7 +37,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
 	this.taskList = [];
-	assessments;
 };
 
 /**

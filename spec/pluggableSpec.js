@@ -2,6 +2,11 @@ var Pluggable = require( "../js/pluggable" );
 
 var invalidTypeError = require( "../js/errors/invalidType" );
 
+var Assessor = require( "../js/assessor.js" );
+
+var factory = require( "./helpers/factory.js" );
+var i18n = factory.buildJed();
+
 describe( "the pluggable interface", function() {
 	var app, pluggable;
 
@@ -21,7 +26,8 @@ describe( "the pluggable interface", function() {
 		});
 
 		it( "should be able to add an assessment", function() {
-			expect( pluggable._registerAssessment( "name", function() {}, "test-plugin" ) ).toEqual( true );
+			var assessor = new Assessor( i18n);
+			expect( pluggable._registerAssessment( assessor, "name", function() {}, "test-plugin" ) ).toEqual( true );
 		})
 	});
 });

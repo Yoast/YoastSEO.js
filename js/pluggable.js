@@ -4,7 +4,6 @@ var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var reduce = require( "lodash/reduce" );
 var isString = require( "lodash/isString" );
-var isFunction = require( "lodash/isFunction" );
 var isObject = require( "lodash/isObject" );
 var InvalidTypeError = require( "./errors/invalidType" );
 
@@ -230,7 +229,7 @@ Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginNam
  * @return {boolean} Whether registering the assessment was successful.
  * @private
  */
-Pluggable.prototype._registerAssessment = function( name, assessment, pluginName ) {
+Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
 	if ( !isString( name ) ) {
 		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 	}
@@ -248,7 +247,7 @@ Pluggable.prototype._registerAssessment = function( name, assessment, pluginName
 	// Prefix the name with the pluginName so the test name is always unique.
 	name = pluginName + "-" + name;
 
-	this.app.assessor.addAssessment( name, assessment );
+	assessor.addAssessment( name, assessment );
 
 	return true;
 };

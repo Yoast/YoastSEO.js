@@ -608,7 +608,7 @@ App.prototype.registerTest = function( name, analysis, scoring, pluginName, prio
 
 
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( name, assessment, pluginName );
+	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
 };
 
 module.exports = App;
