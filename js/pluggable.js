@@ -40,7 +40,6 @@ var Pluggable = function( app ) {
 	this.plugins = {};
 	this.modifications = {};
 	this.customTests = [];
-	this._customAssessments = {};
 
 	// Allow plugins 1500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
