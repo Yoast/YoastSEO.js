@@ -2,26 +2,32 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
- * Constructs the PreviouslyUsedKeywords plugin
  * @param {object} app The app
- * @param {object} usedKeywords An object with keywords and ids where they are used
- * @param {string} searchUrl The url used to link to a search page when multiple usages of the keyword are found
- * @param {string} postUrl The url used to link to a post when 1 usage of the keyword is found
+ * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
+ * @param {object} i18n The i18n object used for translations
  * @constructor
  */
-var PreviouslyUsedKeywords = function( app, usedKeywords, searchUrl, postUrl ) {
+var PreviouslyUsedKeyword = function( app, args, i18n ) {
 	this.app = app;
-	this.usedKeywords = usedKeywords;
-	this.searchUrl = searchUrl;
-	this.postUrl = postUrl;
-	this.i18n = this.app.i18n;
+	this.usedKeywords = args.usedKeywords;
+	this.searchUrl = args.searchUrl;
+	this.postUrl = args.postUrl;
+	this.i18n = i18n;
 };
 
 /**
  * Registers the assessment with the assessor.
  */
-PreviouslyUsedKeywords.prototype.registerPlugin = function() {
+PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 	this.app.registerAssessment( "usedKeywords", this.assess, "previouslyUsedKeywords" );
+};
+
+/**
+ * Replaces the usedKeywords
+ * @param {object} usedKeywords An object with keywords and ids where they are used.
+ */
+PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
+	this.usedKeywords = usedKeywords;
 };
 
 /**
@@ -31,7 +37,7 @@ PreviouslyUsedKeywords.prototype.registerPlugin = function() {
  * @param {string} keyword The keyword.
  * @returns {object} the scoreobject with text and score.
  */
-PreviouslyUsedKeywords.prototype.scoreAssessment = function( count, id, keyword ) {
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( count, id, keyword ) {
 	if( count === 0 ) {
 		return {
 			text: this.i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
@@ -64,7 +70,7 @@ PreviouslyUsedKeywords.prototype.scoreAssessment = function( count, id, keyword 
  * The assessment for the previously used keywords.
  * @returns {AssessmentResult} The assessment result of the assessment
  */
-PreviouslyUsedKeywords.prototype.assess = function() {
+PreviouslyUsedKeyword.prototype.assess = function() {
 	var keyword = this.app.paper.getKeyword();
 	var count = 0;
 	var id = 0;
@@ -83,4 +89,4 @@ PreviouslyUsedKeywords.prototype.assess = function() {
 	return assessmentResult;
 };
 
-module.exports = PreviouslyUsedKeywords;
+module.exports = PreviouslyUsedKeyword;
