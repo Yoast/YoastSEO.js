@@ -47,11 +47,11 @@ function replacePlaceholders( text, replaceArray ) {
 	forEach( replaceArray, function( replacement ) {
 		var replacementText;
 
-		if ( ! isUndefined( replacement.value ) ) {
+		if ( !isUndefined( replacement.value ) ) {
 			replacementText = replacement.value;
 		}
 
-		if ( ! isEmpty( replacementText ) ) {
+		if ( !isEmpty( replacementText ) ) {
 			text.replace( replacement.position, replacementText );
 		}
 	} );
@@ -72,10 +72,10 @@ function assessify( analysis, scoreMatcher ) {
 
 		var matchedScore = scoreAnalysis( analysisResult, scoreMatcher.scoreArray );
 
-		if ( ! isEmpty( matchedScore ) ) {
+		if ( !isEmpty( matchedScore ) ) {
 			var text = matchedScore.text;
 
-			if ( ! isUndefined( scoreMatcher.replaceArray ) ) {
+			if ( !isUndefined( scoreMatcher.replaceArray ) ) {
 				( replacePlaceholders( text, scoreMatcher.replaceArray ) );
 			}
 

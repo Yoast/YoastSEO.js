@@ -1,5 +1,7 @@
 var Pluggable = require( "../js/pluggable" );
 
+var invalidTypeError = require( "../js/errors/invalidType" );
+
 describe( "the pluggable interface", function() {
 	var app, pluggable;
 
@@ -13,9 +15,9 @@ describe( "the pluggable interface", function() {
 		});
 
 		it( "should throw an error on adding an invalid assessment", function() {
-			expect( pluggable._registerAssessment( false ) ).toEqual( false );
-			expect( pluggable._registerAssessment( "name", false ) ).toEqual( false );
-			expect( pluggable._registerAssessment( "name", function() {}, false ) ).toEqual( false );
+			expect( function() { pluggable._registerAssessment( false ) } ).toThrowError( invalidTypeError );
+			expect( function() { pluggable._registerAssessment( "name", false ) } ).toThrowError( invalidTypeError );
+			expect( function() { pluggable._registerAssessment( "name", function() {}, false ) } ).toThrowError( invalidTypeError );
 		});
 
 		it( "should be able to add an assessment", function() {
