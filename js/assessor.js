@@ -5,6 +5,8 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
+var isString = require( "lodash/isString" );
+var isObject = require( "lodash/isObject" );
 var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
@@ -37,6 +39,7 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
 	this.taskList = [];
+	assessments;
 };
 
 /**
@@ -127,6 +130,19 @@ Assessor.prototype.calculateOverallScore  = function() {
 		totalScore += assessmentResult.result.getScore();
 	} );
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
+};
+
+/**
+ * Register an assessment for a specific plugin
+ *
+ * @param {string} name The name of the assessment.
+ * @param {object} assessment The object containing function to run as an assessment and it's requirements.
+ * @return {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Assessor.prototype.addAssessment = function( name, assessment ) {
+	assessments[ name ] = assessment;
+	return true;
 };
 
 module.exports = Assessor;

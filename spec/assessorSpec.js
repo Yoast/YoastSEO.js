@@ -33,7 +33,7 @@ var result5 = new AssessmentResult();
 result5.setScore( 5 );
 var result4 = new AssessmentResult();
 result4.setScore( 4 );
-var result8 = new AssessmentResult()
+var result8 = new AssessmentResult();
 result8.setScore( 8 );
 
 describe ( "returning the overallscore", function(){
@@ -47,4 +47,15 @@ describe ( "returning the overallscore", function(){
 		};
 		expect( assessor.calculateOverallScore() ).toBe( 63 );
 	})
+} );
+
+var mockAssessment = {
+	callback: function(){return true}
+};
+
+describe ( "adding an assessment", function() {
+	it( "adds an assessment", function(){
+		assessor.addAssessment( "testname", mockAssessment );
+		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual(jasmine.objectContaining( mockAssessment ) );
+	});
 } );
