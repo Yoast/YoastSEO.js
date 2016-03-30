@@ -72,7 +72,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 
 /**
  * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
- * @returns {{id: number, count: number}}
+ * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
  */
 PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
 	var keyword = this.app.paper.getKeyword();
