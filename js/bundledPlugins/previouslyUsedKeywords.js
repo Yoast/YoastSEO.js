@@ -4,6 +4,10 @@ var isUndefined = require( "lodash/isUndefined" );
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
+ * @param {object} args.usedKeywords An object with keywords and ids where they are used.
+ * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
+ * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
+ * @param {Assessor} args.assessor
  * @param {object} i18n The i18n object used for translations
  * @constructor
  */
@@ -23,7 +27,7 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 };
 
 /**
- * Replaces the usedKeywords
+ * Updates the usedKeywords
  * @param {object} usedKeywords An object with keywords and ids where they are used.
  */
 PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
@@ -32,12 +36,12 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
 
 /**
  * Scores the previously used keyword assessment based on the count.
- * @param {int} count The number of usages found of the keyword.
- * @param {int} id The ID of a post.
- * @param {string} keyword The keyword.
+ * @param {object} previouslyUsedKeywords The result of the previously used keywords research
  * @returns {object} the scoreobject with text and score.
  */
-PreviouslyUsedKeyword.prototype.scoreAssessment = function( count, id, keyword ) {
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords ) {
+	var count = previouslyUsedKeywords.count;
+	var id = previouslyUsedKeywords.id;
 	if( count === 0 ) {
 		return {
 			text: this.i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
@@ -54,7 +58,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( count, id, keyword )
 		};
 	}
 	if( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", keyword )+ "'>";
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", this.app.paper.getKeyword() )+ "'>";
 		return {
 			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
 			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
@@ -67,24 +71,36 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( count, id, keyword )
 };
 
 /**
+ * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
+ * @returns {{id: number, count: number}}
+ */
+PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
+	var keyword = this.app.paper.getKeyword();
+	var count = 0;
+	var id = 0;
+
+	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
+		count = this.usedKeywords[ keyword ].length;
+		id = this.usedKeywords[ keyword ][ 0 ];
+	}
+
+	return{
+		id: id,
+		count: count
+	};
+};
+
+/**
  * The assessment for the previously used keywords.
  * @returns {AssessmentResult} The assessment result of the assessment
  */
 PreviouslyUsedKeyword.prototype.assess = function() {
-	var keyword = this.app.paper.getKeyword();
-	var count = 0;
-	var id = 0;
-	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
-		count = this.usedKeywords[ keyword ].length;
-	}
-	if ( count === 1 ) {
-		id = this.usedKeywords[ keyword ][ 0 ];
-	}
-	var result = this.scoreAssessment( count, id, keyword );
+	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords();
+	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords );
 
 	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( result.score );
-	assessmentResult.setText( result.text );
+	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
+	assessmentResult.setText( previouslyUsedKeywordsResult.text );
 
 	return assessmentResult;
 };

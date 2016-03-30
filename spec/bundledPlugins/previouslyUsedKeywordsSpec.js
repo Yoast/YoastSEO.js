@@ -19,19 +19,20 @@ var args = {
 	postUrl: postUrl
 };
 
+
+
 describe( "checks for keyword doubles", function(){
 	it("returns array with keyword", function(){
 		var plugin = new PreviouslyUsedKeywords( app, args, i18n );
-
-		expect( plugin.scoreAssessment( 1, 1, "keyword" ).score ).toBe( 6 );
-		expect( plugin.scoreAssessment( 1, 1, "keyword" ).text ).toBe( "You've used this focus keyword <a href='http://post?1'>once before</a>, " +
+		expect( plugin.scoreAssessment( {id: 1, count: 1} ).score ).toBe( 6 );
+		expect( plugin.scoreAssessment( {id: 1, count: 1} ).text ).toBe( "You've used this focus keyword <a href='http://post?1'>once before</a>, " +
 			"be sure to make very clear which URL on your site is the most important for this keyword." );
 
-		expect( plugin.scoreAssessment( 2, 0, "test" ).score ).toBe( 1 );
-		expect( plugin.scoreAssessment( 2, 0, "test" ).text ).toBe( "You've used this focus keyword <a href='http://search?test'>2 times before</a>, it's probably a good idea to read <a href='https://yoast.com/cornerstone-content-rank/' target='new'>this post on cornerstone content</a> and improve your keyword strategy." );
+		expect( plugin.scoreAssessment( {id: 1, count: 2} ).score ).toBe( 1 );
+		expect( plugin.scoreAssessment({id: 1, count: 2 } ).text ).toBe( "You've used this focus keyword <a href='http://search?keyword'>2 times before</a>, it's probably a good idea to read <a href='https://yoast.com/cornerstone-content-rank/' target='new'>this post on cornerstone content</a> and improve your keyword strategy." );
 
-		expect( plugin.scoreAssessment( 0, 0, "bla").score ).toBe( 9 );
-		expect( plugin.scoreAssessment( 0, 0, "bla").text ).toBe( "You've never used this focus keyword before, very good." );
+		expect( plugin.scoreAssessment( {id: 0, count: 0} ).score ).toBe( 9 );
+		expect( plugin.scoreAssessment( {id: 0, count: 0} ).text ).toBe( "You've never used this focus keyword before, very good." );
 	});
 });
 
