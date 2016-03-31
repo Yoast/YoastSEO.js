@@ -200,9 +200,14 @@ var App = function( args ) {
 	verifyArguments( args );
 
 	this.config = args;
-	this.pluggable = new Pluggable( this );
+
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
+
+	// Set the assessor
+	this.assessor = new Assessor( this.i18n );
+
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 	this.showLoadingDialog();
@@ -420,11 +425,6 @@ App.prototype.runAnalyzer = function() {
 		this.researcher = new Researcher( this.paper );
 	} else {
 		this.researcher.setPaper( this.paper );
-	}
-
-	// Set the assessor
-	if ( isUndefined( this.assessor ) ) {
-		this.assessor = new Assessor( this.i18n );
 	}
 
 	this.assessor.assess( this.paper );

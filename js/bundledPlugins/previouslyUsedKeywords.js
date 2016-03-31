@@ -1,6 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
-//var InvalidTypeError = require( "../../js/errors/invalidType" );
 
 var MissingArgument = require( "../../js/errors/missingArgument" );
 /**
@@ -27,6 +26,7 @@ var PreviouslyUsedKeyword = function( app, args, i18n ) {
 	if ( isUndefined( i18n ) ) {
 		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
 	}
+
 	this.app = app;
 	this.usedKeywords = args.usedKeywords;
 	this.searchUrl = args.searchUrl;
@@ -38,7 +38,7 @@ var PreviouslyUsedKeyword = function( app, args, i18n ) {
  * Registers the assessment with the assessor.
  */
 PreviouslyUsedKeyword.prototype.registerPlugin = function() {
-	this.app.registerAssessment( "usedKeywords", this.assess, "previouslyUsedKeywords" );
+	this.app.registerAssessment( "usedKeywords", { getResult: this.assess.bind( this ) }, "previouslyUsedKeywords" );
 };
 
 /**
