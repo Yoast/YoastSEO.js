@@ -5,25 +5,8 @@ var isNumber = require( "lodash/isNumber" );
 var isUndefined = require( "lodash/isUndefined" );
 var difference = require( "lodash/difference" );
 var template = require( "../templates.js" ).assessmentPresenterResult;
-
-var presenterConfig = {
-	feedback: {
-		class: "na",
-		screenReaderText: "Feedback"
-	},
-	bad: {
-		class: "bad",
-		screenReaderText: "Bad SEO score"
-	},
-	ok: {
-		class: "ok",
-		screenReaderText: "Ok SEO score"
-	},
-	good: {
-		class: "good",
-		screenReaderText: "Good SEO score"
-	}
-};
+var scoreToRating = require( "../interpreters/scoreToRating.js" );
+var config = require( "../config/presenter.js" );
 
 /**
  * Constructs the AssessorPresenter.
@@ -43,6 +26,7 @@ var AssessorPresenter = function( args ) {
 	this.i18n = args.i18n;
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
+	this.presenterConfig = config( args.i18n );
 };
 
 /**
@@ -51,7 +35,7 @@ var AssessorPresenter = function( args ) {
  * @returns {boolean} Whether or not the property exists.
  */
 AssessorPresenter.prototype.configHasProperty = function( property ) {
-	return presenterConfig.hasOwnProperty( property );
+	return this.presenterConfig.hasOwnProperty( property );
 };
 
 /**
@@ -76,7 +60,7 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 		return "";
 	}
 
-	return presenterConfig[ rating ].class;
+	return this.presenterConfig[ rating ].class;
 };
 
 /**
@@ -89,7 +73,7 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 		return "";
 	}
 
-	return this.i18n.dgettext( "js-text-analysis", presenterConfig[ rating ].screenReaderText );
+	return this.presenterConfig[ rating ].screenReaderText;
 };
 
 /**
@@ -98,31 +82,7 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
  * @returns {Object} The Assessment result object with the rating added.
  */
 AssessorPresenter.prototype.resultToRating = function( result ) {
-	result.rating = "";
-
-	if ( result.score === 0 ) {
-		result.rating = "feedback";
-
-		return result;
-	}
-
-	if ( result.score <= 4 ) {
-		result.rating = "bad";
-
-		return result;
-	}
-
-	if ( result.score > 4 && result.score <= 7 ) {
-		result.rating = "ok";
-
-		return result;
-	}
-
-	if ( result.score > 7 ) {
-		result.rating = "good";
-
-		return result;
-	}
+	result.rating = scoreToRating( result.score );
 
 	return result;
 };
