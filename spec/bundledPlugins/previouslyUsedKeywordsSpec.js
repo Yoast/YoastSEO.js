@@ -34,14 +34,12 @@ describe( "checks for keyword doubles", function(){
 	});
 });
 
-
 describe( "checks for keyword doubles", function(){
 	it("returns array with keyword", function() {
 		var plugin = new PreviouslyUsedKeywords(app, undefined, i18n);
 		expect( plugin.searchUrl ).toBe( "" );
 	})
 });
-
 
 describe( "replaces keyword usage", function(){
 	it("adds keywords", function(){

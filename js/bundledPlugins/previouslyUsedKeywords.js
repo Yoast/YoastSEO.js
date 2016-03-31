@@ -18,7 +18,7 @@ var PreviouslyUsedKeyword = function( app, args, i18n ) {
 		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
 	}
 	if ( isUndefined( args ) ) {
-		var args = {
+		args = {
 			usedKeywords: {},
 			searchUrl: "",
 			postUrl: ""
