@@ -2,6 +2,7 @@
 
 var forEach = require( "lodash/forEach" );
 var isNumber = require( "lodash/isNumber" );
+var isObject = require( "lodash/isObject" );
 var isUndefined = require( "lodash/isUndefined" );
 var difference = require( "lodash/difference" );
 var template = require( "../templates.js" ).assessmentPresenterResult;
@@ -82,6 +83,10 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
  * @returns {Object} The Assessment result object with the rating added.
  */
 AssessorPresenter.prototype.resultToRating = function( result ) {
+	if ( !isObject( result ) ) {
+		return "";
+	}
+
 	result.rating = scoreToRating( result.score );
 
 	return result;
@@ -157,20 +162,20 @@ AssessorPresenter.prototype.addRating = function( item ) {
 /**
  * Calculates the overall rating score based on the overall score.
  * @param {Number} overallScore The overall score to use in the calculation.
- * @returns {Number} The rating score.
+ * @returns {Object} The rating based on the score.
  */
 AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 	var rating = 0;
 
 	if ( this.keyword === "" ) {
-		return rating;
+		return this.resultToRating( { score: rating } );
 	}
 
 	if ( isNumber( overallScore ) ) {
 		rating = ( overallScore / 10 );
 	}
 
-	return rating;
+	return this.resultToRating( { score: rating } );
 };
 
 /**
@@ -196,15 +201,14 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
  * Renders out the overall rating.
  */
 AssessorPresenter.prototype.renderOverallRating = function() {
-	var overallScore = this.getOverallRating( this.assessor.calculateOverallScore() );
-	var rating = this.resultToRating( { score: overallScore } );
+	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
 	var overallRatingElement = document.getElementById( this.overall );
 
 	if ( !overallRatingElement ) {
 		return;
 	}
 
-	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( rating.rating );
+	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
 };
 
 module.exports = AssessorPresenter;

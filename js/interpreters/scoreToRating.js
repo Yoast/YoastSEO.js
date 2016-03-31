@@ -5,6 +5,7 @@
  * @constructor
  */
 var ScoreToRating = function( score ) {
+
 	if ( score === 0 ) {
 		return "feedback";
 	}
