@@ -28,13 +28,13 @@ var presenterConfig = {
 /**
  * Constructs the AssessorPresenter.
  *
- * @param {App} args
- * @param {object} args.targets
- * @param {string} args.targets.output
- * @param {string} args.targets.overall
- * @param {string} args.keyword
- * @param {Assessor} args.assessor
- * @param {Jed} args.i18n
+ * @param {Object} args A list of arguments to use in the presenter.
+ * @param {object} args.targets The HTML elements to render the output to.
+ * @param {string} args.targets.output The HTML element to render the individual ratings out to.
+ * @param {string} args.targets.overall The HTML element to render the overall rating out to.
+ * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
+ * @param {Assessor} args.assessor The Assessor object to retrieve assessment results from.
+ * @param {Jed} args.i18n The translation object.
  * @constructor
  */
 var AssessorPresenter = function( args ) {
@@ -128,8 +128,8 @@ AssessorPresenter.prototype.resultToRating = function( result ) {
 };
 
 /**
- *
- * @returns {{}}
+ * Takes the individual assessment results, sorts and rates them.
+ * @returns {Object} Object containing all the individual ratings.
  */
 AssessorPresenter.prototype.getIndividualRatings = function() {
 	var ratings = {};
@@ -143,9 +143,24 @@ AssessorPresenter.prototype.getIndividualRatings = function() {
 	return ratings;
 };
 
+/**
+ * Excludes items from the results that are present in the exclude array.
+ * @param {Array} results Array containing the items to filter through.
+ * @param {Array} exclude Array of results to exclude.
+ * @returns {Array} Array containing items that remain after exclusion.
+ */
+AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
+	return difference( results, exclude );
+};
+
+/**
+ * Sorts results based on their score property and always places items considered to be unsortable, at the top.
+ * @param {Array} results Array containing the results that need to be sorted.
+ * @returns {Array} Array containing the sorted results.
+ */
 AssessorPresenter.prototype.sort = function ( results ) {
 	var unsortables = this.getUndefinedScores( results );
-	var sortables = difference( results, unsortables );
+	var sortables = this.excludeFromResults( results, unsortables );
 
 	sortables.sort( function( a, b ) {
 		return a.score - b.score;
@@ -154,6 +169,11 @@ AssessorPresenter.prototype.sort = function ( results ) {
 	return unsortables.concat( sortables );
 };
 
+/**
+ * Returns a subset of results that have an undefined score or a score set to zero.
+ * @param {Array} results The results to filter through.
+ * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
+ */
 AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
 	var undefinedScores = results.filter( function( result ) {
 		return isUndefined( result.score ) || result.score === 0;
@@ -162,6 +182,11 @@ AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
 	return undefinedScores;
 };
 
+/**
+ * Creates a rating object based on the item that is being passed.
+ * @param {Object} item The item to check and create a rating object from.
+ * @returns {Object} Object containing a parsed item, including a colored indicator.
+ */
 AssessorPresenter.prototype.addRating = function( item ) {
 	var indicator = this.getIndicator( item.rating );
 	indicator.text = item.text;
@@ -169,6 +194,11 @@ AssessorPresenter.prototype.addRating = function( item ) {
 	return indicator;
 };
 
+/**
+ * Calculates the overall rating score based on the overall score.
+ * @param {Number} overallScore The overall score to use in the calculation.
+ * @returns {Number} The rating score.
+ */
 AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 	var rating = 0;
 
@@ -183,11 +213,17 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 	return rating;
 };
 
+/**
+ * Renders out both the individual and the overall ratings.
+ */
 AssessorPresenter.prototype.render = function() {
 	this.renderIndividualRatings();
 	this.renderOverallRating();
 };
 
+/**
+ * Renders out the individual ratings.
+ */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
 	var outputTarget = document.getElementById( this.output );
 
@@ -196,6 +232,9 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 	} );
 };
 
+/**
+ * Renders out the overall rating.
+ */
 AssessorPresenter.prototype.renderOverallRating = function() {
 	var overallScore = this.getOverallRating( this.assessor.calculateOverallScore() );
 	var rating = this.resultToRating( { score: overallScore } );
