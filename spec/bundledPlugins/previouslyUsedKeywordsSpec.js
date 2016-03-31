@@ -19,8 +19,6 @@ var args = {
 	postUrl: postUrl
 };
 
-
-
 describe( "checks for keyword doubles", function(){
 	it("returns array with keyword", function(){
 		var plugin = new PreviouslyUsedKeywords( app, args, i18n );
@@ -36,10 +34,27 @@ describe( "checks for keyword doubles", function(){
 	});
 });
 
+
+describe( "checks for keyword doubles", function(){
+	it("returns array with keyword", function() {
+		var plugin = new PreviouslyUsedKeywords(app, undefined, i18n);
+		expect( plugin.searchUrl ).toBe( "" );
+	})
+});
+
+
 describe( "replaces keyword usage", function(){
 	it("adds keywords", function(){
-		usedKeywords = {};
-		plugin = new PreviouslyUsedKeywords( app, usedKeywords, searchUrl, postUrl );
+
+		usedKeywords = undefined;
+
+		args = {
+			usedKeywords: usedKeywords,
+			searchUrl: searchUrl,
+			postUrl: postUrl
+		};
+
+		plugin = new PreviouslyUsedKeywords( app, args, i18n );
 		expect( plugin.usedKeywords ).not.toBeDefined();
 		plugin.updateKeywordUsage(  { "keyword": [1], "test": [2,3,4] } );
 		expect( plugin.usedKeywords[ "keyword" ] ).toContain( 1 );

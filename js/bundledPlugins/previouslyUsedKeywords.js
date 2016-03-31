@@ -1,6 +1,8 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
+//var InvalidTypeError = require( "../../js/errors/invalidType" );
 
+var MissingArgument = require( "../../js/errors/missingArgument" );
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
@@ -12,6 +14,19 @@ var isUndefined = require( "lodash/isUndefined" );
  * @constructor
  */
 var PreviouslyUsedKeyword = function( app, args, i18n ) {
+	if ( isUndefined( app ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
+	}
+	if ( isUndefined( args ) ) {
+		var args = {
+			usedKeywords: {},
+			searchUrl: "",
+			postUrl: ""
+		};
+	}
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
+	}
 	this.app = app;
 	this.usedKeywords = args.usedKeywords;
 	this.searchUrl = args.searchUrl;
