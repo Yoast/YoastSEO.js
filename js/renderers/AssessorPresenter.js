@@ -57,7 +57,7 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
 /**
  * Gets a fully formatted indicator object that can be used.
  * @param {string} rating The rating to use.
- * @returns {Object} An object containing
+ * @returns {Object} An object containing the class and screen reader text.
  */
 AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
@@ -66,6 +66,11 @@ AssessorPresenter.prototype.getIndicator = function( rating ) {
 	};
 };
 
+/**
+ * Gets the indicator color class from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} String containing the CSS class to be used.
+ */
 AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 	if ( !this.configHasProperty( rating ) ) {
 		return "";
@@ -74,6 +79,11 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 	return presenterConfig[ rating ].class;
 };
 
+/**
+ * Get the indicator screen reader text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the screen reader text to be used.
+ */
 AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 	if ( !this.configHasProperty( rating ) ) {
 		return "";
@@ -82,6 +92,11 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 	return this.i18n.dgettext( "js-text-analysis", presenterConfig[ rating ].screenReaderText );
 };
 
+/**
+ * Adds a rating based on the numeric score.
+ * @param {Object} result Object based on the Assessment result. Requires a score property to work.
+ * @returns {Object} The Assessment result object with the rating added.
+ */
 AssessorPresenter.prototype.resultToRating = function( result ) {
 	result.rating = "";
 
@@ -112,6 +127,10 @@ AssessorPresenter.prototype.resultToRating = function( result ) {
 	return result;
 };
 
+/**
+ *
+ * @returns {{}}
+ */
 AssessorPresenter.prototype.getIndividualRatings = function() {
 	var ratings = {};
 	var validResults = this.sort( this.assessor.getValidResults() );
