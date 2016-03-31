@@ -58,11 +58,7 @@ result8.setScore( 8 );
 describe ( "returning the overallscore", function() {
 	it ("returns the overallscore", function() {
 		assessor.getValidResults = function() {
-			return [
-				{ result: result5 },
-				{ result: result4 },
-				{ result: result8 }
-			]
+			return [ result5, result4, result8 ]
 		};
 		expect( assessor.calculateOverallScore() ).toBe( 63 );
 	})
