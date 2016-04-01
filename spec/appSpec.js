@@ -1,6 +1,5 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
-require("../js/analyzer.js");
 require("../js/app.js");
 require("../js/scoreFormatter.js");
 
