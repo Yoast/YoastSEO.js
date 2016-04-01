@@ -7,7 +7,7 @@ var isUndefined = require( "lodash/isUndefined" );
 var difference = require( "lodash/difference" );
 var template = require( "../templates.js" ).assessmentPresenterResult;
 var scoreToRating = require( "../interpreters/scoreToRating.js" );
-var config = require( "../config/presenter.js" );
+var createConfig = require( "../config/presenter.js" );
 
 /**
  * Constructs the AssessorPresenter.
@@ -27,7 +27,7 @@ var AssessorPresenter = function( args ) {
 	this.i18n = args.i18n;
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
-	this.presenterConfig = config( args.i18n );
+	this.presenterConfig = createConfig( args.i18n );
 };
 
 /**
