@@ -8,7 +8,6 @@ var MissingArgument = require( "../../js/errors/missingArgument" );
  * @param {object} args.usedKeywords An object with keywords and ids where they are used.
  * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
  * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
- * @param {Assessor} args.assessor
  * @param {object} i18n The i18n object used for translations
  * @constructor
  */
@@ -16,15 +15,17 @@ var PreviouslyUsedKeyword = function( app, args, i18n ) {
 	if ( isUndefined( app ) ) {
 		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
 	}
+
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
+	}
+
 	if ( isUndefined( args ) ) {
 		args = {
 			usedKeywords: {},
 			searchUrl: "",
 			postUrl: ""
 		};
-	}
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
 	}
 
 	this.app = app;
@@ -72,7 +73,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			score: 6
 		};
 	}
-	if( count > 1 ) {
+	if ( count > 1 ) {
 		url = "<a href='" + this.searchUrl.replace( "{keyword}", this.app.paper.getKeyword() )+ "'>";
 		return {
 			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
@@ -99,7 +100,7 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
-	return{
+	return {
 		id: id,
 		count: count
 	};

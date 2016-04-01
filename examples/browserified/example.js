@@ -36,7 +36,7 @@ window.onload = function() {
 
 	app.refresh();
 
-	var args ={
+	var args = {
 		usedKeywords: {"keyword": [1], "test": [2, 3, 4]},
 		searchUrl: "http://example.com/post?id={id}",
 		postUrl: "http://example.com/search?kw={keyword}"

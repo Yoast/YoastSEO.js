@@ -568,8 +568,7 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * Scores 6 and 7 result in a yellow circle
  * Scores 8, 9 and 10 result in a red circle
  *
- *
- * @deprecated
+ * @deprecated since version 1.2
  */
 App.prototype.registerTest = function() {
 	console.error( "This function is deprecated, please use registerAssessment" );
