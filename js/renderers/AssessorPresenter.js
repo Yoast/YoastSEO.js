@@ -140,11 +140,9 @@ AssessorPresenter.prototype.sort = function ( results ) {
  * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
  */
 AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
-	var undefinedScores = results.filter( function( result ) {
+	return results.filter( function( result ) {
 		return isUndefined( result.score ) || result.score === 0;
 	} );
-
-	return undefinedScores;
 };
 
 /**
