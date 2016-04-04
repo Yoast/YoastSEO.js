@@ -71,6 +71,6 @@ var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 module.exports = {
 	getResult: getLinkStatisticsAssessment,
 	isApplicable: function ( paper ) {
-		return paper.hasText();
+		return paper.hasText() && paper.hasKeyword();
 	}
 };
