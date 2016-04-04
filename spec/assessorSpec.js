@@ -29,7 +29,7 @@ describe ( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that only require a text", function() {
 		assessor.assess( new Paper( "text" ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	});
 
 	it( "additionally runs assessments that only require a keyword", function() {
@@ -44,7 +44,7 @@ describe ( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require an url", function() {
 		assessor.assess( new Paper( "text", { url: "sample url" } ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	});
 });
 
@@ -62,4 +62,15 @@ describe ( "returning the overallscore", function() {
 		};
 		expect( assessor.calculateOverallScore() ).toBe( 63 );
 	})
+} );
+
+var mockAssessment = {
+	callback: function(){return true}
+};
+
+describe ( "adding an assessment", function() {
+	it( "adds an assessment", function(){
+		assessor.addAssessment( "testname", mockAssessment );
+		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual(jasmine.objectContaining( mockAssessment ) );
+	});
 } );
