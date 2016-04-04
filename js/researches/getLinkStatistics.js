@@ -33,7 +33,7 @@ module.exports = function( paper ) {
 if ( getLinkCount( paper ) === 0 ) {
 	return {};
 }
-
+console.log (anchors );
 	var linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,

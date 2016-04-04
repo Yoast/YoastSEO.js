@@ -1,4 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Returns a score and text based on the linkStatistics object.
@@ -58,12 +59,12 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  */
 var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
-	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( linkStatisticsResult.score );
-	assessmentResult.setText( linkStatisticsResult.text );
-
+	if ( !isEmpty( linkStatistics ) ) {
+		var linkStatisticsResult = calculateLinkStatisticsResult(linkStatistics, i18n);
+		assessmentResult.setScore(linkStatisticsResult.score);
+		assessmentResult.setText(linkStatisticsResult.text);
+	}
 	return assessmentResult;
 };
 
