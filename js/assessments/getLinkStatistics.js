@@ -8,20 +8,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.total === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-
-		};
-	}
-	if ( linkStatistics.externalTotal === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-		};
-	}
-	if ( linkStatistics.totalNaKeyword > 0 ) {
+	if ( linkStatistics.totalNaKeyword  > 0 ) {
 		return {
 			score: 2,
 			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
