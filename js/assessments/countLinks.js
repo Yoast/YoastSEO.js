@@ -29,7 +29,6 @@ var calculateLinkCountResult = function( linkCount, i18n ) {
 var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	var linkCount = researcher.getResearch( "linkCount" );
 
-	console.log( linkCount );
 	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
 	var assessmentResult = new AssessmentResult();
 

@@ -61,9 +61,9 @@ var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
 	if ( !isEmpty( linkStatistics ) ) {
-		var linkStatisticsResult = calculateLinkStatisticsResult(linkStatistics, i18n);
-		assessmentResult.setScore(linkStatisticsResult.score);
-		assessmentResult.setText(linkStatisticsResult.text);
+		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+		assessmentResult.setScore( linkStatisticsResult.score );
+		assessmentResult.setText( linkStatisticsResult.text );
 	}
 	return assessmentResult;
 };
