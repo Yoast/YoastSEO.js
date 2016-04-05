@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
 var inRange = require( "lodash/inRange" );
 
 /**
@@ -50,14 +50,13 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
 	var assessmentResult = new AssessmentResult();
 
-	if( countWords( paper.getText() ) >= 100 ) {
-		var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-		var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
-		assessmentResult.setScore( keywordDensityResult.score );
-		assessmentResult.setText( text );
-	}
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
+
+	assessmentResult.setScore( keywordDensityResult.score );
+	assessmentResult.setText( text );
 
 	return assessmentResult;
 };
@@ -65,6 +64,6 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 module.exports = {
 	getResult: getKeyworDensityAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	}
 };
