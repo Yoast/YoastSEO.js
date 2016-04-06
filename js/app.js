@@ -15,6 +15,7 @@ var Jed = require( "jed" );
 var Assessor = require( "./assessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
+var AssessmentResult = require( "./values/AssessmentResult.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
 
