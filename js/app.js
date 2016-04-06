@@ -196,6 +196,8 @@ var App = function( args ) {
 		args = {};
 	}
 
+	this.assessmentResult = AssessmentResult;
+
 	defaultsDeep( args, defaults );
 
 	verifyArguments( args );
