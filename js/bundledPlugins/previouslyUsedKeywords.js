@@ -33,7 +33,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
  * Registers the assessment with the assessor.
  */
 PreviouslyUsedKeyword.prototype.registerPlugin = function() {
-	this.app.registerAssessment( "usedKeywords", { getResult: this.assess.bind( this ) }, "previouslyUsedKeywords" );
+	this.app.registerAssessment( "usedKeywords", { getResult: this.assess.bind( this ), isApplicable: function( paper ){ return paper.hasKeyword() } }, "previouslyUsedKeywords" );
 };
 
 /**
