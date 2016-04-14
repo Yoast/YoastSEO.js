@@ -46,9 +46,13 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 			tooLong++;
 		}
 		scores.push( 9 - Math.max( Math.min( ( 4 / 9 ) * ( length - 25.5 ), 6 ), 0 ) );
-	});
+	} );
 
-	var lowestScore = scores.sort( function( a, b ) { return a - b;} )[ 0 ];
+	var lowestScore = scores.sort(
+		function( a, b ) {
+			return a - b;
+		}
+	)[ 0 ];
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );
 
