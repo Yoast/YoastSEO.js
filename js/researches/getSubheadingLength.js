@@ -12,9 +12,9 @@ module.exports = function( paper ) {
 	var matches = getSubheadings( text );
 
 	var subHeadings = [];
-	forEach( matches, function( subHeading ){
-		subHeadings.push( stripTags( subHeading).length );
-	});
+	forEach( matches, function( subHeading ) {
+		subHeadings.push( stripTags( subHeading ).length );
+	} );
 
 	return subHeadings;
 };

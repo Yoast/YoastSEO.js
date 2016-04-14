@@ -9,20 +9,26 @@ var forEach = require( "lodash/forEach" );
  * @returns {*}
  */
 var subheadingsLengthScore = function( score, tooLong, recommendedValue, i18n ) {
-	if( score >= 7 ){
+	if( score >= 7 ) {
 		return{
 			score: score,
-			text: i18n.dgettext( "js-text-analysis","The length of all subheadings is within the recommended range." )
-		}
+			text: i18n.dgettext( "js-text-analysis", "The length of all subheadings is within the recommended range." )
+		};
 	}
 	return{
 		score: score,
-		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "You have %1$d subheading which contain more than the recommended maximum of %2$d characters.", "You have %1$d subheadings which contain more than the recommended maximum of %2$d characters.", tooLong  ), tooLong, recommendedValue )
-	}
+		text: i18n.sprintf(
+			i18n.dngettext(
+				"js-text-analysis",
+				"You have %1$d subheading which contain more than the recommended maximum of %2$d characters.",
+				"You have %1$d subheadings which contain more than the recommended maximum of %2$d characters.",
+				tooLong
+			), tooLong, recommendedValue )
+	};
 };
 
 /**
- * Runs the getSubheadingLength research and checks scores
+ * Runs the getSubheadingLength research and checks scores based on length.
  *
  * @param {Paper} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
@@ -39,8 +45,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 		if( length > recommendedValue ) {
 			tooLong++;
 		}
-		var result = 9 - Math.max( Math.min( ( 4 / 9 ) * ( length - 25.5 ), 6), 0).toFixed( 2 );
-		scores.push( result );
+		scores.push( 9 - Math.max( Math.min( ( 4 / 9 ) * ( length - 25.5 ), 6 ), 0 ) );
 	});
 
 	var lowestScore = scores.sort( function( a, b ) { return a - b;} )[ 0 ];
