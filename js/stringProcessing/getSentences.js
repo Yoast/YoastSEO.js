@@ -14,14 +14,23 @@ var sentenceDelimiters = ".?!:;";
 var sentenceEndingRegex = /[\s<\)\]\"\']/;
 
 /**
- * Checks if the period is followed with a character that is a valid sentence ending. If not, it is no ending of a sentence.
+ * Checks if the character following a sentence is an invalid sentence ending.
+ * @param {string} character The character to match on.
+ * @returns {boolean} true if it matches.
+ */
+var isInvalidSentenceEnding = function( character ) {
+	return character.match( sentenceEndingRegex ) !== null;
+};
+
+/**
+ * Checks if the period is followed with a character that is a valid sentence ending. If not, it is not an ending of a sentence.
  *
  * @param {string} text The text to split in sentences.
  * @param {number} index The current index to look for.
  * @returns {boolean} True if it doesn't match a whitespace.
  */
 var invalidateOnCharacter = function( text, index ) {
-	return text.substring( index, index + 1 ).match( sentenceEndingRegex ) === null;
+	return !isInvalidSentenceEnding( text.substring( index, index + 1 ) );
 };
 
 /**
@@ -39,7 +48,7 @@ var invalidateOnCapital = function( text, positions, i ) {
 	var firstChar = text.substring( positions[ i ] + 1, positions[ i ] + 2 );
 
 	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( sentenceEndingRegex ) === null ) {
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && !isInvalidSentenceEnding( firstChar ) ) {
 		return true;
 	}
 };
@@ -52,10 +61,11 @@ var invalidateOnCapital = function( text, positions, i ) {
  */
 var filterPositions = function( text, positions ) {
 	return filter( positions, function( position, index ) {
-		if ( !isUndefined( positions[ index + 1 ] ) ) {
-			if ( invalidateOnCharacter( text, positions[ index ] ) || invalidateOnCapital( text, positions, index ) ) {
-				return false;
-			}
+		if ( isUndefined( positions[ index + 1 ] ) ) {
+			return true;
+		}
+		if ( invalidateOnCharacter( text, positions[ index ] ) || invalidateOnCapital( text, positions, index ) ) {
+			return false;
 		}
 		return true;
 	} );
