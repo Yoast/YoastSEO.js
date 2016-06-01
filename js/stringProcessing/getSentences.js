@@ -20,7 +20,7 @@ var sentenceEndingRegex = /[\s<\)\]\"\']/;
  * @param {number} index The current index to look for.
  * @returns {boolean} True if it doesn't match a whitespace.
  */
-var invalidateOnCharacter = function(text, index ) {
+var invalidateOnCharacter = function( text, index ) {
 	return text.substring( index, index + 1 ).match( sentenceEndingRegex ) === null;
 };
 
