@@ -32,6 +32,19 @@ describe("Get sentences from text", function(){
 		expect( getSentences( text ) ).toEqual( ["<h2>Four types of comments</h2>","The comments people leave on blogs can be divided into four types:","<h2>Positive feedback</h2>","First, the positive feedback. "] );
 	});
 
+
+	it( "returns sentences with a text with a bracket", function() {
+		var text = "This is a sentence.)With a bracket on the end";
+		expect( getSentences( text ) ).toEqual( ["This is a sentence.", ")With a bracket on the end" ] );
+	});
+	it( "returns sentences with a text with a bracket", function() {
+		var text = "This is a sentence.]With a bracket on the end";
+		expect( getSentences( text ) ).toEqual( ["This is a sentence.", "]With a bracket on the end" ] );
+	});
+	it( "returns sentences with a text with a quote", function() {
+		var text = "This is a sentence.'With a bracket on the end";
+		expect( getSentences( text ) ).toEqual( ["This is a sentence.", "'With a bracket on the end" ] );
+	});
 	it( "returns a sentence with incomplete tags", function() {
 		var text = "<p>Some text. More Text.</p>";
 		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text."] );
@@ -45,6 +58,7 @@ describe("Get sentences from text", function(){
 	it( "returns a sentence with incomplete tags with a link", function() {
 		var text = "Some text. More Text with <a href='http://yoast.com'>a link</a>.";
 		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text with <a href='http://yoast.com'>a link</a>."] );
-	})
+
+	});
 
 });
