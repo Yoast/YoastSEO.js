@@ -21,28 +21,28 @@ module.exports = function( text ) {
 
 	text = unifyWhitespace( text );
 
-	// replace comma', hyphens etc with spaces
+	// Replace commas, hyphens etc with spaces
 	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
 
-	// remove apostrophe
+	// Remove apostrophe
 	text = text.replace( /[\’]/g, "" );
 
-	// unify all terminators
+	// Unify all terminators
 	text = text.replace( /[.?!]/g, "." );
 
 	// Remove double spaces
 	text = stripSpaces( text );
 
-	// add period in case it is missing
+	// Add period in case it is missing
 	text += ".";
 
-	// replace newlines with spaces
+	// Replace newlines with spaces
 	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
 
-	// remove duplicate terminators
+	// Remove duplicate terminators
 	text = text.replace( /([\.])[\. ]+/g, "$1" );
 
-	// pad sentence terminators
+	// Pad sentence terminators
 	text = text.replace( /[ ]*([\.])+/g, "$1 " );
 
 	// Remove double spaces

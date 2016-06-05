@@ -2,10 +2,11 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
 /**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
+ * Calculates the assessment result based on the fleschReadingScore.
+ *
+ * @param {int} fleschReadingScore The score from the fleschReadingtest.
+ * @param {object} i18n The i18n-object used for parsing translations.
+ * @returns {object} object with score, resultText and note.
  */
 var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 	if ( fleschReadingScore > 90 ) {
@@ -68,20 +69,20 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 /**
  * The assessment that runs the FleschReading on the paper.
  *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
+ * @param {object} paper The paper to run this assessment on.
+ * @param {object} researcher The researcher used for the assessment.
+ * @param {object} i18n The i18n-object used for parsing translations.
  * @returns {object} an assessmentresult with the score and formatted text.
  */
 var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
-	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+	/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
 	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
 
-	// scores must be between 0 and 100;
+	// Scores must be between 0 and 100;
 	if ( fleschReadingScore < 0 ) {
 		fleschReadingScore = 0;
 	}

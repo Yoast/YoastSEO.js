@@ -29,7 +29,7 @@ function getSubheadingContents( text ) {
 	var subheadings = getSubheadings( text );
 
 	subheadings = map( subheadings, function( subheading ) {
-		return subheading[0];
+		return subheading[ 0 ];
 	} );
 
 	return subheadings;

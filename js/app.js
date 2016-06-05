@@ -21,7 +21,7 @@ var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
 
 /**
- * Default config for YoastSEO.js
+ * Default config for YoastSEO.js.
  *
  * @type {Object}
  */
