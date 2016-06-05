@@ -10,6 +10,7 @@ var forEach = require( "lodash/forEach" );
 
 /**
  * Calculates the result based on the score from the researcher.
+ *
  * @param {number} score The lowest score of the subheadings.
  * @param {number} tooLongHeaders The number of subheadings that are too long.
  * @param {number} recommendedValue The recommended maximum length for subheadings.
@@ -28,7 +29,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$d expands to the recommended maximum number of characters.
+					// Translators: %1$d expands to the recommended maximum number of characters.
 					"The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great."
 				), recommendedValue
 			)
@@ -41,7 +42,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 		text: i18n.sprintf(
 			i18n.dngettext(
 				"js-text-analysis",
-				// translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
+				// Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
 				"You have %1$d subheading containing more than the recommended maximum of %2$d characters.",
 				"You have %1$d subheadings containing more than the recommended maximum of %2$d characters.",
 				tooLongHeaders
@@ -83,7 +84,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 		)[ 0 ];
 	}
 
-	// floatingPointFix because of js rounding errors
+	// FloatingPointFix because of js rounding errors
 	lowestScore = fixFloatingPoint( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );

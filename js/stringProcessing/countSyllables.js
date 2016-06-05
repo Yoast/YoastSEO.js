@@ -63,13 +63,13 @@ var countBasicSyllables = function( text ) {
 	var array = text.split( " " );
 	var i, j, splitWord, count = 0;
 
-	// split textstring to individual words
+	// Split textstring to individual words.
 	for ( i = 0; i < array.length; i++ ) {
 
-		// split on consonants
+		// Split on consonants.
 		splitWord = array[ i ].split( /[^aeiouy]/g );
 
-		// if the string isn't empty, a consonant was found, up the counter
+		// If the string isn't empty, a consonant was found, up the counter.
 		for ( j = 0; j < splitWord.length; j++ ) {
 			if ( splitWord[ j ] !== "" ) {
 				count++;
@@ -100,12 +100,14 @@ var countAdvancedSyllables = function( text, operator ) {
 		default:
 			break;
 	}
+
 	for ( var i = 0; i < words.length; i++ ) {
 		matches = words[ i ].match( regex );
 		if ( matches !== null ) {
 			count += matches.length;
 		}
 	}
+
 	return count;
 };
 

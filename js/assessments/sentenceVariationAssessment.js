@@ -26,7 +26,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
+					// Translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
 					"The sentence length variation score is %1$s, which is more than or equal to the recommended minimum of %2$d. The text " +
 					"contains a nice combination of long and short sentences."
 				), standardDeviation, recommendedMinimumDeviation
@@ -39,7 +39,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
-				// translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
+				// Translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
 				"The sentence length variation score is %1$s, which is less than the recommended minimum of %2$d. Try to " +
 				"alternate more between long and short sentences."
 			), standardDeviation, recommendedMinimumDeviation

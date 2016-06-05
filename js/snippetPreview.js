@@ -1180,8 +1180,8 @@ SnippetPreview.prototype.measureMetaDescription = function() {
 	this.data.metaHeight = metaHeightElement.offsetHeight;
 };
 
-/* jshint ignore:start */
 /* eslint-disable */
+/* jshint ignore:start */
 
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
