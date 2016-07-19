@@ -55,7 +55,7 @@ var defaults = {
 		"urlLength",
 		"metaDescription",
 		"pageTitleKeyword",
-		"pageTitleLength",
+		"pageTitleWidth",
 		"firstParagraph",
 		"'keywordDoubles" ],
 	typeDelay: 3000,
@@ -526,6 +526,8 @@ App.prototype.runAnalyzer = function() {
 
 	this.analyzerData = this.modifyData( this.rawData );
 
+	this.snippetPreview.refresh();
+
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
 		keyword:  this.analyzerData.keyword,
@@ -638,8 +640,9 @@ App.prototype.updateLoadingDialog = function( plugins ) {
  */
 App.prototype.removeLoadingDialog = function() {
 	var outputElement = document.getElementById( this.defaultOutputElement );
+	var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
 
-	if ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) {
+	if ( ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) && !isEmpty( loadingDialog ) ) {
 		document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 	}
 };
@@ -735,7 +738,9 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
  * Disables markers visually in the UI.
  */
 App.prototype.disableMarkers = function() {
-	this.seoAssessorPresenter.disableMarker();
+	if ( !isUndefined( this.seoAssessorPresenter ) ) {
+		this.seoAssessorPresenter.disableMarker();
+	}
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.disableMarker();
