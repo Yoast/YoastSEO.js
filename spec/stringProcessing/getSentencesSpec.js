@@ -283,4 +283,84 @@ describe("Get sentences from text", function(){
 
 		testGetSentences( testCases );
 	} );
+    it( "should remove line feeds from HTML tags", function() {
+        var testCases = [
+            {
+                input: '<img\nsrc="e.jpg">lorem ipsum</img>',
+                expected: [ 'lorem ipsum' ]
+            },
+            {
+                input: '<img\nsrc="e.jpg"\n>lorem \nipsum\n</img>',
+                expected: [ '<img src="e.jpg" >lorem', 'ipsum', '</img>' ]
+            }
+        ];
+
+        testGetSentences( testCases );
+    } );
+    it( "should remove imcomplete HTML tags", function() {
+        var testCases = [
+            {
+                input: 'lorem <img\nsrc="e.jpg" ipsum',
+                expected: [ 'lorem' ]
+            },
+            {
+                input: '<img\nsrc="e.jpg"\nlorem \nipsum\n</img>',
+                expected: [ '<img src="e.jpg" lorem  ipsum </img>' ]
+            },
+            {
+                input: '<img\nsrc="e.jpg">\nlorem \nipsum\n</img',
+                expected: [ '<img src="e.jpg">', 'lorem',  'ipsum' ]
+            },
+            {
+                input: '<img\nsrc="e.jpg">\nlorem \nipsum\n</',
+                expected: [ '<img src="e.jpg">', 'lorem',  'ipsum' ]
+            },
+            {
+                input: '<img\nsrc="e.jpg">\nlorem \nipsum\n<',
+                expected: [ '<img src="e.jpg">', 'lorem',  'ipsum' ]
+            }
+        ];
+
+        testGetSentences( testCases );
+    } );
+    it( "should replace <, <=, </> and <> by the word 'smaller'", function() {
+        var testCases = [
+            {
+                input: 'This is a math text. #1 \nlet a < b and b < c',
+                expected: ['This is a math text. #1', 'let a  smaller b and b  smaller c' ]
+            },
+            {
+                input: 'This is a math text. #2 \nlet a <> b and b <> c',
+                expected: ['This is a math text. #2', 'let a  smaller  b and b  smaller  c' ]
+            },
+            {
+                input: 'This is a math text. #3 \nlet a <= b and b <= c',
+                expected: ['This is a math text. #3', 'let a  smaller b and b  smaller c' ]
+            },
+            {
+                input: 'This is a text with incorrect HTML tags. \nlet a </> b and b </> c',
+                expected: ['This is a text with incorrect HTML tags.', 'let a  smaller  b and b  smaller  c' ]
+            },
+            {
+                input: 'This is an unfinished math text. #1 \nlet a < b and b <',
+                expected: ['This is an unfinished math text. #1', 'let a  smaller b and b' ]
+            },
+            {
+                input: 'This is an unfinished math text. #2 \nlet a <> b and b <>',
+                expected: ['This is an unfinished math text. #2', 'let a  smaller  b and b  smaller' ]
+            },
+            {
+                input: 'This is an unfinished math text. #3 \nlet a <=',
+                expected: ['This is an unfinished math text. #3', 'let a' ]
+            },
+            {
+                input: 'This is a text with incorrect HTML tags. \nlet a </>',
+                expected: ['This is a text with incorrect HTML tags.', 'let a  smaller' ]
+            }
+
+        ];
+
+        testGetSentences( testCases );
+    } );
+
 });
