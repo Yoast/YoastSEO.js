@@ -1,7 +1,7 @@
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
-var AssessmentResult = require( "./values/AssessmentResult.js" );
+var AssessmentResult = require( "./values/AssessmentResult.ts" );
 var showTrace = require( "./helpers/errors.js" ).showTrace;
 
 var isUndefined = require( "lodash/isUndefined" );

@@ -1,5 +1,5 @@
 let ContentAssessor = require( "../../js/cornerstone/contentAssessor.js" );
-let AssessmentResult = require( "../../js/values/AssessmentResult.js" );
+let AssessmentResult = require( "../../js/values/AssessmentResult.ts" );
 let Factory = require( "../helpers/factory.js" );
 let Paper = require("../../js/values/Paper.js");
 let forEach = require( "lodash/forEach" );

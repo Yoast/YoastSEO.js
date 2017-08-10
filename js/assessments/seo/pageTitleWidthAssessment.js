@@ -1,4 +1,4 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.ts" );
 let Assessment = require( "../../assessment.js" );
 let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 let merge = require( "lodash/merge" );

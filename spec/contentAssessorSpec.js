@@ -1,5 +1,5 @@
 var ContentAssessor = require( "../js/contentAssessor.js" );
-var AssessmentResult = require( "../js/values/AssessmentResult.js" );
+var AssessmentResult = require( "./values/AssessmentResult.ts" );
 var Factory = require( "./helpers/factory.js" );
 var Paper = require("../js/values/Paper.js");
 

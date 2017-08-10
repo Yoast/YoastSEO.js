@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 
 var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 

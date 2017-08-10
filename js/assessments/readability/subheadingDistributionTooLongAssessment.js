@@ -1,4 +1,4 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.ts" );
 let Assessment = require( "../../assessment.js" );
 let isTextTooLong = require( "../../helpers/isValueTooLong" );
 let filter = require( "lodash/filter" );

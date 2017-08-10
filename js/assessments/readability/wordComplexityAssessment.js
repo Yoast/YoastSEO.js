@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 var removeSentenceTerminators = require( "../../stringProcessing/removeSentenceTerminators" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var Mark = require( "../../values/Mark.js" );

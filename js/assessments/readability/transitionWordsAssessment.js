@@ -1,4 +1,4 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.ts" );
 let formatNumber = require( "../../helpers/formatNumber.js" );
 let map = require( "lodash/map" );
 let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;

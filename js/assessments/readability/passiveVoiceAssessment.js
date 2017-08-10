@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 var stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;

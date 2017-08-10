@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 var inRange = require( "lodash/inRange" );
 
 var recommendedMinimum = 150;

@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 
 var Mark = require( "../../values/Mark.js" );
 var addMark = require( "../../markers/addMark.js" );

@@ -1,7 +1,7 @@
 let Assessor = require( "../assessor.js" );
 let ContentAssessor = require( "../contentAssessor" );
 
-let fleschReadingEase = require( "../assessments/readability/fleschReadingEaseAssessment.js" );
+let fleschReadingEase = require( "../assessments/readability/fleschReadingEaseAssessment.ts" );
 let paragraphTooLong = require( "../assessments/readability/paragraphTooLongAssessment.js" );
 let SentenceLengthInText = require( "../assessments/readability/sentenceLengthInTextAssessment.js" );
 let SubheadingDistributionTooLong = require( "../assessments/readability/subheadingDistributionTooLongAssessment.js" );

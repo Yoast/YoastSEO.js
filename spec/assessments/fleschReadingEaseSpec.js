@@ -1,4 +1,4 @@
-var fleschReadingAssessment = require( "../../js/assessments/readability/fleschReadingEaseAssessment.js" );
+var fleschReadingAssessment = require( "./readability/fleschReadingEaseAssessment.ts" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

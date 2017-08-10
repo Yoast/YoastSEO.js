@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.ts" );
 var matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../../stringProcessing/countWords.js" );
 var formatNumber = require( "../../helpers/formatNumber.js" );

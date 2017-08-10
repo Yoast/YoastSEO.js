@@ -1,4 +1,4 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.ts" );
 let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
 let partition = require( "lodash/partition" );

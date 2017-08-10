@@ -1,6 +1,6 @@
 var Assessor = require( "../js/assessor.js" );
 var Paper = require("../js/values/Paper.js");
-var AssessmentResult = require( "../js/values/AssessmentResult.js" );
+var AssessmentResult = require( "./values/AssessmentResult.ts" );
 var MissingArgument = require( "../js/errors/missingArgument" );
 
 var factory = require( "./helpers/factory.js" );

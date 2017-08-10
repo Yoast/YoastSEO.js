@@ -1,4 +1,4 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.ts" );
 let Assessment = require( "../../assessment.js" );
 let countTooLongSentences = require( "../../assessmentHelpers/checkForTooLongSentences.js" );
 let formatNumber = require( "../../helpers/formatNumber.js" );
