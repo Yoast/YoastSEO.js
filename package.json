@@ -15,6 +15,7 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
+    "build": "tsc",
     "test": "babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
     "check-coverage": "istanbul check-coverage --statements 86 --branches 77 --functions 78 --lines 86"
   },
@@ -49,11 +50,14 @@
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
+    "@types/node": "^8.0.20",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "lodash": "^4.14.1",
     "sassdash": "^0.8.1",
-    "tokenizer2": "^2.0.0"
+    "tokenizer2": "^2.0.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^2.4.2"
   },
   "browserify": {
     "transform": [
