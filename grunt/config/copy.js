@@ -15,7 +15,7 @@ module.exports = {
 		files: [ {
 			expand: true,
 			cwd: "<%= paths.js %>/",
-			src: "**/*.js",
+			src: "**/*",
 			dest: "build",
 		} ],
 	},

@@ -21,6 +21,7 @@ module.exports = function( grunt ) {
 			],
 			jsDontLint: [
 				"!js/templates.js",
+				"!build/templates.js",
 			],
 			scss: "css/*.scss",
 			templates: "templates/*.jst",
