@@ -11,4 +11,12 @@ module.exports = {
 			dest: "dist/images",
 		} ],
 	},
+	js: {
+		files: [ {
+			expand: true,
+			cwd: "<%= paths.js %>/",
+			src: "**/*.js",
+			dest: "build",
+		} ],
+	},
 };

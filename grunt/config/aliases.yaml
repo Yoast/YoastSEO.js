@@ -11,11 +11,13 @@ build:
   - 'build-templates'
 # Build JavaScript from assets to production
 'build:js':
+  - 'copy:js'
+  - 'ts'
   - 'browserify'
   - 'exorcise'
 # Build CSS
 'build:css':
-  - 'copy'
+  - 'copy:css'
   - 'sass:build'
   - 'postcss:build'
 'build:translations':

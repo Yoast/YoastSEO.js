@@ -41,6 +41,7 @@
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
     "grunt-shell": "^2.0.0",
+    "grunt-ts": "^5.5.1",
     "istanbul": "^0.4.0",
     "jasmine": "~2.5.1",
     "load-grunt-config": "^0.19.1",
