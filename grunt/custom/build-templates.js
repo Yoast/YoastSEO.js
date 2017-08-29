@@ -14,7 +14,7 @@ module.exports = function( grunt ) {
 				'moduleId=none',
 				'--development',
 				'--output',
-				'js/templates.js' ];
+				'build/templates.js' ];
 
 		grunt.util.spawn({
 			'cmd': 'node',

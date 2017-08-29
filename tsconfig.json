@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "sourceMap": true,
+        "outDir": "build/",
+        "allowJs": true,
+        "rootDir": "src",
+        "allowUnreachableCode": true
+    },
+    "filesGlob": [
+        "src/**/*"
+    ],
+    "files": []
+}

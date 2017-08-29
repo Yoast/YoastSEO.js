@@ -1,6 +1,6 @@
-var SnippetPreview = require( "../../js/snippetPreview" );
-var App = require( "../../js/app" );
-var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
+var SnippetPreview = require( "../../build/snippetPreview" );
+var App = require( "../../build/app" );
+var PreviouslyUsedKeywords = require( "../../build/bundledPlugins/previouslyUsedKeywords.js" );
 var TestPlugin = require( "./example-plugin-test.js" );
 
 var forEach = require( "lodash/forEach" );

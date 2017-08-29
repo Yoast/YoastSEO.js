@@ -1,23 +1,23 @@
 var plugins = {
-	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
+	usedKeywords: require( "./build/bundledPlugins/previouslyUsedKeywords" ),
 };
 
 var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" )
+	scoreToRating: require( "./build/interpreters/scoreToRating" ),
 };
 
 module.exports = {
-	Assessor: require( "./js/assessor" ),
-	SEOAssessor: require( "./js/seoAssessor" ),
-	ContentAssessor: require( "./js/contentAssessor" ),
-	App: require( "./js/app" ),
-	Pluggable: require( "./js/pluggable" ),
-	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview.js" ),
+	Assessor: require( "./build/assessor" ),
+	SEOAssessor: require( "./build/seoAssessor" ),
+	ContentAssessor: require( "./build/contentAssessor" ),
+	App: require( "./build/app" ),
+	Pluggable: require( "./build/pluggable" ),
+	Researcher: require( "./build/researcher" ),
+	SnippetPreview: require( "./build/snippetPreview.js" ),
 
-	Paper: require( "./js/values/Paper" ),
-	AssessmentResult: require( "./js/values/AssessmentResult" ),
+	Paper: require( "./build/values/Paper" ),
+	AssessmentResult: require( "./build/values/AssessmentResult" ),
 
 	bundledPlugins: plugins,
-	helpers: helpers
+	helpers: helpers,
 };

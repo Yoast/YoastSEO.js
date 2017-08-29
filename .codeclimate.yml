@@ -22,4 +22,5 @@ exclude_paths:
 - templates/*
 - languages/*
 - Gruntfile.js
+- build/templates.js
 - js/templates.js
