@@ -3,7 +3,7 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "module": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "target": "es6",
         "sourceMap": true,
@@ -25,5 +25,11 @@
         "src/**/*.ts",
         "src/**/*.js"
     ],
-    "files": []
+    "files": [
+        "src/Content.ts",
+        "src/Node.ts",
+        "src/SubHeading.ts",
+        "src/Text.ts",
+        "src/TreeHouseBuilder.ts"
+    ]
 }
