@@ -25,8 +25,13 @@ var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
+var completeHtmlStartRegex =   /<([^>\s\/]+[^>]*>)/mi;
+var incompleteHtmlStartRegex = /<([^>]*)/g;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
+var smallerOrSmallerOrEqualsRegex = /((<\s|<=\s|<>|<\/>))/g;
+
 var newLineRegex = new RegExp( newLines );
+var greedyNewLineRegex = new RegExp( newLines, "g" );
 
 var blockStartRegex = /^\s*[\[\(\{]\s*$/;
 var blockEndRegex = /^\s*[\]\)}]\s*$/;
@@ -311,6 +316,79 @@ function getSentencesFromBlock( block ) {
 var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
 
 /**
+ * Detects HTML tags with line breaks and removes the the line break from the tag.
+ * This prevents yoast.js from crashing later, when the text has been split into
+ * individual lines.
+ * @param {string} text The text to check.
+ * @returns {string} the text with sanitized HTML tags.
+ */
+function removeLineFeedsFromHTMLTags( text ) {
+	if ( text ) {
+		var completeStartTagMatches = text.match( completeHtmlStartRegex );
+		if ( completeStartTagMatches ) {
+			for ( var i = 1; i < completeStartTagMatches.length; i++ ) {
+				var tag = completeStartTagMatches[ i ];
+				var nl = tag.match( greedyNewLineRegex );
+				if ( nl ) {
+					var tagWithoutLineBreak = tag.replace( greedyNewLineRegex, " " );
+					text = text.replace( tag, tagWithoutLineBreak );
+				}
+			}
+		}
+	}
+	return text;
+}
+
+/**
+ * Solitary "<" characters cause yoast.js to crash. So we'll replace them by "smaller" in order to keep the
+ * meaning while still preventing exceptions.
+ * @param {string} text The text to check.
+ * @returns {string} the text without the "<", "<>" and "<=" substrings. The pathological case "</>" is also removed.
+ */
+function removeSmallerAndSmallerOrEqual( text ) {
+	if ( text ) {
+		text = text.replace( smallerOrSmallerOrEqualsRegex, " smaller " );
+		if ( text.endsWith( "<" ) ) {
+			text = text.slice( 0, text.length - 1 );
+		}
+		// Remove pathological cases
+		if ( text.endsWith( "<>" ) ) {
+			text = text.slice( 0, text.length - 2 );
+		}
+		if ( text.endsWith( "</>" ) ) {
+			text = text.slice( 0, text.length - 3 );
+		}
+	}
+	return text;
+}
+
+
+/**
+ * Detects incomplete HTML tags and removes them from the text.
+ * This prevents yoast.js from crashing.
+ * @param {string} text The text to check.
+ * @returns {string} the text without the HTML tags.
+ */
+function removeIncompleteHTMLTags( text ) {
+	if ( text ) {
+		var incompleteStartTagMatches = text.match( incompleteHtmlStartRegex );
+		if ( incompleteStartTagMatches ) {
+			if ( typeof incompleteStartTagMatches !== "undefined" ) {
+				// Incomplete HTML tags are always at the end of the string.
+				var startIndex = incompleteStartTagMatches.length - 1;
+			}
+			var tag = incompleteStartTagMatches[ startIndex ];
+			// Incomplete HTML tags are always at the end of the string.
+			// So we simply throw away everything following the tag.
+			if ( text.endsWith( tag ) ) {
+				text = text.slice( 0, text.length - tag.length );
+			}
+		}
+	}
+	return text;
+}
+
+/**
  * Returns sentences in a string.
  *
  * @param {String} text The string to count sentences in.
@@ -318,6 +396,9 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  */
 module.exports = function( text ) {
 	text = unifyWhitespace( text );
+	text = removeSmallerAndSmallerOrEqual( text );
+	text = removeLineFeedsFromHTMLTags( text );
+	text = removeIncompleteHTMLTags( text );
 	var sentences, blocks = getBlocks( text );
 
 	// Split each block on newlines.
