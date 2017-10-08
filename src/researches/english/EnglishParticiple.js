@@ -1,6 +1,5 @@
 var Participle = require( "../../values/Participle.js" );
-
-var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
+var nonVerbsEndingEdSplit = require( "./passivevoice/non-verb-ending-ed-split.js" );
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
@@ -127,7 +126,7 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
 	if ( this.getType() === "irregular" ) {
 		return false;
 	}
-	return includes( nonVerbsEndingEd, this.getParticiple() );
+	return includes( nonVerbsEndingEdSplit( this.getParticiple().charAt( 0 ) ), this.getParticiple() );
 };
 
 /**

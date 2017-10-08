@@ -168,9 +168,16 @@ var countSyllablesInWord = function( word, locale ) {
 var countSyllablesInText = function( text, locale ) {
 	text = text.toLocaleLowerCase();
 	var words = getWords( text );
-
+	var calculatedWords = [];
 	var syllableCounts = map( words,  function( word ) {
-		return countSyllablesInWord( word, locale );
+		for( var i = 0; i < calculatedWords.length; i++ ) {
+			if ( calculatedWords[ i ].word === word ) {
+				return calculatedWords[ i ].syllableCount;
+			}
+		}
+		var syllable = countSyllablesInWord( word, locale );
+		calculatedWords.push( { word: word, syllableCount: syllable } );
+		return syllable;
 	} );
 
 	return sum( syllableCounts );

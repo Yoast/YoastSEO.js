@@ -113,6 +113,7 @@
         "src/researches/english/passivevoice/getParticiples.js",
         "src/researches/english/passivevoice/irregulars.js",
         "src/researches/english/passivevoice/matchParticiples.js",
+        "src/researches/english/passivevoice/non-verb-ending-ed-split.js",
         "src/researches/english/passivevoice/non-verb-ending-ed.js",
         "src/researches/english/passivevoice/stopwords.js",
         "src/researches/english/SentencePart.js",

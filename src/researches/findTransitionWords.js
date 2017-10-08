@@ -2,10 +2,9 @@ var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDo
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var getTransitionWords = require( "../helpers/getTransitionWords.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
-
+// Var includes = require( "lodash/includes" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
 var memoize = require( "lodash/memoize" );
 
 var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
@@ -19,7 +18,23 @@ var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
 var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
 	var twoPartTransitionWordsRegex = createRegexFromDoubleArrayCached( twoPartTransitionWords );
+	// Console.log( twoPartTransitionWordsRegex );
 	return sentence.match( twoPartTransitionWordsRegex );
+
+	// Var matchedTransitionWords = [];
+	//
+	// For( var i = 0; i < twoPartTransitionWords.length; i++ ) {
+	// 	If( includes( sentence, twoPartTransitionWords[ i ][ 0 ] ) ) {
+	// 	    If( includes( sentence, twoPartTransitionWords[ i ][ 1 ] ) ) {
+	// 		Var transitionWords = [];
+	// 		TransitionWords.push( twoPartTransitionWords[ i ][ 0 ] );
+	// 		TransitionWords.push( twoPartTransitionWords[ i ][ 1 ] );
+	// 		MatchedTransitionWords.push( [ sentence, transitionWords ] );
+	// 	}
+	// 	}
+	// 	Return;
+	// }
+	// Return matchedTransitionWords;
 };
 
 /**
@@ -30,14 +45,22 @@ var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
  * @returns {Array} The found transitional words.
  */
 var matchTransitionWords = function( sentence, transitionWords ) {
-	sentence = normalizeSingleQuotes( sentence );
+	var normalizedSentence = normalizeSingleQuotes( sentence );
+	var matchedTransitionWords = [];
 
-	var matchedTransitionWords = filter( transitionWords, function( word ) {
-		return matchWordInSentence( word, sentence );
-	} );
 
-	return matchedTransitionWords;
+	for( var i = 0; i < transitionWords.length; i++ ) {
+		if( transitionWords[ i ].regex.test( normalizedSentence ) ) {
+			matchedTransitionWords.push( transitionWords[ i ].word );
+		}
+	}
+
+	if ( matchedTransitionWords.length > 0 ) {
+		return [ sentence, matchedTransitionWords ];
+	}
+	return [];
 };
+
 
 /**
  * Checks the passed sentences to see if they contain transition words.
@@ -49,29 +72,34 @@ var matchTransitionWords = function( sentence, transitionWords ) {
 var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
 	var results = [];
 
-	forEach( sentences, function( sentence ) {
-		var twoPartMatches = matchTwoPartTransitionWords( sentence, transitionWords.twoPartTransitionWords() );
+	var singleTransitionWords = [];
+	for( var i = 0; i < transitionWords.transitionWords.length; i++ ) {
+		var reg = new RegExp( addWordBoundary( transitionWords.transitionWords[ i ] ), "i" );
+		singleTransitionWords.push( { regex: reg, word: transitionWords.transitionWords[ i ] } );
+	}
+
+	// forEach( sentences, function( sentence ) {
+	for( let i = 0; i < sentences.length; i++ ) {
+		var twoPartMatches = matchTwoPartTransitionWords( sentences[ i ], transitionWords.twoPartTransitionWords() );
 
 		if ( twoPartMatches !== null ) {
 			results.push( {
-				sentence: sentence,
+				sentence: sentences[ i ],
 				transitionWords: twoPartMatches,
 			} );
 
-			return;
+			continue;
 		}
 
-		var transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords );
+		var transitionWordMatches = matchTransitionWords( sentences[ i ], singleTransitionWords );
 
-		if ( transitionWordMatches.length !== 0 ) {
+		if ( transitionWordMatches.length > 0 ) {
 			results.push( {
-				sentence: sentence,
-				transitionWords: transitionWordMatches,
+				sentence: transitionWordMatches[ 0 ],
+				transitionWords: transitionWordMatches[ 1 ],
 			} );
-
-			return;
 		}
-	} );
+	}
 
 	return results;
 };
