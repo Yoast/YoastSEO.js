@@ -25,7 +25,14 @@ var Paper = require( "./values/Paper.js" );
 
 var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
 
+
+import {Node} from "./Node";
+import {Content} from "./Content";
+// import {Text} from "./Text";
+// import {Section} from "./Section";
+
 var inputDebounceDelay = 400;
+var tree;
 
 /**
  * Default config for YoastSEO.js
@@ -260,7 +267,11 @@ var App = function( args ) {
 
 	this.getData();
 
-	this.defaultOutputElement = this.getDefaultOutputElement( args );
+	//create tree structure
+	let tree = new Node(new Content(this.analyzerData.text));
+	console.log(tree);
+	tree.setData(new Content("banana"));
+	console.log(tree);
 
 	if ( this.defaultOutputElement !== "" ) {
 		this.showLoadingDialog();

@@ -18,7 +18,7 @@
         "alwaysStrict": true,
         "forceConsistentCasingInFileNames": true,
         "noEmitOnError": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "pretty": true
     },
     "filesGlob": [
@@ -26,9 +26,15 @@
         "src/**/*.js"
     ],
     "files": [
+        "src/app.ts",
         "src/Content.ts",
         "src/Node.ts",
-        "src/app.js",
+        "src/Paragraph.ts",
+        "src/Section.ts",
+        "src/Sentence.ts",
+        "src/Text.ts",
+        "src/TreeBuilder.ts",
+        "src/Word.ts",
         "src/assessment.js",
         "src/assessmentHelpers/checkForTooLongSentences.js",
         "src/assessments/readability/fleschReadingEaseAssessment.js",
