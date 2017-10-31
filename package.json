@@ -18,7 +18,8 @@
     "build": "grunt build:js",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "pretest": "grunt build:test",
-    "test": "jest"
+    "test": "jest",
+    "check-coverage": "istanbul check-coverage --statements 86 --branches 77 --functions 78 --lines 86"
   },
   "browser": "js/browser.js",
   "devDependencies": {
