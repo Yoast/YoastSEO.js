@@ -3,10 +3,10 @@
 let getLanguage = require( "../helpers/getLanguage.js" );
 let isUndefined = require( "lodash/isUndefined" );
 
-let de = require( "./syllables/de.json" );
-let en = require( './syllables/en.json' );
-let nl = require( './syllables/nl.json' );
-let it = require( './syllables/it.json' );
+let de = require( "./syllables/de.js" );
+let en = require( "./syllables/en.js" );
+let nl = require( "./syllables/nl.js" );
+let it = require( "./syllables/it.js" );
 
 let languages = { de, nl, en, it };
 
@@ -18,5 +18,5 @@ module.exports = function( locale = "en_US" ) {
 	}
 
 	// If an unknown locale is used, default to English.
-	return languages[ "en" ];
+	return languages.en;
 };
