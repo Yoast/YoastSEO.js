@@ -1,4 +1,4 @@
-{
+module.exports = {
 	"vowels": "aeiouyäöüáéâàèîêâûôœ",
 	"deviations": {
 		"vowels": [
