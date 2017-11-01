@@ -1,573 +1,574 @@
 module.exports = {
-	"vowels": "aeiouyàèéìîïòù",
-	"deviations": {
-		"vowels": [
+	vowels: "aeiouyàèéìîïòù",
+	deviations: {
+		vowels: [
 			{
-				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "àii", "aiì", "au[eé]", "ei[aàeèé]", "èia", "ia[èiì]", "iài", "oi[aàeèo]", "òia", "óio", "uí", "ui[aàó]",
+				fragments: [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "àii", "aiì", "au[eé]",
+					"ei[aàeèé]", "èia", "ia[èiì]", "iài", "oi[aàeèo]", "òia", "óio", "uí", "ui[aàó]",
 					"ùio", "ouï", "coo[cmnpr]", "lcool", "coòf", "[aeuioìùèéàò]y[aeuioíìùèàó]", "ìa$", "èa$" ],
-				"countModifier": 1
+				countModifier: 1,
 			},
 			{
-				"fragments": [ "aoi", "aoì", "ioe", "riae", "ïa$" ],
-				"countModifier": 1
-			}
+				fragments: [ "aoi", "aoì", "ioe", "riae", "ïa$" ],
+				countModifier: 1,
+			},
 		],
-		"words": {
-			"full": [
+		words: {
+			full: [
 				{
-					"word": "via",
-					"syllables": 2
+					word: "via",
+					syllables: 2,
 				},
 				{
-					"word": "guaime",
-					"syllables": 3
+					word: "guaime",
+					syllables: 3,
 				},
 				{
-					"word": "guaina",
-					"syllables": 3
+					word: "guaina",
+					syllables: 3,
 				},
 				{
-					"word": "coke",
-					"syllables": 1
+					word: "coke",
+					syllables: 1,
 				},
 				{
-					"word": "frame",
-					"syllables": 1
+					word: "frame",
+					syllables: 1,
 				},
 				{
-					"word": "goal",
-					"syllables": 1
+					word: "goal",
+					syllables: 1,
 				},
 				{
-					"word": "live",
-					"syllables": 1
+					word: "live",
+					syllables: 1,
 				},
 				{
-					"word": "mouse",
-					"syllables": 1
+					word: "mouse",
+					syllables: 1,
 				},
 				{
-					"word": "coon",
-					"syllables": 1
-				}
+					word: "coon",
+					syllables: 1,
+				},
 			],
-			"fragments": {
-				"global": [
+			fragments: {
+				global: [
 					{
-						"word": "mayoyào",
-						"syllables": 4
+						word: "mayoyào",
+						syllables: 4,
 					},
 					{
-						"word": "eye-liner",
-						"syllables": 3
+						word: "eye-liner",
+						syllables: 3,
 					},
 					{
-						"word": "scooner",
-						"syllables": 2
+						word: "scooner",
+						syllables: 2,
 					},
 					{
-						"word": "cocoon",
-						"syllables": 2
+						word: "cocoon",
+						syllables: 2,
 					},
 					{
-						"word": "silhouette",
-						"syllables": 4
+						word: "silhouette",
+						syllables: 4,
 					},
 					{
-						"word": "circuíto",
-						"syllables": 4
+						word: "circuíto",
+						syllables: 4,
 					},
 					{
-						"word": "cruento",
-						"syllables": 3
+						word: "cruento",
+						syllables: 3,
 					},
 					{
-						"word": "cruènto",
-						"syllables": 3
+						word: "cruènto",
+						syllables: 3,
 					},
 					{
-						"word": "rituale",
-						"syllables": 4
+						word: "rituale",
+						syllables: 4,
 					},
 					{
-						"word": "duello",
-						"syllables": 3
+						word: "duello",
+						syllables: 3,
 					},
 					{
-						"word": "fuorviante",
-						"syllables": 4
+						word: "fuorviante",
+						syllables: 4,
 					},
 					{
-						"word": "league",
-						"syllables": 1
+						word: "league",
+						syllables: 1,
 					},
 					{
-						"word": "leader",
-						"syllables": 2
+						word: "leader",
+						syllables: 2,
 					},
 					{
-						"word": "appeal",
-						"syllables": 2
+						word: "appeal",
+						syllables: 2,
 					},
 					{
-						"word": "backstage",
-						"syllables": 2
+						word: "backstage",
+						syllables: 2,
 					},
 					{
-						"word": "badge",
-						"syllables": 1
+						word: "badge",
+						syllables: 1,
 					},
 					{
-						"word": "baseball",
-						"syllables": 2
+						word: "baseball",
+						syllables: 2,
 					},
 					{
-						"word": "beauty",
-						"syllables": 2
+						word: "beauty",
+						syllables: 2,
 					},
 					{
-						"word": "bondage",
-						"syllables": 2,
-						"notFollowedBy": ["s"]
+						word: "bondage",
+						syllables: 2,
+						notFollowedBy: [ "s" ],
 					},
 					{
-						"word": "break",
-						"syllables": 1
+						word: "break",
+						syllables: 1,
 					},
 					{
-						"word": "brokerage",
-						"syllables": 3
+						word: "brokerage",
+						syllables: 3,
 					},
 					{
-						"word": "business",
-						"syllables": 2
+						word: "business",
+						syllables: 2,
 					},
 					{
-						"word": "cache",
-						"syllables": 2,
-						"notFollowedBy": ["s", "r"]
+						word: "cache",
+						syllables: 2,
+						notFollowedBy: [ "s", "r" ],
 					},
 					{
-						"word": "cashmere",
-						"syllables": 2
+						word: "cashmere",
+						syllables: 2,
 					},
 					{
-						"word": "challenge",
-						"syllables": 2,
-						"notFollowedBy": ["s", "r"]
+						word: "challenge",
+						syllables: 2,
+						notFollowedBy: [ "s", "r" ],
 					},
 					{
-						"word": "charleston",
-						"syllables": 2
+						word: "charleston",
+						syllables: 2,
 					},
 					{
-						"word": "cheap",
-						"syllables": 1
+						word: "cheap",
+						syllables: 1,
 					},
 					{
-						"word": "cottage",
-						"syllables": 2,
-						"notFollowedBy": ["s"]
+						word: "cottage",
+						syllables: 2,
+						notFollowedBy: [ "s" ],
 
 					},
 					{
-						"word": "cruise",
-						"syllables": 1,
-						"notFollowedBy": ["s", "r"]
+						word: "cruise",
+						syllables: 1,
+						notFollowedBy: [ "s", "r" ],
 
 					},
 					{
-						"word": "device",
-						"syllables": 2,
-						"notFollowedBy": ["s"]
+						word: "device",
+						syllables: 2,
+						notFollowedBy: [ "s" ],
 					},
 					{
-						"word": "downgrade",
-						"syllables": 2,
-						"notFollowedBy": ["d"]
+						word: "downgrade",
+						syllables: 2,
+						notFollowedBy: [ "d" ],
 					},
 					{
-						"word": "download",
-						"syllables": 2
+						word: "download",
+						syllables: 2,
 					},
 					{
-						"word": "drive",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "drive",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "endorsement",
-						"syllables": 3
+						word: "endorsement",
+						syllables: 3,
 					},
 					{
-						"word": "drive",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "drive",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "executive",
-						"syllables": 4
+						word: "executive",
+						syllables: 4,
 					},
 					{
-						"word": "firmware",
-						"syllables": 2
+						word: "firmware",
+						syllables: 2,
 					},
 					{
-						"word": "fobia",
-						"syllables": 3
+						word: "fobia",
+						syllables: 3,
 					},
 					{
-						"word": "float",
-						"syllables": 1
+						word: "float",
+						syllables: 1,
 					},
 					{
-						"word": "freak",
-						"syllables": 1
+						word: "freak",
+						syllables: 1,
 					},
 					{
-						"word": "game",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "game",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "guideline",
-						"syllables": 2
+						word: "guideline",
+						syllables: 2,
 					},
 					{
-						"word": "hardware",
-						"syllables": 2
+						word: "hardware",
+						syllables: 2,
 					},
 					{
-						"word": "homeless",
-						"syllables": 2
+						word: "homeless",
+						syllables: 2,
 					},
 					{
-						"word": "hardware",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "hardware",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "hardware",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "hardware",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "hardware",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "hardware",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "hospice",
-						"syllables": 2,
-						"notFollowedBy": ["s"]
+						word: "hospice",
+						syllables: 2,
+						notFollowedBy: [ "s" ],
 					},
 					{
-						"word": "impeachment",
-						"syllables": 3
+						word: "impeachment",
+						syllables: 3,
 					},
 					{
-						"word": "jeans",
-						"syllables": 1
+						word: "jeans",
+						syllables: 1,
 					},
 					{
-						"word": "jukebox",
-						"syllables": 2
+						word: "jukebox",
+						syllables: 2,
 					},
 					{
-						"word": "leasing",
-						"syllables": 2
+						word: "leasing",
+						syllables: 2,
 					},
 					{
-						"word": "lease",
-						"syllables": 1,
-						"notFollowedBy": ["s"]
+						word: "lease",
+						syllables: 1,
+						notFollowedBy: [ "s" ],
 					},
 					{
-						"word": "lounge",
-						"syllables": 1,
-						"notFollowedBy": ["r", "s"]
+						word: "lounge",
+						syllables: 1,
+						notFollowedBy: [ "r", "s" ],
 					},
 					{
-						"word": "magazine",
-						"syllables": 3
+						word: "magazine",
+						syllables: 3,
 					},
 					{
-						"word": "notebook",
-						"syllables": 2
+						word: "notebook",
+						syllables: 2,
 					},
 					{
-						"word": "office",
-						"syllables": 2,
-						"notFollowedBy": ["r", "s"]
+						word: "office",
+						syllables: 2,
+						notFollowedBy: [ "r", "s" ],
 					},
 					{
-						"word": "online",
-						"syllables": 2
+						word: "online",
+						syllables: 2,
 					},
 					{
-						"word": "offline",
-						"syllables": 2
+						word: "offline",
+						syllables: 2,
 					},
 					{
-						"word": "overcoat",
-						"syllables": 3
+						word: "overcoat",
+						syllables: 3,
 					},
 					{
-						"word": "offside",
-						"syllables": 2,
-						"notFollowedBy": ["r"]
+						word: "offside",
+						syllables: 2,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "overdrive",
-						"syllables": 3
+						word: "overdrive",
+						syllables: 3,
 					},
 					{
-						"word": "oversize",
-						"syllables": 3
+						word: "oversize",
+						syllables: 3,
 					},
 					{
-						"word": "pacemaker",
-						"syllables": 3
+						word: "pacemaker",
+						syllables: 3,
 					},
 					{
-						"word": "package",
-						"syllables": 2,
-						"notFollowedBy": ["r", "s"]
+						word: "package",
+						syllables: 2,
+						notFollowedBy: [ "r", "s" ],
 					},
 					{
-						"word": "pancake",
-						"syllables": 2
+						word: "pancake",
+						syllables: 2,
 					},
 					{
-						"word": "performance",
-						"syllables": 3
+						word: "performance",
+						syllables: 3,
 					},
 					{
-						"word": "premium",
-						"syllables": 3
+						word: "premium",
+						syllables: 3,
 					},
 					{
-						"word": "ragtime",
-						"syllables": 2
+						word: "ragtime",
+						syllables: 2,
 					},
 					{
-						"word": "reading",
-						"syllables": 2
+						word: "reading",
+						syllables: 2,
 					},
 					{
-						"word": "residence",
-						"syllables": 3,
-						"notFollowedBy": ["s"]
+						word: "residence",
+						syllables: 3,
+						notFollowedBy: [ "s" ],
 					},
 					{
-						"word": "roaming",
-						"syllables": 2
+						word: "roaming",
+						syllables: 2,
 					},
 					{
-						"word": "rollerblade",
-						"syllables": 3,
-						"notFollowedBy": ["r"]
+						word: "rollerblade",
+						syllables: 3,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "royalty",
-						"syllables": 3
+						word: "royalty",
+						syllables: 3,
 					},
 					{
-						"word": "shake",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "shake",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "shale",
-						"syllables": 1
+						word: "shale",
+						syllables: 1,
 					},
 					{
-						"word": "shampooing",
-						"syllables": 3
+						word: "shampooing",
+						syllables: 3,
 					},
 					{
-						"word": "shareware",
-						"syllables": 2
+						word: "shareware",
+						syllables: 2,
 					},
 					{
-						"word": "shearling",
-						"syllables": 2
+						word: "shearling",
+						syllables: 2,
 					},
 					{
-						"word": "sidecar",
-						"syllables": 2
+						word: "sidecar",
+						syllables: 2,
 					},
 					{
-						"word": "hardware",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "hardware",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "skate",
-						"syllables": 1,
-						"notFollowedBy": [ "n", "r" ]
+						word: "skate",
+						syllables: 1,
+						notFollowedBy: [ "n", "r" ],
 					},
 					{
-						"word": "trial",
-						"syllables": 2
+						word: "trial",
+						syllables: 2,
 					},
 					{
-						"word": "toast",
-						"syllables": 1
+						word: "toast",
+						syllables: 1,
 					},
 					{
-						"word": "texture",
-						"syllables": 2
+						word: "texture",
+						syllables: 2,
 					},
 					{
-						"word": "testimonial",
-						"syllables": 5
+						word: "testimonial",
+						syllables: 5,
 					},
 					{
-						"word": "teaser",
-						"syllables": 2
+						word: "teaser",
+						syllables: 2,
 					},
 					{
-						"word": "sweater",
-						"syllables": 2
+						word: "sweater",
+						syllables: 2,
 					},
 					{
-						"word": "suspense",
-						"syllables": 2,
-						"notFollowedBy": ["r"]
+						word: "suspense",
+						syllables: 2,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "subroutine",
-						"syllables": 3
+						word: "subroutine",
+						syllables: 3,
 					},
 					{
-						"word": "steadicam",
-						"syllables": 3
+						word: "steadicam",
+						syllables: 3,
 					},
 					{
-						"word": "spread",
-						"syllables": 1
+						word: "spread",
+						syllables: 1,
 					},
 					{
-						"word": "speaker",
-						"syllables": 2
+						word: "speaker",
+						syllables: 2,
 					},
 					{
-						"word": "board",
-						"syllables": 1
+						word: "board",
+						syllables: 1,
 					},
 					{
-						"word": "sneaker",
-						"syllables": 2
+						word: "sneaker",
+						syllables: 2,
 					},
 					{
-						"word": "smartphone",
-						"syllables": 2
+						word: "smartphone",
+						syllables: 2,
 					},
 					{
-						"word": "slide",
-						"syllables": 1,
-						"notFollowedBy": ["r"]
+						word: "slide",
+						syllables: 1,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "skyline",
-						"syllables": 2
+						word: "skyline",
+						syllables: 2,
 					},
 					{
-						"word": "skinhead",
-						"syllables": 2
+						word: "skinhead",
+						syllables: 2,
 					},
 					{
-						"word": "update",
-						"syllables": 2,
-						"notFollowedBy": ["r"]
+						word: "update",
+						syllables: 2,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "upgrade",
-						"syllables": 2,
-						"notFollowedBy": ["r"]
+						word: "upgrade",
+						syllables: 2,
+						notFollowedBy: [ "r" ],
 					},
 					{
-						"word": "upload",
-						"syllables": 2
+						word: "upload",
+						syllables: 2,
 					},
 					{
-						"word": "vintage",
-						"syllables": 2
+						word: "vintage",
+						syllables: 2,
 					},
 					{
-						"word": "wakeboard",
-						"syllables": 2
+						word: "wakeboard",
+						syllables: 2,
 					},
 					{
-						"word": "website",
-						"syllables": 2
+						word: "website",
+						syllables: 2,
 					},
 					{
-						"word": "welfare",
-						"syllables": 2
+						word: "welfare",
+						syllables: 2,
 					},
 					{
-						"word": "yeah",
-						"syllables": 1
+						word: "yeah",
+						syllables: 1,
 					},
 					{
-						"word": "yearling",
-						"syllables": 2
-					}
+						word: "yearling",
+						syllables: 2,
+					},
 				],
-				"atEnd": [
+				atEnd: [
 					{
-						"word": "byte",
-						"syllables": 1,
-						"alsoFollowedBy": ["s"]
+						word: "byte",
+						syllables: 1,
+						alsoFollowedBy: [ "s" ],
 					},
 					{
-						"word": "bite",
-						"syllables": 1,
-						"alsoFollowedBy": ["s"]
+						word: "bite",
+						syllables: 1,
+						alsoFollowedBy: [ "s" ],
 					},
 					{
-						"word": "beat",
-						"syllables": 1,
-						"alsoFollowedBy": ["s"]
+						word: "beat",
+						syllables: 1,
+						alsoFollowedBy: [ "s" ],
 					},
 					{
-						"word": "coach",
-						"syllables": 1
+						word: "coach",
+						syllables: 1,
 					},
 					{
-						"word": "line",
-						"syllables": 1,
-						"alsoFollowedBy": ["s"]
-					}
+						word: "line",
+						syllables: 1,
+						alsoFollowedBy: [ "s" ],
+					},
 
 				],
-				"atBeginning": [
+				atBeginning: [
 					{
-						"word": "cheese",
-						"syllables": 1
+						word: "cheese",
+						syllables: 1,
 					},
 					{
-						"word": "head",
-						"syllables": 1
+						word: "head",
+						syllables: 1,
 					},
 					{
-						"word": "streak",
-						"syllables": 1
-					}
+						word: "streak",
+						syllables: 1,
+					},
 				],
-				"atBeginningOrEnd": [
+				atBeginningOrEnd: [
 					{
-						"word": "team",
-						"syllables": 1
+						word: "team",
+						syllables: 1,
 					},
 					{
-						"word": "stream",
-						"syllables": 1
-					}
-				]
-			}
-		}
-	}
-}
+						word: "stream",
+						syllables: 1,
+					},
+				],
+			},
+		},
+	},
+};
