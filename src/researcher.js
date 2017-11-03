@@ -78,6 +78,8 @@ var Researcher = function( paper ) {
 	};
 
 	this.customResearches = {};
+
+	this._results = {};
 };
 
 /**
@@ -88,6 +90,9 @@ var Researcher = function( paper ) {
  */
 Researcher.prototype.setPaper = function( paper ) {
 	this.paper = paper;
+
+	// Empty results, because we have a new paper.
+	this._results = {};
 };
 
 /**
@@ -130,6 +135,18 @@ Researcher.prototype.getAvailableResearches = function() {
 	return merge( this.defaultResearches, this.customResearches );
 };
 
+Researcher.prototype.hasResult = function( name ) {
+	return this._results.hasOwnProperty( name );
+};
+
+Researcher.prototype.getResult = function( name ) {
+	return this._results[ name ];
+};
+
+Researcher.prototype.setResult = function( name, value ) {
+	this._results[ name ] = value;
+};
+
 /**
  * Return the Research by name.
  * @param {string} name The name to reference the research by.
@@ -145,7 +162,12 @@ Researcher.prototype.getResearch = function( name ) {
 		return false;
 	}
 
-	return this.getAvailableResearches()[ name ]( this.paper );
+	if ( this.hasResult( name ) ) {
+		return this.getResult( name );
+	}
+
+	this.setResult( name, this.getAvailableResearches()[ name ]( this.paper ) );
+	return this.getResult( name );
 };
 
 module.exports = Researcher;
