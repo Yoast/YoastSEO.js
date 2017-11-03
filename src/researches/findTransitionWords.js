@@ -1,5 +1,4 @@
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
-var getSentences = require( "../stringProcessing/getSentences.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var getTransitionWords = require( "../helpers/getTransitionWords.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
@@ -81,13 +80,15 @@ var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
  * that are defined in the transition words config and two part transition words config.
  *
  * @param {Paper} paper The Paper object to get text from.
+ * @param {Researcher} researcher The researcher this research is a part of.
  * @returns {object} An object with the total number of sentences in the text
  * and the total number of sentences containing one or more transition words.
  */
-module.exports = function( paper ) {
+module.exports = function( paper, researcher ) {
+	const sentences = researcher.getResearch( "sentences" );
+
 	var locale = paper.getLocale();
 	var transitionWords = getTransitionWords( locale );
-	var sentences = getSentences( paper.getText() );
 	var sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords );
 
 	return {
