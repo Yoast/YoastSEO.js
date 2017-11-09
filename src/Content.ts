@@ -3,12 +3,11 @@ class Content{
 
     public constructor(content?: string){
         this.rawContent = content;
-
     }
 
-    function update(){
-
-}
+    update(){
+        throw new Error("Not implemented");
+    }
 
 }
 
