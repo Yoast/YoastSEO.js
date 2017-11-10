@@ -10,6 +10,7 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  * @returns {Array} All the stopwords that were found in the keyword.
  */
 module.exports = function( paper ) {
-	var keyword = escapeRegExp( paper.getKeyword() );
-	return stopWordsInText( keyword );
+	let locale = paper.getLocale();
+	let keyword = escapeRegExp( paper.getKeyword() );
+	return stopWordsInText( keyword, locale );
 };
