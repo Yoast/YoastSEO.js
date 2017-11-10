@@ -1,5 +1,4 @@
-let getLanguage = require( "../helpers/getLanguage.js" );
-let isUndefined = require( "lodash/isUndefined" );
+import getLanguage from "../helpers/getLanguage.js";
 
 let es = require( "./stopwords/es.json" ).stopwords;
 let en = require( './stopwords/en.json' ).stopwords;

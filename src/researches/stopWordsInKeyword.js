@@ -1,8 +1,7 @@
 /** @module researches/stopWordsInKeyword */
 
-var stopWordsInText = require( "./stopWordsInText.js" );
-
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import stopWordsInText from  "./stopWordsInText.js";
+import escapeRegExp from "lodash/escapeRegExp";
 
 /**
  * Checks for the amount of stop words in the keyword.

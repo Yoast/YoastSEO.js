@@ -1,5 +1,5 @@
-let stopwords = require( "../config/stopwords.js" );
-let toRegex = require( "../stringProcessing/createWordRegex.js" );
+import stopwords from "../config/stopwords.js";
+import toRegex from "../stringProcessing/createWordRegex.js";
 
 /**
  * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
