@@ -11,5 +11,5 @@ import escapeRegExp from "lodash/escapeRegExp";
 module.exports = function( paper ) {
 	let locale = paper.getLocale();
 	let keyword = escapeRegExp( paper.getKeyword() );
-	return stopWordsInText( keyword, locale );
+	return stopWordsInText( keyword, locale, false );
 };
