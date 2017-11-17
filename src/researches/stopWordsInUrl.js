@@ -8,5 +8,6 @@ var stopWordsInText = require( "./stopWordsInText.js" );
  * @returns {Array} stopwords found in URL
  */
 module.exports = function( paper ) {
-	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
+	let locale = paper.getLocale();
+	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ), locale, true );
 };

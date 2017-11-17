@@ -1,0 +1,22 @@
+{
+	"stopwords": [ "un", "una", "unas", "unos", "el", "la", "los", "las", "yo", "tú", "usted", "ella", "él", "ello", "nosotros", "nosotras",
+		"vosotros", "vosotras", "vos", "ustedes", "ellos", "ellas", "ud", "uds", "uno", "me", "te", "lo", "se", "nos", "os", "los",
+		"mí", "ti", "sí", "conmigo", "contigo", "consigo", "mismo", "misma", "mismos", "mismas", "mío", "mía", "míos", "mías",
+		"tuyo", "tuyos", "tuya", "tuyas", "suyo", "suya", "suyos", "suyas", "su", "sus", "mi", "mis", "tu", "tus", "nuestro",
+		"nuestra", "nuestros", "nuestras", "vuestro", "vuestros", "vuestra", "vuestras", "le", "les", "éste", "ésta", "esto",
+		"éstos", "éstas", "ése", "ésa", "eso", "ésos", "ésas", "aquél", "aquélla", "aquello", "aquéllos", "aquéllas", "este", "esta",
+		"estos", "estas", "ese", "esos", "esas", "aquel", "aquella", "aquellos", "aquellas", "que", "cual", "cuales", "quien", "quién",
+		"donde", "adonde", "como", "cuando", "cuyo", "cuyos", "cuya", "cuyas", "quienes", "alguien", "algo", "alguno", "alguna",
+		"algunos", "algunas", "nadie", "nada", "cualquiera", "cualesquiera", "cualquier", "ninguno", "ninguna", "muchos", "muchas",
+		"todos", "todas", "todo", "otro", "otra", "otros", "otras", "poco", "poca", "pocos", "pocas", "ambos", "mucho", "más",
+		"mas", "menos", "mayoría", "toda", "ningún", "ningunas", "ningunos", "cierto", "cierta", "ciertos", "ciertas", "cada",
+		"cades", "diferentes", "varios", "cuándo", "adónde", "dónde", "cuántos", "cuántas", "qué", "cómo", "cuál", "cuáles",
+		"si", "cuánto", "cuánta", "dondequiera", "aquí", "acá", "ahí", "allí", "allá", "estoy", "estás", "está", "estamos",
+		"estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis", "estuvieron", "estaba", "estabas",
+		"estábamos", "estabais", "estaban", "estaría", "estarías", "estaríamos", "estaríais", "estarían", "estaré", "estarás",
+		"estará", "estaremos", "estaréis", "estarán", "he", "has", "ha", "hemos", "habéis", "han", "hube", "hubiste", "hubo",
+		"hubimos", "hubisteis", "hubieron", "había", "habías", "habíamos", "habíais", "habían", "habría", "habrías", "habría",
+		"habríamos", "habríais", "habrían", "habré", "habrás", "habrá", "habremos", "habréis", "habrán", "haya", "hayas", "hayamos",
+		"hayáis", "hayan", "hubiera", "hubieras", "hubiéramos", "hubierais", "hubieran", "hubiere", "hubieres", "hubiéremos",
+		"hubiereis", "hubieren", "al", "del", "sobre" ]
+}
