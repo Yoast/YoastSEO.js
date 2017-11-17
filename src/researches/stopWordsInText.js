@@ -13,10 +13,9 @@ module.exports = function( text, locale ) {
 	let i, matches = [];
 
 	for ( i = 0; i < stopwordList.length; i++ ) {
-		if ( text.match( toRegex( stopwordList[ i ] ) ) !== null ) {
+		if ( text.match( toRegex( stopwordList[ i ], "", false ) ) !== null ) {
 			matches.push( stopwordList[ i ] );
 		}
 	}
-
 	return matches;
 };
