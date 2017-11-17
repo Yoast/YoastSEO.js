@@ -19,6 +19,11 @@ describe( "a test for finding stopwords from a string", function(){
 		expect( stopwordsFunction( "Este paper es un esbozo sobre", "es_ES").length ).toBe( 3 );
 		expect( stopwordsFunction( "Nothing special", "es_ES").length ).toBe( 0 );
 	});
+	it( "returns Spanish stopwords with diacritics found in a string", function(){
+		expect( stopwordsFunction( "Aquí", "es_ES" ) ).toContain( "aquí" );
+		expect( stopwordsFunction( "Aquí", "es_ES" ) ).not.toContain( "aqui" );
+		expect( stopwordsFunction( "Aquí", "es_ES").length ).toBe( 1 );
+	});
 	it( "returns English stopwords found in a string when no locale is specified", function(){
 		expect( stopwordsFunction( "this is a story about..." ) ).toContain( "a" );
 		expect( stopwordsFunction( "this is a story about..." ) ).toContain( "about" );
