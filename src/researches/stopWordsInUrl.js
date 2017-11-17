@@ -9,5 +9,5 @@ var stopWordsInText = require( "./stopWordsInText.js" );
  */
 module.exports = function( paper ) {
 	let locale = paper.getLocale();
-	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ), locale );
+	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ), locale, true );
 };
