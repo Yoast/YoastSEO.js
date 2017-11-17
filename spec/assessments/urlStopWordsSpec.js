@@ -40,6 +40,10 @@ describe( "Checks if the assessment is applicable", function() {
 		var paper = new Paper( "", {locale: "en_EN"} );
 		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( true );
 	} );
+	it( "returns true for isApplicable for a Spanish paper", function() {
+		var paper = new Paper( "", {locale: "es_ES"} );
+		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( true );
+	} );
 	it( "returns false for isApplicable for an Dutch paper", function() {
 		var paper = new Paper( "", {locale: "nl_NL"} );
 		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( false );
