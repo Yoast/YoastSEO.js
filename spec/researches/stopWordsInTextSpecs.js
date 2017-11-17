@@ -13,16 +13,16 @@ describe( "a test for finding stopwords from a string", function(){
 		expect( stopwordsFunction( "niets bijzonders", "en_US").length ).toBe( 0 );
 	});
 	it( "returns Spanish stopwords found in a string", function(){
-		expect( stopwordsFunction( "Este paper es un esbozo sobre...", "es_ES" ) ).toContain( "este" );
-		expect( stopwordsFunction( "Este paper es un esbozo sobre...", "es_ES" ) ).toContain( "un" );
-		expect( stopwordsFunction( "Este paper es un esbozo sobre", "es_ES" ) ).toContain( "sobre" );
-		expect( stopwordsFunction( "Este paper es un esbozo sobre", "es_ES").length ).toBe( 3 );
+		expect( stopwordsFunction( "Este paper es un esbozo sobre...", "es_ES", false ) ).toContain( "este" );
+		expect( stopwordsFunction( "Este paper es un esbozo sobre...", "es_ES", false ) ).toContain( "un" );
+		expect( stopwordsFunction( "Este paper es un esbozo sobre", "es_ES", false ) ).toContain( "sobre" );
+		expect( stopwordsFunction( "Este paper es un esbozo sobre", "es_ES", false ).length ).toBe( 3 );
 		expect( stopwordsFunction( "Nothing special", "es_ES").length ).toBe( 0 );
 	});
 	it( "returns Spanish stopwords with diacritics found in a string", function(){
-		expect( stopwordsFunction( "Aquí", "es_ES" ) ).toContain( "aquí" );
-		expect( stopwordsFunction( "Aquí", "es_ES" ) ).not.toContain( "aqui" );
-		expect( stopwordsFunction( "Aquí", "es_ES").length ).toBe( 1 );
+		expect( stopwordsFunction( "Aquí", "es_ES", false ) ).toContain( "aquí" );
+		expect( stopwordsFunction( "Aqui", "es_ES", false ) ).not.toContain( "aquí" );
+		expect( stopwordsFunction( "Aquí", "es_ES", false ).length ).toBe( 1 );
 	});
 	it( "returns English stopwords found in a string when no locale is specified", function(){
 		expect( stopwordsFunction( "this is a story about..." ) ).toContain( "a" );
