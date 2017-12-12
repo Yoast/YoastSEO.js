@@ -1,4 +1,3 @@
-var getSentences = require( "../stringProcessing/getSentences.js" );
 var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
 var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
@@ -58,13 +57,13 @@ var determinePassives = function( sentencePart, language ) {
  * Determines the number of passive sentences in the text.
  *
  * @param {Paper} paper The paper object to get the text from.
+ * @param {Researcher} researcher The researcher this research is a part of.
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
-module.exports = function( paper ) {
-	var text = paper.getText();
+module.exports = function( paper, researcher ) {
 	var locale = paper.getLocale();
 	var language = getLanguage( locale );
-	var sentences = getSentences( text );
+	const sentences = researcher.getResearch( "sentences" );
 
 	var sentenceObjects = [];
 
