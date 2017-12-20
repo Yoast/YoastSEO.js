@@ -41,5 +41,5 @@ module.exports = function ( paper ) {
 	var largestKeywordDistance = keywordDistances[0];
 	var largestProportion = ( largestKeywordDistance / textLength ) * 100;
 
-	return console.log( largestProportion );
+	return Math.round( largestProportion );
 };
