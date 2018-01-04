@@ -35,7 +35,7 @@
     "grunt-babel": "^7.0.0",
     "babelify": "^8.0.0",
     "console.table": "^0.9.1",
-    "eslint-config-yoast": "^2.0.2",
+    "eslint-config-yoast": "^3.0.0",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
