@@ -1,7 +1,23 @@
 /** @module stringProcessing/checkNofollow */
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-let htmlparser = require( "htmlparser2" );
+const htmlparser = require( "parse5" );
+
+/**
+ * Retrieves the `rel` attribute from the list.
+ *
+ * @param object List of node attributes.
+ * @return {string} The content of the rel attribute.
+ */
+function getRelAttribute( object ) {
+	for ( let index in object ) {
+		if ( object[ index ].name === "rel" ) {
+			return object[ index ].value;
+		}
+	}
+
+	return "";
+}
 
 /**
  * Checks if a links has a nofollow attribute value. If it has, returns Nofollow, otherwise Dofollow.
@@ -12,27 +28,20 @@ let htmlparser = require( "htmlparser2" );
 module.exports = function( anchorHTML ) {
 	let linkFollow = "Dofollow";
 
-	let parser = new htmlparser.Parser( {
-		/**
-		 * Detects if there is a `nofollow` argument value in the `rel` argument of a link.
-		 *
-		 * @param {string} tagName The tag name.
-		 * @param {object} attributes  The attribute with the keys and values of the tag.
-		 * @returns {void}
-		 */
-		onopentag: function( tagName, attributes ) {
-			if ( tagName !== "a" || ! attributes.rel ) {
-				return;
-			}
+	const document = htmlparser.parseFragment( anchorHTML );
 
-			if ( attributes.rel.toLowerCase().split( /\s/ ).includes( "nofollow" ) ) {
-				linkFollow = "Nofollow";
-			}
-		},
-	} );
+	if ( ! document.childNodes[ 0 ] || ! document.childNodes[ 0 ].attrs ) {
+		return linkFollow;
+	}
 
-	parser.write( anchorHTML );
-	parser.end();
+	if ( document.childNodes[ 0 ].nodeName !== "a" ) {
+		return linkFollow;
+	}
+
+	const rel = getRelAttribute( document.childNodes[ 0 ].attrs );
+	if ( rel.toLowerCase().split( /\s/ ).includes( "nofollow" ) ) {
+		linkFollow = "Nofollow";
+	}
 
 	return linkFollow;
 };
