@@ -1,11 +1,10 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let formatNumber = require( "../../helpers/formatNumber.js" );
-let map = require( "lodash/map" );
+let forEach = require( "lodash/forEach" );
 let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;
 let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-let Mark = require( "../../values/Mark.js" );
-let marker = require( "../../markers/addMark.js" );
+let addMarksInSentence = require( "../../markers/addMarksInSentence" );
 
 let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it" ];
@@ -110,14 +109,14 @@ let transitionWordsAssessment = function( paper, researcher, i18n ) {
 let transitionWordsMarker = function( paper, researcher ) {
 	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
-	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
+	let marks = [];
+	forEach( transitionWordSentences.sentenceResults, function( sentenceResult ) {
 		let sentence = sentenceResult.sentence;
+		let transitionWords = sentenceResult.transitionWords;
 		sentence = stripTags( sentence );
-		return new Mark( {
-			original: sentence,
-			marked: marker( sentence ),
-		} );
+		marks.push( addMarksInSentence( sentence, transitionWords ) );
 	} );
+	return marks;
 };
 
 module.exports = {

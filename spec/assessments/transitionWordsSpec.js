@@ -120,10 +120,10 @@ describe( "An assessment for transition word percentage", function(){
 
 describe( "A test for marking sentences containing a transition word", function() {
 	it ("returns markers for too long sentences", function() {
-		let paper = new Paper( "This sentence is marked, because it contains a transition word." );
-		let transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, because it contains a transition word.", transitionWords: [ 'because' ] } ] } );
+		let paper = new Paper( "This sentence includes a mark, because it contains a transition word." );
+		let transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence includes a mark, because it contains a transition word.", transitionWords: [ 'because' ] } ] } );
 		let expected = [
-			new Mark( { original: "This sentence is marked, because it contains a transition word.", marked: "<yoastmark class='yoast-text-mark'>This sentence is marked, because it contains a transition word.</yoastmark>" } )
+			new Mark( { original: "This sentence includes a mark, because it contains a transition word.", marked: "This sentence includes a mark, <yoastmark class='yoast-text-mark'>because</yoastmark> it contains a transition word." } )
 		];
 		expect( transitionWordsAssessment.getMarks( paper, transitionWords ) ).toEqual( expected );
 	} );
