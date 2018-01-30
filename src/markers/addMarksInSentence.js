@@ -4,7 +4,7 @@ const wrapStringWithRegex = require( "../stringProcessing/wrapStringWithRegex" )
 const Mark = require( "../values/Mark" );
 
 /**
- * Marks multiple texts within a sentence with HTML tags
+ * Marks multiple strings within a sentence with HTML tags
  *
  * @param {string}        sentence The unmarked text.
  * @param {Array<string>} marks    Text to search for and mark.
