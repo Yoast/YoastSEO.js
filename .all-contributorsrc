@@ -1,0 +1,101 @@
+{
+  "projectName": "YoastSEO.js",
+  "projectOwner": "Yoast",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "moorscode",
+      "name": "Jip",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2005352?v=4",
+      "profile": "http://www.jipmoors.nl",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "atimmer",
+      "name": "Anton Timmermans",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/584693?v=4",
+      "profile": "https://github.com/atimmer",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "boblinthorst",
+      "name": "Bob Linthorst",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11849359?v=4",
+      "profile": "https://github.com/boblinthorst",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rensw90",
+      "name": "Rens Weerman",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7293908?v=4",
+      "profile": "https://github.com/rensw90",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "CarolineGeven",
+      "name": "Caroline Geven",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8614579?v=4",
+      "profile": "https://github.com/CarolineGeven",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "tacoverdo",
+      "name": "Taco Verdonschot",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5147598?v=4",
+      "profile": "http://yoast.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "andizer",
+      "name": "Andy",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/325040?v=4",
+      "profile": "https://github.com/andizer",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "terw-dan",
+      "name": "terw-dan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11272096?v=4",
+      "profile": "https://github.com/terw-dan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "chrisboo",
+      "name": "Boo Kai Hsien",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7839537?v=4",
+      "profile": "http://chrisboo.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "omarreiss",
+      "name": "Omar Reiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1488816?v=4",
+      "profile": "https://yoast.com/about-us/omar-reiss/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
