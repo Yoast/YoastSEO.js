@@ -5,24 +5,18 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
   "contributors": [
     {
-      "login": "terw-dan",
-      "name": "terw-dan",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/11272096?v=4",
-      "profile": "https://github.com/terw-dan",
+      "login": "moorscode",
+      "name": "Jip",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2005352?v=4",
+      "profile": "http://www.jipmoors.nl",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "andizer",
-      "name": "Andy",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/325040?v=4",
-      "profile": "https://github.com/andizer",
-      "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -31,52 +25,10 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/584693?v=4",
       "profile": "https://github.com/atimmer",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "jcomack",
-      "name": "Jimmy",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/4181340?v=4",
-      "profile": "https://github.com/jcomack",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "diedexx",
-      "name": "Diede Exterkate",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/5352634?v=4",
-      "profile": "https://github.com/diedexx",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "Kingdutch",
-      "name": "Alexander Varwijk",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/327697?v=4",
-      "profile": "https://github.com/Kingdutch",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "afercia",
-      "name": "Andrea Fercia",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/1682452?v=4",
-      "profile": "https://github.com/afercia",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "IreneStr",
-      "name": "Irene",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/17744553?v=4",
-      "profile": "https://github.com/IreneStr",
-      "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -85,7 +37,10 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/11849359?v=4",
       "profile": "https://github.com/boblinthorst",
       "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -94,25 +49,10 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/7293908?v=4",
       "profile": "https://github.com/rensw90",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "omarreiss",
-      "name": "Omar Reiss",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/1488816?v=4",
-      "profile": "https://yoast.com/about-us/omar-reiss/",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "renovate-bot",
-      "name": "Renovate Bot",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/25180681?v=4",
-      "profile": "https://renovateapp.com",
-      "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -121,16 +61,10 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/8614579?v=4",
       "profile": "https://github.com/CarolineGeven",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "greenkeeperio-bot",
-      "name": "Greenkeeper",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/14790466?v=4",
-      "profile": "https://greenkeeper.io/",
-      "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -139,32 +73,42 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/5147598?v=4",
       "profile": "http://yoast.com",
       "contributions": [
-        "code"
+				"bug",
+				"ideas",
+				"question",
+				"test",
+				"translation"
       ]
     },
     {
-      "login": "Nostrabramus",
-      "name": "Abramo Tesoro",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/8989863?v=4",
-      "profile": "https://github.com/Nostrabramus",
+      "login": "andizer",
+      "name": "Andy",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/325040?v=4",
+      "profile": "https://github.com/andizer",
       "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
-      "login": "BramHeijmink",
-      "name": "Bram Heijmink",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/27723443?v=4",
-      "profile": "https://github.com/BramHeijmink",
+      "login": "terw-dan",
+      "name": "terw-dan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11272096?v=4",
+      "profile": "https://github.com/terw-dan",
       "contributions": [
-        "code"
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
-      "login": "jdevalk",
-      "name": "Joost de Valk",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/487629?v=4",
-      "profile": "http://yoast.com/",
+      "login": "greenkeeperio-bot",
+      "name": "Greenkeeper",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/14790466?v=4",
+      "profile": "https://greenkeeper.io/",
       "contributions": [
         "code"
       ]
@@ -179,12 +123,120 @@
       ]
     },
     {
+      "login": "renovate-bot",
+      "name": "Renovate Bot",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/25180681?v=4",
+      "profile": "https://renovateapp.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "manuelaugustin",
       "name": "manuelaugustin",
       "avatar_url": "https://avatars1.githubusercontent.com/u/27805437?v=4",
       "profile": "https://github.com/manuelaugustin",
       "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "alxy",
+      "name": "Alexander Guth",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2057062?v=4",
+      "profile": "http://webdesign-guth.de/",
+      "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "corvannoorloos",
+      "name": "Cor van Noorloos",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1499293?v=4",
+      "profile": "https://github.com/corvannoorloos",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jcomack",
+      "name": "Jimmy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4181340?v=4",
+      "profile": "https://github.com/jcomack",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "diedexx",
+      "name": "Diede Exterkate",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5352634?v=4",
+      "profile": "https://github.com/diedexx",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "omarreiss",
+      "name": "Omar Reiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1488816?v=4",
+      "profile": "https://yoast.com/about-us/omar-reiss/",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "Nostrabramus",
+      "name": "Abramo Tesoro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8989863?v=4",
+      "profile": "https://github.com/Nostrabramus",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Xyfi",
+      "name": "Alexander Botteram",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5389513?v=4",
+      "profile": "https://github.com/Xyfi",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "Kingdutch",
+      "name": "Alexander Varwijk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/327697?v=4",
+      "profile": "https://github.com/Kingdutch",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "BramHeijmink",
+      "name": "Bram Heijmink",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/27723443?v=4",
+      "profile": "https://github.com/BramHeijmink",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     },
     {
@@ -194,6 +246,54 @@
       "profile": "http://chrisboo.com",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "afercia",
+      "name": "Andrea Fercia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1682452?v=4",
+      "profile": "https://github.com/afercia",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "jdevalk",
+      "name": "Joost de Valk",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/487629?v=4",
+      "profile": "http://yoast.com/",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "thulshof",
+      "name": "Thijs Hulshof",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13545824?v=4",
+      "profile": "https://github.com/thulshof",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
+      ]
+    },
+    {
+      "login": "IreneStr",
+      "name": "Irene",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17744553?v=4",
+      "profile": "https://github.com/IreneStr",
+      "contributions": [
+        "code",
+				"review",
+				"doc",
+				"test"
       ]
     }
   ]
