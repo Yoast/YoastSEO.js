@@ -159,6 +159,33 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Nostrabramus",
+      "name": "Abramo Tesoro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8989863?v=4",
+      "profile": "https://github.com/Nostrabramus",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Xyfi",
+      "name": "Alexander Botteram",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5389513?v=4",
+      "profile": "https://github.com/Xyfi",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Kingdutch",
+      "name": "Alexander Varwijk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/327697?v=4",
+      "profile": "https://github.com/Kingdutch",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
