@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
 [![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
@@ -156,8 +156,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars0.githubusercontent.com/u/2005352?v=4" width="100px;"/><br /><sub><b>Jip</b></sub>](http://www.jipmoors.nl)<br />[💻](https://github.com/Team Yoast/YoastSEO.js/commits?author=moorscode "Code") | [<img src="https://avatars3.githubusercontent.com/u/584693?v=4" width="100px;"/><br /><sub><b>Anton Timmermans</b></sub>](https://github.com/atimmer)<br />[💻](https://github.com/Team Yoast/YoastSEO.js/commits?author=atimmer "Code") |
-| :---: | :---: |
+| [<img src="https://avatars0.githubusercontent.com/u/2005352?v=4" width="100px;"/><br /><sub><b>Jip</b></sub>](http://www.jipmoors.nl)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=moorscode "Code") | [<img src="https://avatars3.githubusercontent.com/u/584693?v=4" width="100px;"/><br /><sub><b>Anton Timmermans</b></sub>](https://github.com/atimmer)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=atimmer "Code") | [<img src="https://avatars3.githubusercontent.com/u/11849359?v=4" width="100px;"/><br /><sub><b>Bob Linthorst</b></sub>](https://github.com/boblinthorst)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=boblinthorst "Code") | [<img src="https://avatars3.githubusercontent.com/u/7293908?v=4" width="100px;"/><br /><sub><b>Rens Weerman</b></sub>](https://github.com/rensw90)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=rensw90 "Code") | [<img src="https://avatars2.githubusercontent.com/u/8614579?v=4" width="100px;"/><br /><sub><b>Caroline Geven</b></sub>](https://github.com/CarolineGeven)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=CarolineGeven "Code") | [<img src="https://avatars0.githubusercontent.com/u/5147598?v=4" width="100px;"/><br /><sub><b>Taco Verdonschot</b></sub>](http://yoast.com)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=tacoverdo "Code") | [<img src="https://avatars0.githubusercontent.com/u/325040?v=4" width="100px;"/><br /><sub><b>Andy</b></sub>](https://github.com/andizer)<br />[💻](https://github.com/Yoast/YoastSEO.js/commits?author=andizer "Code") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
