@@ -96,6 +96,42 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "renovate-bot",
+      "name": "Renovate Bot",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/25180681?v=4",
+      "profile": "https://renovateapp.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "manuelaugustin",
+      "name": "manuelaugustin",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/27805437?v=4",
+      "profile": "https://github.com/manuelaugustin",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "alxy",
+      "name": "Alexander Guth",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2057062?v=4",
+      "profile": "http://webdesign-guth.de/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Kingdutch",
+      "name": "Alexander Varwijk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/327697?v=4",
+      "profile": "https://github.com/Kingdutch",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
