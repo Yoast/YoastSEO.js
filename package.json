@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/jest": "^22.0.0",
     "@types/node": "^9.3.0",
+    "all-contributors-cli": "^4.10.1",
     "autoprefixer": "^6.4.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
