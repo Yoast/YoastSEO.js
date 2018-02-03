@@ -204,6 +204,42 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "afercia",
+      "name": "Andrea Fercia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1682452?v=4",
+      "profile": "https://github.com/afercia",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jdevalk",
+      "name": "Joost de Valk",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/487629?v=4",
+      "profile": "http://yoast.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "thulshof",
+      "name": "Thijs Hulshof",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13545824?v=4",
+      "profile": "https://github.com/thulshof",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "IreneStr",
+      "name": "Irene",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17744553?v=4",
+      "profile": "https://github.com/IreneStr",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
