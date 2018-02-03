@@ -80,19 +80,19 @@
       ]
     },
     {
-      "login": "chrisboo",
-      "name": "Boo Kai Hsien",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/7839537?v=4",
-      "profile": "http://chrisboo.com",
+      "login": "greenkeeperio-bot",
+      "name": "Greenkeeper",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/14790466?v=4",
+      "profile": "https://greenkeeper.io/",
       "contributions": [
         "code"
       ]
     },
     {
-      "login": "omarreiss",
-      "name": "Omar Reiss",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/1488816?v=4",
-      "profile": "https://yoast.com/about-us/omar-reiss/",
+      "login": "cbosco",
+      "name": "Chris Bosco",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/308032?v=4",
+      "profile": "https://github.com/cbosco",
       "contributions": [
         "code"
       ]
