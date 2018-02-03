@@ -1,0 +1,200 @@
+{
+  "projectName": "YoastSEO.js",
+  "projectOwner": "Yoast",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "terw-dan",
+      "name": "terw-dan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11272096?v=4",
+      "profile": "https://github.com/terw-dan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "andizer",
+      "name": "Andy",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/325040?v=4",
+      "profile": "https://github.com/andizer",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "atimmer",
+      "name": "Anton Timmermans",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/584693?v=4",
+      "profile": "https://github.com/atimmer",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jcomack",
+      "name": "Jimmy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4181340?v=4",
+      "profile": "https://github.com/jcomack",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "diedexx",
+      "name": "Diede Exterkate",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5352634?v=4",
+      "profile": "https://github.com/diedexx",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Kingdutch",
+      "name": "Alexander Varwijk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/327697?v=4",
+      "profile": "https://github.com/Kingdutch",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "afercia",
+      "name": "Andrea Fercia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1682452?v=4",
+      "profile": "https://github.com/afercia",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "IreneStr",
+      "name": "Irene",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17744553?v=4",
+      "profile": "https://github.com/IreneStr",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "boblinthorst",
+      "name": "Bob Linthorst",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11849359?v=4",
+      "profile": "https://github.com/boblinthorst",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rensw90",
+      "name": "Rens Weerman",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7293908?v=4",
+      "profile": "https://github.com/rensw90",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "omarreiss",
+      "name": "Omar Reiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1488816?v=4",
+      "profile": "https://yoast.com/about-us/omar-reiss/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "renovate-bot",
+      "name": "Renovate Bot",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/25180681?v=4",
+      "profile": "https://renovateapp.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "CarolineGeven",
+      "name": "Caroline Geven",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8614579?v=4",
+      "profile": "https://github.com/CarolineGeven",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "greenkeeperio-bot",
+      "name": "Greenkeeper",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/14790466?v=4",
+      "profile": "https://greenkeeper.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "tacoverdo",
+      "name": "Taco Verdonschot",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5147598?v=4",
+      "profile": "http://yoast.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Nostrabramus",
+      "name": "Abramo Tesoro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8989863?v=4",
+      "profile": "https://github.com/Nostrabramus",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "BramHeijmink",
+      "name": "Bram Heijmink",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/27723443?v=4",
+      "profile": "https://github.com/BramHeijmink",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jdevalk",
+      "name": "Joost de Valk",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/487629?v=4",
+      "profile": "http://yoast.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "cbosco",
+      "name": "Chris Bosco",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/308032?v=4",
+      "profile": "https://github.com/cbosco",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "manuelaugustin",
+      "name": "manuelaugustin",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/27805437?v=4",
+      "profile": "https://github.com/manuelaugustin",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "chrisboo",
+      "name": "Boo Kai Hsien",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7839537?v=4",
+      "profile": "http://chrisboo.com",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
