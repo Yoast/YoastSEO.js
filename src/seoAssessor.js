@@ -17,7 +17,7 @@ var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 var UrlLength = require( "./assessments/seo/urlLengthAssessment.js" );
 var urlStopWords = require( "./assessments/seo/urlStopWordsAssessment.js" );
-var keywordDistribution = require( "./assessments/seo/keywordDistributionAssessment.js" );
+var KeywordDistribution = require( "./assessments/seo/keywordDistributionAssessment.js" );
 /**
  * Creates the Assessor
  *
@@ -48,7 +48,7 @@ var SEOAssessor = function( i18n, options ) {
 		new UrlKeyword(),
 		new UrlLength(),
 		urlStopWords,
-		keywordDistribution,
+		new KeywordDistribution(),
 	];
 };
 
