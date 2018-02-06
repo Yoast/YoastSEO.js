@@ -5,9 +5,10 @@ const countWords = require( "../../stringProcessing/countWords.js" );
 const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
 
 /**
- * Assessment for checking the keyword distribution.
+ * Returns a score based on the largest percentage of text in
+ * which no keyword occurs.
  */
-class keywordDistributionAssessment extends Assessment {
+class largestKeywordDistanceAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -27,12 +28,12 @@ class keywordDistributionAssessment extends Assessment {
 			},
 		};
 
-		this.identifier = "keywordDistribution";
+		this.identifier = "largestKeywordDistance";
 		this._config = merge( defaultConfig, config );
 	}
 
 	/**
-	 * Runs the keywordDistribution module, based on this returns an assessment result with score.
+	 * Runs the largestKeywordDistance module, based on this returns an assessment result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
@@ -41,49 +42,45 @@ class keywordDistributionAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let keywordDistribution = researcher.getResearch( "keywordDistribution" );
+		let largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( keywordDistribution ) );
-		assessmentResult.setText( this.translateScore( keywordDistribution, i18n ) );
+		assessmentResult.setScore( this.calculateScore( largestKeywordDistance ) );
+		assessmentResult.setText( this.translateScore( largestKeywordDistance, i18n ) );
 
 		return assessmentResult;
 	}
 
 	/**
-	 * Returns the score for the keyword distribution.
+	 * Returns the score for the largest keyword distance assessment.
 	 *
-	 * @param {number} keywordDistribution The largest distance between two keywords or a keyword and the start/beginning of the text.
+	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
 	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateScore( keywordDistribution ) {
-		if ( keywordDistribution > this._config.recommendedMaximumKeyWordDistance ) {
+	calculateScore( largestKeywordDistance ) {
+		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
 			return this._config.scores.badDistribution;
 		}
-
-		if ( keywordDistribution <= this._config.recommendedMaximumKeyWordDistance ) {
+		if ( largestKeywordDistance <= this._config.recommendedMaximumKeyWordDistance ) {
 			return this._config.scores.goodDistribution;
 		}
-
-		return 0;
 	}
 
 	/**
-	 * Translates the keyword distribution to a message the user can understand.
+	 * Translates the largest keyword assessment score to a message the user can understand.
 	 *
-	 * @param {number} keywordDistribution The largest distance between two keywords or a keyword and the start/beginning of the text.
+	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( keywordDistribution, i18n ) {
-		if ( keywordDistribution > this._config.recommendedMaximumKeyWordDistance ) {
+	translateScore( largestKeywordDistance, i18n ) {
+		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
 			return i18n.dgettext( "js-text-analysis", "There are some parts of your text that do not contain the keyword. " +
 				"Try to distribute the keyword more evenly." );
 		}
-
-		if ( keywordDistribution <= this._config.recommendedMaximumKeyWordDistance ) {
+		if ( largestKeywordDistance <= this._config.recommendedMaximumKeyWordDistance ) {
 			return i18n.dgettext( "js-text-analysis", "Your keyword is distributed evenly throughout the text. " +
 				"That's great." );
 		}
@@ -95,7 +92,8 @@ class keywordDistributionAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and an url.
+	 * @returns {boolean} True when there is a keyword and a text with 100 words or more, with the keyword occurring
+	 * more than one time.
 	 */
 	isApplicable( paper ) {
 		let keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
@@ -103,4 +101,4 @@ class keywordDistributionAssessment extends Assessment {
 	}
 }
 
-module.exports = keywordDistributionAssessment;
+module.exports = largestKeywordDistanceAssessment;

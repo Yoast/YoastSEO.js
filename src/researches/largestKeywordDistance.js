@@ -4,11 +4,10 @@ const sortBy = require( "lodash/sortBy" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 /**
- * Calculates the largest proportion of text between two keywords and between the first/last keyword and the
- * beginning/end of a text.
+ * Calculates the largest percentage of the text without a keyword.
  *
- * @param {Paper} paper The paper to check the keyword distribution for.
- * @returns {number} Returns the largest distance between two keywords or a keyword and the start/end of the text.
+ * @param {Paper} paper The paper to check the keyword distance for.
+ * @returns {number} Returns the largest percentage of the text between two keyword occurrences or a keyword occurrence and the start/end of the text.
  */
 module.exports = function( paper ) {
 	let text = paper.getText();
@@ -23,7 +22,8 @@ module.exports = function( paper ) {
 	let keywordDistances = [];
 
 	/*
-	 * Find the distance between two keywords, between the beginning of the text and the first keyword
+	 * Find the distance (in terms of percentage of the text) between two keywords,
+	 * between the beginning of the text and the first keyword,
 	 * and the last keyword and the end of the text.
 	 */
 	forEach( keywordIndices, function( keywordIndex ) {
@@ -31,15 +31,18 @@ module.exports = function( paper ) {
 		let indexOfPreviousKeyword;
 
 		if ( currentIndexWithinArray === 0 && keywordIndices.length === 1 ) {
-			// If there's only one keyword no distribution can be calculated.
-			return null;
-		} else if ( currentIndexWithinArray === 0 && keywordIndices.length > 1 ) {
+			/* If there's only one keyword return the distance from the beginning
+			 * of the text to the keyword and from the keyword to the end of the text.
+			 */
+			keywordDistances.push( keywordIndex.index );
+			keywordDistances.push( text.length - keywordIndex.index );
+		} else if ( currentIndexWithinArray === 0 /*&& keywordIndices.length > 1*/ ) {
 			/*
 			 * For the first instance of they keyword calculate the distance between
 			 * the beginning of the text and that keyword.
 			 */
 			keywordDistances.push( keywordIndex.index );
-		} else if ( currentIndexWithinArray > 0 && currentIndexWithinArray === keywordIndices.length - 1 ) {
+		} else if ( /*currentIndexWithinArray > 0 &&*/ currentIndexWithinArray === keywordIndices.length - 1 ) {
 			/*
 			 * For the last instance of the keyword calculate the distance between that keyword
 			 * and the previous keyword and also the distance between that keyword and the end
