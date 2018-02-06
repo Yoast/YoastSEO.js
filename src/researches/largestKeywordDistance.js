@@ -36,13 +36,13 @@ module.exports = function( paper ) {
 			 */
 			keywordDistances.push( keywordIndex.index );
 			keywordDistances.push( text.length - keywordIndex.index );
-		} else if ( currentIndexWithinArray === 0 /*&& keywordIndices.length > 1*/ ) {
+		} else if ( currentIndexWithinArray === 0 ) {
 			/*
 			 * For the first instance of they keyword calculate the distance between
 			 * the beginning of the text and that keyword.
 			 */
 			keywordDistances.push( keywordIndex.index );
-		} else if ( /*currentIndexWithinArray > 0 &&*/ currentIndexWithinArray === keywordIndices.length - 1 ) {
+		} else if ( currentIndexWithinArray === keywordIndices.length - 1 ) {
 			/*
 			 * For the last instance of the keyword calculate the distance between that keyword
 			 * and the previous keyword and also the distance between that keyword and the end
