@@ -9,7 +9,6 @@ const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
  * which no keyword occurs.
  */
 class largestKeywordDistanceAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -37,7 +36,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -88,8 +87,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 100 words or more, with the keyword occurring
-	 * more than one time.
+	 * @returns {boolean} True when there is a keyword and a text with 100 words or more,
+	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
 		let keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );

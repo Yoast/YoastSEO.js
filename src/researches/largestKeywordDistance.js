@@ -7,7 +7,8 @@ const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
  * Calculates the largest percentage of the text without a keyword.
  *
  * @param {Paper} paper The paper to check the keyword distance for.
- * @returns {number} Returns the largest percentage of the text between two keyword occurrences or a keyword occurrence and the start/end of the text.
+ * @returns {number} Returns the largest percentage of the text between two keyword occurrences
+ *                   or a keyword occurrence and the start/end of the text.
  */
 module.exports = function( paper ) {
 	let text = paper.getText();
@@ -39,7 +40,7 @@ module.exports = function( paper ) {
 			keywordDistances.push( text.length - keywordIndex.index );
 		} else if ( currentIndexWithinArray === 0 ) {
 			/*
-			 * For the first instance of they keyword calculate the distance between
+			 * For the first instance of the keyword calculate the distance between
 			 * the beginning of the text and that keyword.
 			 */
 			keywordDistances.push( keywordIndex.index );
@@ -56,7 +57,7 @@ module.exports = function( paper ) {
 		} else {
 			/*
 			 * For all instances in between first and last calculate the distance between
-			 * each of these keywords the preceding keyword.
+			 * each of these keywords and the preceding keyword.
 			 */
 			indexOfPreviousKeyword = ( keywordIndices[ currentIndexWithinArray - 1 ].index );
 			keywordDistances.push( keywordIndex.index - indexOfPreviousKeyword );
