@@ -6,16 +6,16 @@ const i18n = Factory.buildJed();
 const keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
 
 describe( "An assessment to check the largest percentage of text in which no keyword occurs", function() {
-	it( "runs the largest keyword distance assessments on the paper", function(){
-		let mockPaper = new Paper( "string with the keyword", {keyword: "keyword"} );
+	it( "runs the largest keyword distance assessments on the paper", function() {
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual ( "There are some parts of your text that do not contain the keyword. Try to distribute the keyword more evenly." );
 	} );
 
-	it( "runs the keyword distribution assessment on the paper", function() {
-		let mockPaper = new Paper( "string with the keyword", {keyword: "keyword"} );
+	it( "runs the largest keyword distance assessment on the paper", function() {
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );

@@ -3,7 +3,7 @@ const Paper = require( "../../js/values/Paper.js" );
 
 describe( "Test for checking the largest percentage of a text without keyword", function() {
 	it( "returns the largest distance when that is the distance between two keywords", function() {
-		let mockPaper = new Paper( "a text with the keyword in it and then there's some text and then the keyword appears again and the keyword appears one last time", {keyword: "keyword"} );
+		let mockPaper = new Paper( "a text with the keyword in it and then there's some text and then the keyword appears again and the keyword appears one last time", { keyword: "keyword" } );
 
 		expect( largestKeywordDistance( mockPaper ) ).toBe( 41.86046511627907 );
 	} );
@@ -21,7 +21,7 @@ describe( "Test for checking the largest percentage of a text without keyword", 
 	} );
 
 	it("returns the largest distance when there is only one keyword and the largest distance is between the keyword and the beginning of the text", function() {
-		let mockPaper = new Paper( "this text has only one keyword", {keyword: "keyword"} );
+		let mockPaper = new Paper( "this text has only one keyword", { keyword: "keyword" } );
 		expect( largestKeywordDistance( mockPaper ) ).toBe( 76.66666666666667 );
 	} );
 
