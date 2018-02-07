@@ -31,7 +31,8 @@ module.exports = function( paper ) {
 		let indexOfPreviousKeyword;
 
 		if ( currentIndexWithinArray === 0 && keywordIndices.length === 1 ) {
-			/* If there's only one keyword return the distance from the beginning
+			/*
+			 * If there's only one keyword return the distance from the beginning
 			 * of the text to the keyword and from the keyword to the end of the text.
 			 */
 			keywordDistances.push( keywordIndex.index );

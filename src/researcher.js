@@ -35,7 +35,7 @@ var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
-var keywordDistribution = require( "./researches/largestKeywordDistance" );
+var largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 
 /**
  * This contains all possible, default researches.
@@ -76,7 +76,7 @@ var Researcher = function( paper ) {
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
 		sentences,
-		keywordDistribution: keywordDistribution,
+		largestKeywordDistance: largestKeywordDistance,
 	};
 
 	this.customResearches = {};
