@@ -62,9 +62,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
 			return this._config.scores.badDistribution;
 		}
-		if ( largestKeywordDistance <= this._config.recommendedMaximumKeyWordDistance ) {
-			return this._config.scores.goodDistribution;
-		}
+		return this._config.scores.goodDistribution;
 	}
 
 	/**
@@ -80,10 +78,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return i18n.dgettext( "js-text-analysis", "There are some parts of your text that do not contain the keyword. " +
 				"Try to distribute the keyword more evenly." );
 		}
-		if ( largestKeywordDistance <= this._config.recommendedMaximumKeyWordDistance ) {
-			return i18n.dgettext( "js-text-analysis", "Your keyword is distributed evenly throughout the text. " +
+		return i18n.dgettext( "js-text-analysis", "Your keyword is distributed evenly throughout the text. " +
 				"That's great." );
-		}
 	}
 
 	/**
