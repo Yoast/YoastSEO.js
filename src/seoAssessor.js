@@ -17,6 +17,8 @@ var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 var UrlLength = require( "./assessments/seo/urlLengthAssessment.js" );
 var urlStopWords = require( "./assessments/seo/urlStopWordsAssessment.js" );
+var SingleH1Assessment = require( "./assessments/seo/singleH1Assessment.js" );
+
 /**
  * Creates the Assessor
  *
@@ -47,6 +49,7 @@ var SEOAssessor = function( i18n, options ) {
 		new UrlKeyword(),
 		new UrlLength(),
 		urlStopWords,
+		new SingleH1Assessment(),
 	];
 };
 
