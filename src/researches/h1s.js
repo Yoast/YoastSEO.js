@@ -4,7 +4,7 @@ const forEach = require( "lodash/forEach.js" );
 /**
  * Gets all H1s from the text.
  *
- * @param paper @param {Paper} paper The Paper object to get text from.
+ * @param {Paper} paper The Paper object to get text from.
  * @returns {Array} An array with all found H1s.
  */
 module.exports = function( paper ) {
@@ -14,7 +14,7 @@ module.exports = function( paper ) {
 	let h1s = [];
 
 	forEach( subheadings, function( subheading ) {
-		if ( subheading[ 1 ] == 1 ) {
+		if ( subheading[ 1 ] === "1" ) {
 			h1s.push( subheading );
 		}
 	} );

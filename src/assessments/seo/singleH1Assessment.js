@@ -3,7 +3,7 @@ let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
 /**
- * Assessment to check whether the body of the text contains an H1.
+ * Assessment to check whether the body of the text contains more than one H1.
  */
 class singleH1Assessment extends Assessment {
 
@@ -54,7 +54,7 @@ class singleH1Assessment extends Assessment {
 	 * @returns {number} The calculated score.
 	 */
 	calculateScore( h1s ) {
-		if ( h1s.length > 0 ) {
+		if ( h1s.length > 1 ) {
 			return this._config.scores.textContainsH1;
 		}
 	}
@@ -68,8 +68,8 @@ class singleH1Assessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( h1s, i18n ) {
-		if ( h1s.length > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The body of your text contains an H1. " +
+		if ( h1s.length > 1 ) {
+			return i18n.dgettext( "js-text-analysis", "The body of your text contains more than one H1. " +
 				"Change all H1s in the body of your text to the appropriate heading level."
 			);
 		}
