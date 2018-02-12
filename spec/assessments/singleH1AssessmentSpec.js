@@ -7,7 +7,7 @@ const h1Assessment = new singleH1Assessment();
 
 describe( "An assessment to check whether there is more than one H1 in the text", function() {
 	it( "runs the single H1 assessments on the paper", function() {
-		let mockPaper = new Paper( "<h1>the title</h1> </h1><h1>not the title</h1> some text" );
+		let mockPaper = new Paper( "<h1>the title</h1> <h1>not the title</h1> some text" );
 		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ [ "<h1>the title</h1>", "1", "the title" ],	[ "<h1>not the title</h1>", "1", "not the title" ] ] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
