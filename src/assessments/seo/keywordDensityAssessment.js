@@ -1,104 +1,137 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var countWords = require( "../../stringProcessing/countWords.js" );
-var formatNumber = require( "../../helpers/formatNumber.js" );
-var inRange = require( "../../helpers/inRange.js" );
+const Assessment = require( "../../assessment.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const countWords = require( "../../stringProcessing/countWords.js" );
+const formatNumber = require( "../../helpers/formatNumber.js" );
+const inRange = require( "../../helpers/inRange.js" );
+const merge = require( "lodash/merge" );
 
-var inRangeEndInclusive = inRange.inRangeEndInclusive;
-var inRangeStartInclusive = inRange.inRangeStartInclusive;
-var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+const inRangeEndInclusive = inRange.inRangeEndInclusive;
+const inRangeStartInclusive = inRange.inRangeStartInclusive;
+const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
-/**
- * Returns the scores and text for keyword density
- *
- * @param {string} keywordDensity The keyword density
- * @param {object} i18n The i18n object used for translations
- * @param {number} keywordCount The number of times the keyword has been found in the text.
- * @returns {{score: number, text: *}} The assessment result
- */
-var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
-	var score, text, max;
-	var roundedKeywordDensity = formatNumber( keywordDensity );
-	var keywordDensityPercentage = roundedKeywordDensity + "%";
+class KeywordDensityAssessment extends Assessment {
 
-	if ( roundedKeywordDensity > 3.5 ) {
-		score = -50;
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super();
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
-		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is way over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
+		let defaultConfig = {
+			overMaximum: 4,
+			maximum: 3,
+			minimum: 0.5,
+			scores: {
+				wayOverMaximum: -50,
+				overMaximum: -10,
+				correctDensity: 9,
+				underMinimum: 4,
+			},
+		};
 
-		max = "2.5%";
-
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
+		this.identifier = "keywordDensity";
+		this._config = merge( defaultConfig, config );
 	}
 
-	if ( inRangeEndInclusive( roundedKeywordDensity, 2.5, 3.5 ) ) {
-		score = -10;
+	/**
+	 * Runs the keyword density module, based on this returns an assessment result with score.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {object} i18n The object used for translations
+	 *
+	 * @returns {AssessmentResult} The assessment result.
+	 */
+	getResult( paper, researcher, i18n ) {
+		let keywordDensity = researcher.getResearch( "getKeywordDensity" );
+		let keywordCount = researcher.getResearch( "keywordCount" );
+		let assessmentResult = new AssessmentResult();
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
-		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
+		assessmentResult.setScore( this.calculateScore( keywordDensity ) );
+		assessmentResult.setText( this.translateScore( keywordDensity, i18n, keywordCount ) );
 
-		max = "2.5%";
-
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
+		return assessmentResult;
 	}
 
-	if ( inRangeStartEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
-		score = 9;
+	/**
+	 * Returns the score for the keyword density.
+	 *
+	 * @param {number} keywordDensity The keyword density in the text.
+	 *
+	 * @returns {number} The calculated score.
+	 */
+	calculateScore( keywordDensity ) {
+		let roundedKeywordDensity = formatNumber( keywordDensity );
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
-			" the focus keyword was found %2$d times." );
+		if ( roundedKeywordDensity > this._config.overMaximum ) {
+			return this._config.scores.wayOverMaximum;
+		}
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
+		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
+			return this._config.scores.overMaximum;
+		}
+
+		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
+			return this._config.scores.correctDensity;
+		}
+
+		if ( inRangeStartInclusive( roundedKeywordDensity, 0, this._config.minimum ) ) {
+			return this._config.scores.underMinimum;
+		}
+
+		return 0;
 	}
 
-	if ( inRangeStartInclusive( roundedKeywordDensity, 0, 0.5 ) ) {
-		score = 4;
+	/**
+	 * Translates the keyword density assessment to a message the user can understand.
+	 *
+	 * @param {number} keywordDensity The keyword density in the text.
+	 * @param {object} i18n The object used for translations.
+	 * @param {number} keywordCount The number of keywords found in the text.
+	 *
+	 * @returns {string} The translated string.
+	 */
+	translateScore( keywordDensity, i18n, keywordCount ) {
+		let roundedKeywordDensity = formatNumber( keywordDensity );
+		let keywordDensityPercentage = roundedKeywordDensity + "%";
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
-			" the focus keyword was found %2$d times." );
+		if ( roundedKeywordDensity > this._config.overMaximum ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
+				" which is way over the advised %3$s maximum;" +
+				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount, this._config.maximum + "%" );
+		}
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
+		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
+				" which is over the advised %3$s maximum;" +
+				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount, this._config.maximum + "%" );
+		}
+
+		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
+				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount );
+		}
+
+		if ( inRangeStartInclusive( roundedKeywordDensity, 0, this._config.minimum ) ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
+				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount );
+		}
 	}
 
-	return {
-		score: score,
-		text: text,
-	};
-};
-
-/**
- * Runs the getkeywordDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var keywordDensityAssessment = function( paper, researcher, i18n ) {
-	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = researcher.getResearch( "keywordCount" );
-
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( keywordDensityResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "keywordDensity",
-	getResult: keywordDensityAssessment,
-	isApplicable: function( paper ) {
+	/**
+	 * Checks whether the paper has a text with at least 100 words and a keyword is set.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
+	 * @returns {boolean} True when there is text with at least 100 words and a keyword is set.
+	 */
+	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
-	},
-};
+	}
+}
+
+module.exports = KeywordDensityAssessment;

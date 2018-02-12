@@ -1,9 +1,11 @@
 /* global describe it expect */
-const keywordDensityAssessment = require( "../../js/assessments/seo/keywordDensityAssessment.js" );
+const KeywordDensityAssessment = require( "../../js/assessments/seo/keywordDensityAssessment.js" );
 const Paper = require( "../../js/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();
+
+let keywordDensityAssessment = new KeywordDensityAssessment();
 
 describe( "An assessment for the keywordDensity", function() {
 	it( "runs the keywordDensity on the paper", function() {
@@ -21,7 +23,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 1,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The keyword density is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 times." );
+		expect( result.getText() ).toBe( "The keyword density is 10%, which is way over the advised 3% maximum; the focus keyword was found 1 times." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -33,11 +35,11 @@ describe( "An assessment for the keywordDensity", function() {
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
-			getKeywordDensity: 3,
+			getKeywordDensity: 3.5,
 			keywordCount: 2,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "The keyword density is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times." );
+		expect( result.getText() ).toBe( "The keyword density is 3.5%, which is over the advised 3% maximum; the focus keyword was found 2 times." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
