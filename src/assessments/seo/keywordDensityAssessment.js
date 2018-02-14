@@ -3,10 +3,10 @@ const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const countWords = require( "../../stringProcessing/countWords.js" );
 const formatNumber = require( "../../helpers/formatNumber.js" );
 const inRange = require( "../../helpers/inRange.js" );
+const recommendedKeywordCount = require( "../../assessmentHelpers/recommendedKeywordCount.js" );
 const merge = require( "lodash/merge" );
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
-const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
 class KeywordDensityAssessment extends Assessment {
@@ -51,8 +51,8 @@ class KeywordDensityAssessment extends Assessment {
 		let keywordCount = researcher.getResearch( "keywordCount" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( keywordDensity ) );
-		assessmentResult.setText( this.translateScore( keywordDensity, i18n, keywordCount ) );
+		assessmentResult.setScore( this.calculateScore( keywordDensity, keywordCount, paper ) );
+		assessmentResult.setText( this.translateScore( keywordDensity, i18n, keywordCount, paper ) );
 
 		return assessmentResult;
 	}
@@ -64,26 +64,45 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateScore( keywordDensity ) {
+	calculateScore( keywordDensity, keywordCount, paper ) {
 		let roundedKeywordDensity = formatNumber( keywordDensity );
+		let minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
+
+		const {
+			wayOverMaximum,
+			overMaximum,
+			correctDensity,
+			underMinimum,
+		} = this._config.scores;
+
+		// The keyword should at least occur twice in a post, regardless of the density.
+		if( keywordCount < 2 ) {
+			return underMinimum;
+		}
+
+		/*
+		 * Two occurrences are correct even if the recommended count according to the formula
+		 * would be lower. However if the recommended minimum keyword count is higher than 2,
+		 * this does not apply.
+		 */
+		if( keywordCount === 2 && minRecommendedKeywordCount <= 2  ) {
+			return correctDensity;
+		}
 
 		if ( roundedKeywordDensity > this._config.overMaximum ) {
-			return this._config.scores.wayOverMaximum;
+			return wayOverMaximum;
 		}
 
 		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
-			return this._config.scores.overMaximum;
+			return overMaximum;
 		}
 
 		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
-			return this._config.scores.correctDensity;
+			return correctDensity;
 		}
 
-		if ( inRangeStartInclusive( roundedKeywordDensity, 0, this._config.minimum ) ) {
-			return this._config.scores.underMinimum;
-		}
-
-		return 0;
+		// Implicitly returns this if roundedKeywordDensity is between 0 and the recommended minimum.
+		return underMinimum;
 	}
 
 	/**
@@ -95,31 +114,49 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( keywordDensity, i18n, keywordCount ) {
+	translateScore( keywordDensity, i18n, keywordCount, paper ) {
 		let roundedKeywordDensity = formatNumber( keywordDensity );
-		let keywordDensityPercentage = roundedKeywordDensity + "%";
+		//let keywordDensityPercentage = roundedKeywordDensity + "%";
+		let maxRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.maximum, "max" );
+		let minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
+
+		// The keyword should at least occur twice in a post, regardless of the density.
+		if( keywordCount < 2 ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+					" That's less than than the advised minimum of %2$d time(s) for a text of this length." ),
+				keywordCount, minRecommendedKeywordCount );
+		}
+
+		/*
+		 * Two occurrences are correct even if the recommended count according to the formula
+		 * would be lower. However if the recommended minimum keyword count is higher than 2,
+		 * this does not apply.
+		 */
+		if( keywordCount === 2 && minRecommendedKeywordCount <= 2 ) {
+				return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+					" That's great for a text of this length." ), keywordCount );
+		}
 
 		if ( roundedKeywordDensity > this._config.overMaximum ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-				" which is way over the advised %3$s maximum;" +
-				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount, this._config.maximum + "%" );
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+				" That's way more than the advised maximum of %2$d time(s) for a text of this length." ), keywordCount, maxRecommendedKeywordCount );
 		}
 
 		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-				" which is over the advised %3$s maximum;" +
-				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount, this._config.maximum + "%" );
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+					" That's more than the advised maximum of %2$d time(s) for a text of this length." ),
+				keywordCount, maxRecommendedKeywordCount );
 		}
 
 		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
-				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount );
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+				" That's great for a text of this length." ), keywordCount );
 		}
 
-		if ( inRangeStartInclusive( roundedKeywordDensity, 0, this._config.minimum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
-				" the focus keyword was found %2$d times." ), keywordDensityPercentage, keywordCount );
-		}
+		// Implicitly returns this if roundedKeywordDensity is between 0 and the recommended minimum.
+		return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+				" That's less than than the advised minimum of %2$d time(s) for a text of this length." ),
+			keywordCount, minRecommendedKeywordCount );
 	}
 
 	/**
