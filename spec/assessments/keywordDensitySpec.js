@@ -80,7 +80,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 12,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 12 time(s). That's way more than the advised maximum of 8 time(s) for a text of this length.");
+		expect( result.getText() ).toBe( "The focus keyphrase was found 12 time(s). That's way more than the advised maximum of 8 time(s) for a text of this length." );
 	} );
 
 	it( "Returns 9 and a 'great' feedback string if the density is within the recommended margin", function() {

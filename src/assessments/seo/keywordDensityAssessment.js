@@ -61,6 +61,8 @@ class KeywordDensityAssessment extends Assessment {
 	 * Returns the score for the keyword density.
 	 *
 	 * @param {number} keywordDensity The keyword density in the text.
+	 * @param {number} keywordCount The number of keywords found in the text.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {number} The calculated score.
 	 */
@@ -111,12 +113,12 @@ class KeywordDensityAssessment extends Assessment {
 	 * @param {number} keywordDensity The keyword density in the text.
 	 * @param {object} i18n The object used for translations.
 	 * @param {number} keywordCount The number of keywords found in the text.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {string} The translated string.
 	 */
 	translateScore( keywordDensity, i18n, keywordCount, paper ) {
 		let roundedKeywordDensity = formatNumber( keywordDensity );
-		//let keywordDensityPercentage = roundedKeywordDensity + "%";
 		let maxRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.maximum, "max" );
 		let minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
 
@@ -133,13 +135,14 @@ class KeywordDensityAssessment extends Assessment {
 		 * this does not apply.
 		 */
 		if( keywordCount === 2 && minRecommendedKeywordCount <= 2 ) {
-				return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
 					" That's great for a text of this length." ), keywordCount );
 		}
 
 		if ( roundedKeywordDensity > this._config.overMaximum ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-				" That's way more than the advised maximum of %2$d time(s) for a text of this length." ), keywordCount, maxRecommendedKeywordCount );
+					" That's way more than the advised maximum of %2$d time(s) for a text of this length." ),
+				keywordCount, maxRecommendedKeywordCount );
 		}
 
 		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
