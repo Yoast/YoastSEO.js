@@ -125,7 +125,7 @@ class KeywordDensityAssessment extends Assessment {
 		// The keyword should at least occur twice in a post, regardless of the density.
 		if( keywordCount < 2 ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's less than than the advised minimum of %2$d time(s) for a text of this length." ),
+					" That's less than the recommended minimum of %2$d time(s) for a text of this length." ),
 				keywordCount, minRecommendedKeywordCount );
 		}
 
@@ -141,13 +141,13 @@ class KeywordDensityAssessment extends Assessment {
 
 		if ( roundedKeywordDensity > this._config.overMaximum ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's way more than the advised maximum of %2$d time(s) for a text of this length." ),
+					" That's way more than the recommended maximum of %2$d time(s) for a text of this length." ),
 				keywordCount, maxRecommendedKeywordCount );
 		}
 
 		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's more than the advised maximum of %2$d time(s) for a text of this length." ),
+					" That's more than the recommended maximum of %2$d time(s) for a text of this length." ),
 				keywordCount, maxRecommendedKeywordCount );
 		}
 
@@ -158,7 +158,7 @@ class KeywordDensityAssessment extends Assessment {
 
 		// Implicitly returns this if roundedKeywordDensity is between 0 and the recommended minimum.
 		return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-				" That's less than than the advised minimum of %2$d time(s) for a text of this length." ),
+				" That's less than than the recommended minimum of %2$d time(s) for a text of this length." ),
 			keywordCount, minRecommendedKeywordCount );
 	}
 
