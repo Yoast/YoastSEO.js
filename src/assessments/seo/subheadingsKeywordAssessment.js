@@ -73,14 +73,26 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		if ( subHeadings.matches === 0 ) {
 			return this._config.scores.noMatches;
 		}
+
 		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
 			return this._config.scores.tooFewMatches;
 		}
-		if ( inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+
+		/*
+		 * Return a good result if the number of matches is within the specified range or
+		 * if there is only one subheading and that subheading includes the keyword.
+		 */
+		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
+		inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
 			return this._config.scores.goodNumberOfMatches;
 		}
 
-		if ( subHeadings.matches > subHeadings.count * 0.75 ) {
+		/*
+		 * The upper limit is only applicable if there is more than one subheading.
+		 * If there is only one subheading that includes keyword this would otherwise
+		 * always lead a 100% match rate.
+		 */
+		if ( subHeadings.count > 1  && subHeadings.matches > subHeadings.count * 0.75 ) {
 			return this._config.scores.tooManyMatches;
 		}
 
@@ -100,31 +112,42 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		if ( subHeadings.matches === 0 ) {
 			return i18n.dgettext(
 				"js-text-analysis",
-				"You have not used the focus keyword in any subheading (such as an H2) in your copy."
+				"You have not used the focus keyword in any subheading (such as an H2)."
 			);
 		}
 
 		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. " +
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d out of %1$d subheadings. " +
 					"Try to use it in more subheadings." ),
 					subHeadings.count, subHeadings.matches
 			);
 		}
 
-		if ( inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+		/*
+		 * Return positive feedback if the number of matches is within the specified range or
+		 * if there is only one subheading and that subheading includes the keyword.
+		 */
+		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
+			inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy. " +
-					"That's great." ),
+				i18n.dngettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheading. " +
+					"That's great.", "The focus keyword appears in %2$d out of %1$d subheadings. " +
+					"That's great.", subHeadings.count ),
 				subHeadings.count, subHeadings.matches
 			);
 		}
 
-		if ( subHeadings.matches > subHeadings.count * 0.75 ) {
+		/*
+		 * The upper limit is only applicable if there is more than one subheading.
+		 * If there is only one subheading that includes keyword this would otherwise
+		 * always lead a 100% match rate.
+		 */
+		if ( subHeadings.count > 1 && subHeadings.matches > subHeadings.count * 0.75 ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy. " +
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheadings. " +
 					"That might sound a bit repetitive. " +
-					"Try to change some of those subheadings to make your text sound more natural." ),
+					"Try to change some of those subheadings to make the flow of your text sound more natural." ),
 				subHeadings.count, subHeadings.matches
 			);
 		}
