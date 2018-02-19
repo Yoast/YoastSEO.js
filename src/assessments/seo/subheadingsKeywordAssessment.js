@@ -1,6 +1,7 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
+let inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -19,9 +20,10 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		let defaultConfig = {
 			scores: {
-				noMatches: 6,
-				oneMatch: 9,
-				multipleMatches: 9,
+				noMatches: 3,
+				tooFewMatches: 3,
+				goodNumberOfMatches: 9,
+				tooManyMatches: 3,
 			},
 		};
 
@@ -71,12 +73,15 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		if ( subHeadings.matches === 0 ) {
 			return this._config.scores.noMatches;
 		}
-		if ( subHeadings.matches === 1 ) {
-			return this._config.scores.oneMatch;
+		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
+			return this._config.scores.tooFewMatches;
+		}
+		if ( inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+			return this._config.scores.goodNumberOfMatches;
 		}
 
-		if ( subHeadings.matches > 1 ) {
-			return this._config.scores.multipleMatches;
+		if ( subHeadings.matches > subHeadings.count * 0.75 ) {
+			return this._config.scores.tooManyMatches;
 		}
 
 		return null;
@@ -92,17 +97,35 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( score, subHeadings, i18n ) {
-		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
+		if ( subHeadings.matches === 0 ) {
+			return i18n.dgettext(
+				"js-text-analysis",
+				"You have not used the focus keyword in any subheading (such as an H2) in your copy."
+			);
+		}
+
+		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy." ),
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. " +
+					"Try to use it in more subheadings." ),
 					subHeadings.count, subHeadings.matches
 			);
 		}
 
-		if ( score === this._config.scores.noMatches ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"You have not used the focus keyword in any subheading (such as an H2) in your copy."
+		if ( inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy. " +
+					"That's great." ),
+				subHeadings.count, subHeadings.matches
+			);
+		}
+
+		if ( subHeadings.matches > subHeadings.count * 0.75 ) {
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy. " +
+					"That might sound a bit repetitive. " +
+					"Try to change some of those subheadings to make your text sound more natural." ),
+				subHeadings.count, subHeadings.matches
 			);
 		}
 
