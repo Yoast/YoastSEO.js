@@ -84,7 +84,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		}
 
 		/*
-		 * Return a good result if the number of matches is within the specified range or
+		 * Returns a good result if the number of matches is within the specified range or
 		 * if there is only one subheading and that subheading includes the keyword.
 		 */
 		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
@@ -94,7 +94,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		/*
 		 * The upper limit is only applicable if there is more than one subheading.
-		 * If there is only one subheading that includes keyword this would otherwise
+		 * If there is only one subheading including the keyword this would otherwise
 		 * always lead a 100% match rate.
 		 */
 		if ( subHeadings.count > 1  && subHeadings.matches > maxNumberOfSubheadings ) {
@@ -133,7 +133,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		}
 
 		/*
-		 * Return positive feedback if the number of matches is within the specified range or
+		 * Returns positive feedback if the number of matches is within the specified range or
 		 * if there is only one subheading and that subheading includes the keyword.
 		 */
 		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
@@ -148,8 +148,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		/*
 		 * The upper limit is only applicable if there is more than one subheading.
-		 * If there is only one subheading that includes keyword this would otherwise
-		 * always lead a 100% match rate.
+		 * If there is only one subheading including the keyword this would otherwise
+		 * always lead to a 100% match rate.
 		 */
 		if ( subHeadings.count > 1 && subHeadings.matches > maxNumberOfSubheadings ) {
 			return i18n.sprintf(
