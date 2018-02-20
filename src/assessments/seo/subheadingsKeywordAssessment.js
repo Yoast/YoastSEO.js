@@ -25,6 +25,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
+			lowerBoundary: 0.3,
+			upperBoundary: 0.75,
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -70,11 +72,14 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {number|null} The calculated score.
 	 */
 	calculateScore( subHeadings ) {
+		let minNumberOfSubheadings = subHeadings.count * this._config.lowerBoundary;
+		let maxNumberOfSubheadings = subHeadings.count * this._config.upperBoundary;
+
 		if ( subHeadings.matches === 0 ) {
 			return this._config.scores.noMatches;
 		}
 
-		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
+		if ( subHeadings.matches > 0 && subHeadings.matches < minNumberOfSubheadings ) {
 			return this._config.scores.tooFewMatches;
 		}
 
@@ -83,7 +88,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		 * if there is only one subheading and that subheading includes the keyword.
 		 */
 		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
-		inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+		inRangeStartEndInclusive( subHeadings.matches, minNumberOfSubheadings, maxNumberOfSubheadings ) ) {
 			return this._config.scores.goodNumberOfMatches;
 		}
 
@@ -92,7 +97,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		 * If there is only one subheading that includes keyword this would otherwise
 		 * always lead a 100% match rate.
 		 */
-		if ( subHeadings.count > 1  && subHeadings.matches > subHeadings.count * 0.75 ) {
+		if ( subHeadings.count > 1  && subHeadings.matches > maxNumberOfSubheadings ) {
 			return this._config.scores.tooManyMatches;
 		}
 
@@ -109,6 +114,9 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( score, subHeadings, i18n ) {
+		let minNumberOfSubheadings = subHeadings.count * this._config.lowerBoundary;
+		let maxNumberOfSubheadings = subHeadings.count * this._config.upperBoundary;
+
 		if ( subHeadings.matches === 0 ) {
 			return i18n.dgettext(
 				"js-text-analysis",
@@ -116,7 +124,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			);
 		}
 
-		if ( subHeadings.matches > 0 && subHeadings.matches < subHeadings.count * 0.3 ) {
+		if ( subHeadings.matches > 0 && subHeadings.matches < minNumberOfSubheadings ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d out of %1$d subheadings. " +
 					"Try to use it in more subheadings." ),
@@ -129,7 +137,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		 * if there is only one subheading and that subheading includes the keyword.
 		 */
 		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
-			inRangeStartEndInclusive( subHeadings.matches, subHeadings.count * 0.3, subHeadings.count * 0.75 ) ) {
+			inRangeStartEndInclusive( subHeadings.matches, minNumberOfSubheadings, maxNumberOfSubheadings ) ) {
 			return i18n.sprintf(
 				i18n.dngettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheading. " +
 					"That's great.", "The focus keyword appears in %2$d out of %1$d subheadings. " +
@@ -143,7 +151,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		 * If there is only one subheading that includes keyword this would otherwise
 		 * always lead a 100% match rate.
 		 */
-		if ( subHeadings.count > 1 && subHeadings.matches > subHeadings.count * 0.75 ) {
+		if ( subHeadings.count > 1 && subHeadings.matches > maxNumberOfSubheadings ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheadings. " +
 					"That might sound a bit repetitive. " +
