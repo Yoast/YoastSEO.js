@@ -43,12 +43,15 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.lowerBoundary );
+		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.upperBoundary );
+
 		let assessmentResult = new AssessmentResult();
-		let score = this.calculateScore( subHeadings );
+		let score = this.calculateScore();
 
 		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( score, subHeadings, i18n ) );
+		assessmentResult.setText( this.translateScore( this._subHeadings, i18n ) );
 
 		return assessmentResult;
 	}
@@ -64,40 +67,69 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		return paper.hasText() && paper.hasKeyword();
 	}
 
+	/*
+	 * Checks whether there are no subheadings with the keyword.
+	 *
+	 * @returns {boolean} Returns true if there are no subheadings with the keyword.
+	 */
+	hasNoMatches() {
+		return this._subHeadings.matches === 0;
+	}
+
+	/*
+	 * Checks whether there are too few subheadings with the keyword.
+	 *
+	 * @returns {boolean} Returns true if there are more than 0 subheadings with the keyword,
+	 * but less than the specified recommended minimum.
+	 */
+	hasTooFewMatches() {
+		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
+	}
+
+	/*
+	 * Checks whether there is a good number of subheadings with the keyword.
+	 *
+	 * @returns {boolean} Returns true if there is only one subheading and
+	 * that subheading includes the keyword or if the number of subheadings
+	 * with the keyword is within the specified recommended range.
+	 */
+	hasGoodNumberOfMatches() {
+		return ( this._subHeadings.count === 1 && this._subHeadings.matches === 1 ) ||
+			inRangeStartEndInclusive( this._subHeadings.matches, this._minNumberOfSubheadings, this._maxNumberOfSubheadings );
+	}
+
+	/*
+	 * Checks whether there are too many subheadings with the keyword.
+	 * The upper limit is only applicable if there is more than one subheading.
+	 * If there is only one subheading with the keyword this would otherwise
+	 * always lead to a 100% match rate.
+	 *
+	 * @returns {boolean} Returns true if there is more than one subheading and if
+	 * the keyword is included in less subheadings than the recommended maximum.
+	 */
+	hasTooManyMatches() {
+		return this._subHeadings.count > 1  && this._subHeadings.matches > this._maxNumberOfSubheadings;
+	}
+
 	/**
 	 * Returns the score for the subheadings.
 	 *
-	 * @param {object} subHeadings The object with all subHeadings matches.
-	 *
 	 * @returns {number|null} The calculated score.
 	 */
-	calculateScore( subHeadings ) {
-		let minNumberOfSubheadings = subHeadings.count * this._config.lowerBoundary;
-		let maxNumberOfSubheadings = subHeadings.count * this._config.upperBoundary;
-
-		if ( subHeadings.matches === 0 ) {
+	calculateScore() {
+		if ( this.hasNoMatches() ) {
 			return this._config.scores.noMatches;
 		}
 
-		if ( subHeadings.matches > 0 && subHeadings.matches < minNumberOfSubheadings ) {
+		if ( this.hasTooFewMatches() ) {
 			return this._config.scores.tooFewMatches;
 		}
 
-		/*
-		 * Returns a good result if the number of matches is within the specified range or
-		 * if there is only one subheading and that subheading includes the keyword.
-		 */
-		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
-		inRangeStartEndInclusive( subHeadings.matches, minNumberOfSubheadings, maxNumberOfSubheadings ) ) {
+		if ( this.hasGoodNumberOfMatches() ) {
 			return this._config.scores.goodNumberOfMatches;
 		}
 
-		/*
-		 * The upper limit is only applicable if there is more than one subheading.
-		 * If there is only one subheading including the keyword this would otherwise
-		 * always lead a 100% match rate.
-		 */
-		if ( subHeadings.count > 1  && subHeadings.matches > maxNumberOfSubheadings ) {
+		if ( this.hasTooManyMatches() ) {
 			return this._config.scores.tooManyMatches;
 		}
 
@@ -107,24 +139,20 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {number} score The score for this assessment.
 	 * @param {object} subHeadings The object with all subHeadings matches.
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( score, subHeadings, i18n ) {
-		let minNumberOfSubheadings = subHeadings.count * this._config.lowerBoundary;
-		let maxNumberOfSubheadings = subHeadings.count * this._config.upperBoundary;
-
-		if ( subHeadings.matches === 0 ) {
+	translateScore( subHeadings, i18n ) {
+		if ( this.hasNoMatches() ) {
 			return i18n.dgettext(
 				"js-text-analysis",
 				"You have not used the focus keyword in any subheading (such as an H2)."
 			);
 		}
 
-		if ( subHeadings.matches > 0 && subHeadings.matches < minNumberOfSubheadings ) {
+		if ( this.hasTooFewMatches() ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d out of %1$d subheadings. " +
 					"Try to use it in more subheadings." ),
@@ -132,12 +160,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			);
 		}
 
-		/*
-		 * Returns positive feedback if the number of matches is within the specified range or
-		 * if there is only one subheading and that subheading includes the keyword.
-		 */
-		if ( ( subHeadings.count === 1 && subHeadings.matches === 1 ) ||
-			inRangeStartEndInclusive( subHeadings.matches, minNumberOfSubheadings, maxNumberOfSubheadings ) ) {
+		if ( this.hasGoodNumberOfMatches() ) {
 			return i18n.sprintf(
 				i18n.dngettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheading. " +
 					"That's great.", "The focus keyword appears in %2$d out of %1$d subheadings. " +
@@ -146,12 +169,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			);
 		}
 
-		/*
-		 * The upper limit is only applicable if there is more than one subheading.
-		 * If there is only one subheading including the keyword this would otherwise
-		 * always lead to a 100% match rate.
-		 */
-		if ( subHeadings.count > 1 && subHeadings.matches > maxNumberOfSubheadings ) {
+		if ( this.hasTooManyMatches() ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheadings. " +
 					"That might sound a bit repetitive. " +

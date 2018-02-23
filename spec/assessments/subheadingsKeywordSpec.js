@@ -6,7 +6,7 @@ var i18n = Factory.buildJed();
 let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function() {
-	it( "returns no score on a string without subheadings", function() {
+	it( "returns the default assessment values for a string without subheadings", function() {
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
 
