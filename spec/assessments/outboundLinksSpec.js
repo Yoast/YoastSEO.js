@@ -57,7 +57,7 @@ describe( "An assessor running the linkStatistics", function(){
 		var mockPaper = new Paper( "" );
 		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher({ externalTotal: 0 }), i18n );
 
-		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( 'No outbound links appear in this page, consider adding some as appropriate.' );
 	} );
 } );

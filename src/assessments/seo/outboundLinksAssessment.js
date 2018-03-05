@@ -20,7 +20,7 @@ class OutboundLinksAssessment extends Assessment {
 
 		let defaultConfig = {
 			scores: {
-				noLinks: 6,
+				noLinks: 3,
 				allNofollowed: 7,
 				moreNoFollowed: 8,
 				allFollowed: 9,
