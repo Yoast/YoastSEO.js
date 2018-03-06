@@ -41,13 +41,29 @@ class MetaDescriptionKeywordAssessment extends Assessment
      * @returns {AssessmentResult} The assessment result.
      */
     getResult( paper, researcher, i18n ) {
-        var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+        this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+        let keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
         var assessmentResult = new AssessmentResult();
 
         assessmentResult.setScore( this.calculateScore( keywordMatches ) );
         assessmentResult.setText( this.translateScore( keywordMatches, i18n ) );
 
         return assessmentResult;
+    }
+
+    /*
+     * Checks whether there are too few keyword matches in the meta description.
+     *
+     * @returns {boolean} Returns true if there is less than 1 keyword match
+     * in the meta description.
+     */
+    hasTooFewMatches() {
+        return this._keywordMatches < this._config.recommendedMinimumMatches;
+    }
+
+    hasGoodNumberOfMatches() {
+        return ( this._keywordMatches >= this._config.recommendedMinimumMatches &&
+        this._keywordMatches <= this._config.recommendedMaximumMatches );
     }
 
     /**
@@ -58,10 +74,10 @@ class MetaDescriptionKeywordAssessment extends Assessment
      * @returns {number} The calculated score.
      */
     calculateScore( keywordMatches ) {
-        if ( keywordMatches < this._config.recommendedMinimumMatches ) {
+        if ( this.hasTooFewMatches() ) {
             return this._config.scores.tooFewMatches;
         }
-        if ( keywordMatches >= this._config.recommendedMinimumMatches && keywordMatches <= this._config.recommendedMaximumMatches ) {
+        if ( this.hasGoodNumberOfMatches() ) {
             return this._config.scores.correctNumberOfMatches;
         }
         if ( keywordMatches > this._config.recommendedMaximumMatches ) {
