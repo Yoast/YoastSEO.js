@@ -7,103 +7,111 @@ let merge = require( "lodash/merge" );
  */
 class MetaDescriptionKeywordAssessment extends Assessment
 {
-    /**
-     * Sets the identifier and the config.
-     *
-     * @param {object} config The configuration to use.
-     *
-     * @returns {void}
-     */
-    constructor( config = {} ) {
-        super();
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super();
 
-        let defaultConfig = {
-            recommendedMinimumMatches: 1,
-            recommendedMaximumMatches: 2,
-            scores: {
-                tooFewMatches: 3,
-                tooManyMatches: 3,
-                correctNumberOfMatches: 9,
-            },
-        };
+		let defaultConfig = {
+			recommendedMinimumMatches: 1,
+			recommendedMaximumMatches: 2,
+			scores: {
+				tooFewMatches: 3,
+				tooManyMatches: 3,
+				correctNumberOfMatches: 9,
+			},
+		};
 
-        this.identifier = "metaDescriptionKeyword";
-        this._config = merge( defaultConfig, config );
-    }
+		this.identifier = "metaDescriptionKeyword";
+		this._config = merge( defaultConfig, config );
+	}
 
-    /**
-     * Runs the metaDescriptionKeyword module, based on this returns an assessment result with score.
-     *
-     * @param {Paper} paper The paper to use for the assessment.
-     * @param {Researcher} researcher The researcher used for calling research.
-     * @param {object} i18n The object used for translations
-     *
-     * @returns {AssessmentResult} The assessment result.
-     */
-    getResult( paper, researcher, i18n ) {
-        this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-        let keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-        var assessmentResult = new AssessmentResult();
+	/**
+	 * Runs the metaDescriptionKeyword module, based on this returns an assessment result with score.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {object} i18n The object used for translations
+	 *
+	 * @returns {AssessmentResult} The assessment result.
+	 */
+	getResult( paper, researcher, i18n ) {
+		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+		let keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+		var assessmentResult = new AssessmentResult();
 
-        assessmentResult.setScore( this.calculateScore( keywordMatches ) );
-        assessmentResult.setText( this.translateScore( keywordMatches, i18n ) );
+		assessmentResult.setScore( this.calculateScore( keywordMatches ) );
+		assessmentResult.setText( this.translateScore( keywordMatches, i18n ) );
 
-        return assessmentResult;
-    }
+		return assessmentResult;
+	}
 
-    /*
-     * Checks whether there are too few keyword matches in the meta description.
-     *
-     * @returns {boolean} Returns true if there is less than 1 keyword match
-     * in the meta description.
-     */
-    hasTooFewMatches() {
-        return this._keywordMatches < this._config.recommendedMinimumMatches;
-    }
+	/*
+	 * Checks whether there are too few keyword matches in the meta description.
+	 *
+	 * @returns {boolean} Returns true if there is less than 1 keyword match
+	 * in the meta description.
+	 */
+	hasTooFewMatches() {
+		return this._keywordMatches < this._config.recommendedMinimumMatches;
+	}
 
-    hasGoodNumberOfMatches() {
-        return ( this._keywordMatches >= this._config.recommendedMinimumMatches &&
-        this._keywordMatches <= this._config.recommendedMaximumMatches );
-    }
+	/*
+	 * Checks whether there is a good number of keyword matches in the meta description.
+	 *
+	 * @returns {boolean} Returns true if the number of keyword matches is within
+	 * the recommended range.
+	 */
+	hasGoodNumberOfMatches() {
+		return ( this._keywordMatches >= this._config.recommendedMinimumMatches &&
+		this._keywordMatches <= this._config.recommendedMaximumMatches );
+	}
 
-    /**
-     * Returns the score for the descriptionLength.
-     *
-     * @param {number} keywordMatches The number of keyword matches in the meta description.
-     *
-     * @returns {number} The calculated score.
-     */
-    calculateScore( keywordMatches ) {
-        if ( this.hasTooFewMatches() ) {
-            return this._config.scores.tooFewMatches;
-        }
-        if ( this.hasGoodNumberOfMatches() ) {
-            return this._config.scores.correctNumberOfMatches;
-        }
-        if ( keywordMatches > this._config.recommendedMaximumMatches ) {
-            return this._config.scores.tooManyMatches;
-        }
-        return 0;
-    }
+	/**
+	 * Returns the score for the descriptionLength.
+	 **
+	 * @returns {number} The calculated score.
+	 */
+	calculateScore() {
+		if ( this.hasTooFewMatches() ) {
+			return this._config.scores.tooFewMatches;
+		}
+		if ( this.hasGoodNumberOfMatches() ) {
+			return this._config.scores.correctNumberOfMatches;
+		}
+		// Implicitly returns this if the number of matches is more than the recommended maximum.
+		return this._config.scores.tooManyMatches;
+	}
 
-    translateScore( keywordMatches, i18n ) {
-        if ( keywordMatches < this._config.recommendedMinimumMatches ) {
-            return i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." );
-        }
-        if ( keywordMatches >= this._config.recommendedMinimumMatches && keywordMatches <= this._config.recommendedMaximumMatches ) {
-            return i18n.sprintf( i18n.dngettext( "js-text-analysis", "The meta description contains the focus keyword. That's great.",
-                "The meta description contains the focus keyword %1$d times. That's great.", keywordMatches ), keywordMatches );
-        }
-        if ( keywordMatches > this._config.recommendedMaximumMatches ) {
-            return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword %1$d times, " +
-                "which is over the advised maximum of %2$d times." ), keywordMatches, this._config.recommendedMaximumMatches );
-        }
-        return 0;
-    }
+	/**
+	 * Translates the score to a message the user can understand.
+	 *
+	 * @param {object} keywordMatches The number of keyword matches in the meta description.
+	 * @param {object} i18n The object used for translations.
+	 *
+	 * @returns {string} The translated string.
+	 */
+	translateScore( keywordMatches, i18n ) {
+		if ( this.hasTooFewMatches() ) {
+			return i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." );
+		}
+		if ( this.hasGoodNumberOfMatches() ) {
+			return i18n.sprintf( i18n.dngettext( "js-text-analysis", "The meta description contains the focus keyword. That's great.",
+				"The meta description contains the focus keyword %1$d times. That's great.", keywordMatches ), keywordMatches );
+		}
+		// Implicitly returns this if the number of matches is more than the recommended maximum.
+		return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword %1$d times, " +
+			"which is over the advised maximum of %2$d times." ), keywordMatches, this._config.recommendedMaximumMatches );
+	}
 
-    isApplicable( paper ) {
-        return paper.hasKeyword();
-    }
+	isApplicable( paper ) {
+		return paper.hasKeyword();
+	}
 }
 
 module.exports =  MetaDescriptionKeywordAssessment;
