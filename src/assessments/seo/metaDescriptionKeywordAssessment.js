@@ -10,7 +10,7 @@ class MetaDescriptionKeywordAssessment extends Assessment
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -36,7 +36,7 @@ class MetaDescriptionKeywordAssessment extends Assessment
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Object} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -74,7 +74,7 @@ class MetaDescriptionKeywordAssessment extends Assessment
 
 	/**
 	 * Returns the score for the descriptionLength.
-	 **
+	 *
 	 * @returns {number} The calculated score.
 	 */
 	calculateScore() {
@@ -91,8 +91,8 @@ class MetaDescriptionKeywordAssessment extends Assessment
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {object} keywordMatches The number of keyword matches in the meta description.
-	 * @param {object} i18n The object used for translations.
+	 * @param {number} keywordMatches The number of keyword matches in the meta description.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
@@ -109,6 +109,13 @@ class MetaDescriptionKeywordAssessment extends Assessment
 			"which is over the advised maximum of %2$d times." ), keywordMatches, this._config.recommendedMaximumMatches );
 	}
 
+	/**
+	 * Checks whether the paper has a keyword and a url.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
+	 * @returns {boolean} True when the paper has a keyword.
+	 */
 	isApplicable( paper ) {
 		return paper.hasKeyword();
 	}

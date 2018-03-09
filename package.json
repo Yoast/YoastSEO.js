@@ -94,7 +94,7 @@
     ],
     "testPathIgnorePatterns": [
       "/spec/helpers/factory.js",
-      "/spec/specHelpers/paperChanger.js"
+      "/spec/specHelpers/.*\\.(ts|tsx|js)$"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"

@@ -1,23 +1,11 @@
 let Assessor = require( "../js/seoAssessor.js" );
 let Paper = require("../js/values/Paper.js");
-let AssessmentResult = require( "../js/values/AssessmentResult.js" );
-
 let factory = require( "./helpers/factory.js" );
+let getResults = require( "./specHelpers/getListOfAssessmentResults" );
 let i18n = factory.buildJed();
-
 let assessor = new Assessor( i18n );
 
-let getResults = function ( Results ) {
-	let assessments = [];
-
-	for ( let Result of Results ) {
-		assessments.push( Result._identifier );
-	}
-
-	return assessments;
-};
-
-describe ( "running assessments in the assessor", function() {
+describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
 		let AssessmentResults = assessor.getValidResults();
@@ -27,22 +15,6 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"textLength",
-			"titleWidth"
-			] );
-	});
-
-	it( "additionally runs assessments that only require a text", function() {
-		assessor.assess( new Paper( "text" ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"metaDescriptionLength",
-			"textImages",
-			"textLength",
-			"externalLinks",
-			"internalLinks",
 			"titleWidth"
 		] );
 	} );
@@ -60,9 +32,25 @@ describe ( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth"
 		] );
-	});
+	} );
 
-	it( "additionally runs assessments that require a text and a keyword", function() {
+	it( "runs assessments that only require a text", function() {
+		assessor.assess( new Paper( "text" ) );
+		let AssessmentResults = assessor.getValidResults();
+		let assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toEqual( [
+			"keyphraseLength",
+			"metaDescriptionLength",
+			"textImages",
+			"textLength",
+			"externalLinks",
+			"internalLinks",
+			"titleWidth"
+		] );
+	} );
+
+	it( "additionally runs assessments that require a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		let AssessmentResults = assessor.getValidResults();
 		let assessments = getResults( AssessmentResults );
@@ -78,9 +66,9 @@ describe ( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth"
 		] );
-	});
+	} );
 
-	it( "additionally runs assessments that require a text and a keyword with a stopword ", function() {
+	it( "additionally runs assessments that require a keyword with a stopword ", function() {
 		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
 		let AssessmentResults = assessor.getValidResults();
 		let assessments = getResults( AssessmentResults );
@@ -97,9 +85,8 @@ describe ( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth"
 		] );
-	});
+	} );
 
-	//
 	it( "additionally runs assessments that require a url that is too long", function() {
 		assessor.assess( new Paper( "text", { url: "12345678901234567890123456789012345678901" } ) );
 		let AssessmentResults = assessor.getValidResults();
@@ -115,7 +102,7 @@ describe ( "running assessments in the assessor", function() {
 			"titleWidth",
 			"urlLength"
 		] );
-	});
+	} );
 
 	it( "additionally runs assessments that require a url with a stopword", function() {
 		assessor.assess( new Paper( "text", { url: "the url" } ) );
@@ -132,7 +119,7 @@ describe ( "running assessments in the assessor", function() {
 			"titleWidth",
 			"urlStopWords"
 		] );
-	});
+	} );
 
 	it( "additionally runs assessments that require a url and a keyword", function() {
 		assessor.assess( new Paper( "text", { url: "sample url", keyword: "keyword" } ) );
@@ -151,7 +138,7 @@ describe ( "running assessments in the assessor", function() {
 			"titleWidth",
 			"urlKeyword"
 		] );
-	});
+	} );
 
 	it( "additionally runs assessments that require a text of at least 100 words and a keyword", function() {
 		assessor.assess( new Paper( "This is a text about the keyword. Lorem ipsum dolor sit amet, fugit" +
@@ -177,5 +164,5 @@ describe ( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth"
 		] );
-	});
-});
+	}) ;
+} );
