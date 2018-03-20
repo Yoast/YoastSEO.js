@@ -1,12 +1,12 @@
 const Assessment = require( "../../assessment.js" );
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const countWords = require( "../../stringProcessing/countWords.js" );
-const formatNumber = require( "../../helpers/formatNumber.js" );
 const inRange = require( "../../helpers/inRange.js" );
 const recommendedKeywordCount = require( "../../assessmentHelpers/recommendedKeywordCount.js" );
 const merge = require( "lodash/merge" );
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
+const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
 class KeywordDensityAssessment extends Assessment {
@@ -41,35 +41,72 @@ class KeywordDensityAssessment extends Assessment {
 	 * Runs the keyword density module, based on this returns an assessment result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Researcher} researcher The researcher used for calling the research.
 	 * @param {object} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let keywordDensity = researcher.getResearch( "getKeywordDensity" );
-		let keywordCount = researcher.getResearch( "keywordCount" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( keywordDensity, keywordCount, paper ) );
-		assessmentResult.setText( this.translateScore( keywordDensity, i18n, keywordCount, paper ) );
+		this._keywordCount = researcher.getResearch( "keywordCount" );
+		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
+		this._minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
+		this._maxRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.maximum, "max" );
+
+		assessmentResult.setScore( this.calculateScore() );
+		assessmentResult.setText( this.translateScore( i18n ) );
 
 		return assessmentResult;
+	}
+
+	/*
+	 * Checks whether there are no keyword matches in the text.
+	 *
+	 * @returns {boolean} Returns true if the keyword count is 0.
+	 */
+	hasNoMatches() {
+		return this._keywordCount === 0;
+	}
+
+	/*
+	 * Checks whether there are too few keyword matches in the text.
+	 *
+	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
+	 * or if there there is only 1 keyword match (regardless of the density).
+	 */
+	hasTooFewMatches() {
+		return inRangeStartInclusive( this._keywordDensity, 0, this._config.minimum ) ||
+			this._keywordCount === 1;
+	}
+
+	/*
+	 * Checks whether there is a good number of keyword matches in the text.
+	 *
+	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
+	 * or if the keyword count is 2 and the recommended minimum is lower than 2.
+	 */
+	hasGoodNumberOfMatches() {
+		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum ) ||
+			( this._keywordCount === 2 && this._minRecommendedKeywordCount <= 2 );
+	}
+
+	/*
+	 * Checks whether the number of keyword matches in the text exceeds the recommended maximum.
+	 *
+	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended maximum and
+	 * the specified overMaximum value.
+	 */
+	hasTooManyMatches() {
+		return inRangeEndInclusive( this._keywordDensity, this._config.maximum, this._config.overMaximum );
 	}
 
 	/**
 	 * Returns the score for the keyword density.
 	 *
-	 * @param {number} keywordDensity The keyword density in the text.
-	 * @param {number} keywordCount The number of keywords found in the text.
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateScore( keywordDensity, keywordCount, paper ) {
-		let roundedKeywordDensity = formatNumber( keywordDensity );
-		let minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
-
+	calculateScore() {
 		const {
 			wayOverMaximum,
 			overMaximum,
@@ -77,89 +114,74 @@ class KeywordDensityAssessment extends Assessment {
 			underMinimum,
 		} = this._config.scores;
 
-		// The keyword should at least occur twice in a post, regardless of the density.
-		if( keywordCount < 2 ) {
+		if ( this.hasNoMatches() || this.hasTooFewMatches() ) {
 			return underMinimum;
 		}
 
-		/*
-		 * Two occurrences are correct even if the recommended count according to the formula
-		 * would be lower. However if the recommended minimum keyword count is higher than 2,
-		 * this does not apply.
-		 */
-		if( keywordCount === 2 && minRecommendedKeywordCount <= 2  ) {
+		if ( this.hasGoodNumberOfMatches()  ) {
 			return correctDensity;
 		}
 
-		if ( roundedKeywordDensity > this._config.overMaximum ) {
-			return wayOverMaximum;
-		}
-
-		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
+		if ( this.hasTooManyMatches() ) {
 			return overMaximum;
 		}
 
-		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
-			return correctDensity;
-		}
-
-		// Implicitly returns this if roundedKeywordDensity is between 0 and the recommended minimum.
-		return underMinimum;
+		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
+		return wayOverMaximum;
 	}
 
 	/**
 	 * Translates the keyword density assessment to a message the user can understand.
 	 *
-	 * @param {number} keywordDensity The keyword density in the text.
 	 * @param {object} i18n The object used for translations.
-	 * @param {number} keywordCount The number of keywords found in the text.
-	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( keywordDensity, i18n, keywordCount, paper ) {
-		let roundedKeywordDensity = formatNumber( keywordDensity );
-		let maxRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.maximum, "max" );
-		let minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
-
-		// The keyword should at least occur twice in a post, regardless of the density.
-		if( keywordCount < 2 ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's less than the recommended minimum of %2$d time(s) for a text of this length." ),
-				keywordCount, minRecommendedKeywordCount );
+	translateScore( i18n ) {
+		if( this._keywordCount === 0 ) {
+			return i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the recommended keyword count. */
+				"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
+				this._keywordCount
+			), this._minRecommendedKeywordCount );
 		}
 
-		/*
-		 * Two occurrences are correct even if the recommended count according to the formula
-		 * would be lower. However if the recommended minimum keyword count is higher than 2,
-		 * this does not apply.
-		 */
-		if( keywordCount === 2 && minRecommendedKeywordCount <= 2 ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's great for a text of this length." ), keywordCount );
+		if( this.hasTooFewMatches() ) {
+			return i18n.sprintf( i18n.dngettext(
+					"js-text-analysis",
+					/* Translators: Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+					"The focus keyword was found %1$d time. That's less than the recommended minimum of %2$d times for a text of this length.",
+					"The focus keyword was found %1$d times. That's less than the recommended minimum of %2$d times for a text of this length.",
+				this._keywordCount
+				), this._keywordCount, this._minRecommendedKeywordCount );
 		}
 
-		if ( roundedKeywordDensity > this._config.overMaximum ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's way more than the recommended maximum of %2$d time(s) for a text of this length." ),
-				keywordCount, maxRecommendedKeywordCount );
+		if ( this.hasGoodNumberOfMatches() ) {
+			return i18n.sprintf( i18n.dgettext(
+					"js-text-analysis",
+					/* Translators: %1$s expands to the keyword count. */
+					"The focus keyword was found %1$d times." +
+					" That's great for a text of this length." ),
+				this._keywordCount );
 		}
 
-		if ( inRangeEndInclusive( roundedKeywordDensity, this._config.maximum, this._config.overMaximum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-					" That's more than the recommended maximum of %2$d time(s) for a text of this length." ),
-				keywordCount, maxRecommendedKeywordCount );
+		if ( this.hasTooManyMatches() ) {
+			return i18n.sprintf( i18n.dgettext(
+					"js-text-analysis",
+					/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+					"The focus keyword was found %1$d times." +
+					" That's more than the recommended maximum of %2$d times for a text of this length." ),
+				this._keywordCount, this._maxRecommendedKeywordCount );
 		}
 
-		if ( inRangeStartEndInclusive( roundedKeywordDensity, this._config.minimum, this._config.maximum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-				" That's great for a text of this length." ), keywordCount );
-		}
-
-		// Implicitly returns this if roundedKeywordDensity is between 0 and the recommended minimum.
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyphrase was found %1$d time(s)." +
-				" That's less than than the recommended minimum of %2$d time(s) for a text of this length." ),
-			keywordCount, minRecommendedKeywordCount );
+		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
+		return i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+				"The focus keyword was found %1$d times." +
+				" That's way more than the recommended maximum of %2$d times for a text of this length." ),
+			this._keywordCount, this._maxRecommendedKeywordCount );
 	}
 
 	/**

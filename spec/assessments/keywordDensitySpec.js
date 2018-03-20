@@ -30,7 +30,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 0,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 0 time(s). That's less than the recommended minimum of 2 time(s) for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." );
 	} );
 
 	it( "Returns -10 and a 'more than recommended' feedback string if the density is higher than recommended", function() {
@@ -55,7 +55,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 10,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 10 time(s). That's more than the recommended maximum of 8 time(s) for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 10 times. That's more than the recommended maximum of 8 times for a text of this length." );
 	} );
 
 	it( "Returns -50 and a 'way more than recommended' feedback string if the density is much higher than recommended", function() {
@@ -80,7 +80,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 12,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 12 time(s). That's way more than the recommended maximum of 8 time(s) for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 12 times. That's way more than the recommended maximum of 8 times for a text of this length." );
 	} );
 
 	it( "Returns 9 and a 'great' feedback string if the density is within the recommended margin", function() {
@@ -105,7 +105,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 2,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 2 time(s). That's great for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 2 times. That's great for a text of this length." );
 	} );
 
 	it( "Returns 9 and a 'great' feedback string if the keyword appears twice in the text, regardless of the density", function() {
@@ -115,7 +115,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 2,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 2 time(s). That's great for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 2 times. That's great for a text of this length." );
 	} );
 
 	it( "Returns 4 and a 'less than recommended' feedback string if the keyword appears only once in the text, regardless of the density", function() {
@@ -130,6 +130,6 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 1,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The focus keyphrase was found 1 time(s). That's less than the recommended minimum of 2 time(s) for a text of this length." );
+		expect( result.getText() ).toBe( "The focus keyword was found 1 time. That's less than the recommended minimum of 2 times for a text of this length." );
 	} );
 } );
