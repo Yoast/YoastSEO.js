@@ -70,7 +70,8 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/*
-	 * Checks whether there are too few keyword matches in the text.
+	 * Checks whether there are too few keyword matches in the text. One keyword match is always considered
+	 * as bad, regardless of the density.
 	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
 	 * or if there there is only 1 keyword match (regardless of the density).
@@ -81,10 +82,11 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/*
-	 * Checks whether there is a good number of keyword matches in the text.
+	 * Checks whether there is a good number of keyword matches in the text. Two keyword matches are always
+	 * considered as good, regardless of the density.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
-	 * or if the keyword count is 2 and the recommended minimum is lower than 2.
+	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
+	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum ) ||
@@ -92,7 +94,8 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/*
-	 * Checks whether the number of keyword matches in the text exceeds the recommended maximum.
+	 * Checks whether the number of keyword matches in the text is between the recommended maximum and the
+	 * specified overMaximum value.
 	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended maximum and
 	 * the specified overMaximum value.
@@ -138,13 +141,13 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( i18n ) {
-		if( this._keywordCount === 0 ) {
+		if( this.hasNoMatches() ) {
 			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the recommended keyword count. */
-				"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
-				this._keywordCount
-			), this._minRecommendedKeywordCount );
+					"js-text-analysis",
+					/* Translators: %1$d expands to the recommended keyword count. */
+					"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
+					this._keywordCount
+				), this._minRecommendedKeywordCount );
 		}
 
 		if( this.hasTooFewMatches() ) {
@@ -153,17 +156,16 @@ class KeywordDensityAssessment extends Assessment {
 					/* Translators: Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
 					"The focus keyword was found %1$d time. That's less than the recommended minimum of %2$d times for a text of this length.",
 					"The focus keyword was found %1$d times. That's less than the recommended minimum of %2$d times for a text of this length.",
-				this._keywordCount
+					this._keywordCount
 				), this._keywordCount, this._minRecommendedKeywordCount );
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
 			return i18n.sprintf( i18n.dgettext(
 					"js-text-analysis",
-					/* Translators: %1$s expands to the keyword count. */
-					"The focus keyword was found %1$d times." +
-					" That's great for a text of this length." ),
-				this._keywordCount );
+					/* Translators: %1$d expands to the keyword count. */
+					"The focus keyword was found %1$d times. That's great for a text of this length."
+				), this._keywordCount );
 		}
 
 		if ( this.hasTooManyMatches() ) {
@@ -171,8 +173,8 @@ class KeywordDensityAssessment extends Assessment {
 					"js-text-analysis",
 					/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
 					"The focus keyword was found %1$d times." +
-					" That's more than the recommended maximum of %2$d times for a text of this length." ),
-				this._keywordCount, this._maxRecommendedKeywordCount );
+					" That's more than the recommended maximum of %2$d times for a text of this length."
+				), this._keywordCount, this._maxRecommendedKeywordCount );
 		}
 
 		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
@@ -180,8 +182,8 @@ class KeywordDensityAssessment extends Assessment {
 				"js-text-analysis",
 				/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
 				"The focus keyword was found %1$d times." +
-				" That's way more than the recommended maximum of %2$d times for a text of this length." ),
-			this._keywordCount, this._maxRecommendedKeywordCount );
+				" That's way more than the recommended maximum of %2$d times for a text of this length."
+			), this._keywordCount, this._maxRecommendedKeywordCount );
 	}
 
 	/**
