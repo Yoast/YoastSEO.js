@@ -33,7 +33,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The focus keyword was found 0 times. That's less than the recommended minimum of 2 times for a text of this length." );
 	} );
 
-	it( "Returns 4 and a 'less than recommended' feedback string if the keyword density is lower than recommended (count: 1)", function() {
+	it( "Returns 4 and a 'less than recommended' feedback string if the keyword density is lower than recommended (count: 1, singular feedback)", function() {
 		let paper = new Paper( "Lorem ipsum dolor sit amet, congue aliquid mei ut, in ius tantas perfecto, minimum probatus quo in." +
 			"Sea inani legendos no, cu vix erat dicat. Qui no conceptam definiebas. In pro partem semper veritus, ei qui aperiam fabellas facilisi." +
 			"Ex sea purto possit, in modus adversarium vim. Tacimates oportere intellegebat an mel, no diam consequat ullamcorper usu. Sit eu mundi" +
@@ -67,7 +67,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The focus keyword was found 1 time. That's less than the recommended minimum of 3 times for a text of this length." );
 	} );
 
-	it( "Returns 4 and a 'less than recommended' feedback string if the keyword density is lower than recommended (count: >1)", function() {
+	it( "Returns 4 and a 'less than recommended' feedback string if the keyword density is lower than recommended (count: >1, plural feedback)", function() {
 		let paper = new Paper( "Lorem ipsum dolor sit amet, congue aliquid mei ut, in ius tantas perfecto, minimum probatus quo in." +
 			"Sea inani legendos no, cu vix erat dicat. Qui no conceptam definiebas. In pro partem semper veritus, ei qui aperiam fabellas facilisi." +
 			"Ex sea purto possit, in modus adversarium vim. Tacimates oportere intellegebat an mel, no diam consequat ullamcorper usu. Sit eu mundi" +

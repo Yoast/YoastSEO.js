@@ -3,7 +3,7 @@ const Paper = require( "../../js/values/Paper.js" );
 const maxRecommendedDensity = 3;
 const minRecommendedDensity = 0.5;
 
-describe( "Test for getting the maximum recommended keyword count for a text", function() {
+describe( "Test for getting the  recommended keyword count for a text", function() {
 	it( "returns the maximum recommended keyword count for a text with 300 words and a 1-word keyphrase", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, no ridens definitionem eam, duo ubique efficiendi an." +
 			"Te essent persius mei, id vel iuvaret offendit. Te natum sonet omnium mea, ei ius menandri deseruisse definitionem." +
