@@ -8,8 +8,7 @@ let assessor = new Assessor( i18n );
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -21,8 +20,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "runs assessments that only require a keyword", function() {
 		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -36,8 +34,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "runs assessments that only require a text", function() {
 		assessor.assess( new Paper( "text" ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -52,8 +49,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -70,8 +66,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a keyword with a stopword ", function() {
 		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -89,8 +84,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a url that is too long", function() {
 		assessor.assess( new Paper( "text", { url: "12345678901234567890123456789012345678901" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -106,8 +100,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a url with a stopword", function() {
 		assessor.assess( new Paper( "text", { url: "the url" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -123,8 +116,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a url and a keyword", function() {
 		assessor.assess( new Paper( "text", { url: "sample url", keyword: "keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -149,8 +141,7 @@ describe( "running assessments in the assessor", function() {
 			"ne enim constituam. Et summo mentitum mea. Cu his nusquam civibus officiis, vix tota appellantur" +
 			"no, fuisset invenire molestiae pro ne. Ne case essent mei, ut quo ferri malorum albucius. Id nonumes" +
 			"inimicus vix. Ei duo prompta electram, iudico.", { keyword: "keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
+		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
