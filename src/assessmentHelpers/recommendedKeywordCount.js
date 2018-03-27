@@ -1,5 +1,6 @@
 const countWords = require( "../stringProcessing/countWords.js" );
 const keyphraseLength = require( "../researches/keyphraseLength" );
+const keyphraseLengthFactor = require( "../helpers/keyphraseLengthFactor.js" );
 
 /**
  * Calculates a recommended keyword count for a text. The formula to calculate this number is based on the
@@ -13,13 +14,14 @@ const keyphraseLength = require( "../researches/keyphraseLength" );
  */
 module.exports = function( paper, recommendedKeywordDensity, maxOrMin ) {
 	const wordCount = countWords( paper.getText() );
-	const lengthKeyphrase = keyphraseLength( paper );
-
-	let recommendedKeywordCount = ( recommendedKeywordDensity * wordCount ) / ( 100 * ( 0.7 + lengthKeyphrase / 3 ) );
 
 	if ( wordCount === 0 ) {
 		return 0;
 	}
+
+	const lengthKeyphrase = keyphraseLength( paper );
+	const lengthKeyphraseFactor = keyphraseLengthFactor( lengthKeyphrase );
+	let recommendedKeywordCount = ( recommendedKeywordDensity * wordCount ) / ( 100 * lengthKeyphraseFactor );
 
 	/*
 	 * The recommended keyword count should always be at least 2,

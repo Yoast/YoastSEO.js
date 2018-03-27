@@ -9,8 +9,10 @@ const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
+/**
+ * Represents the assessment that will look if the keyword density is within the recommended range.
+ */
 class KeywordDensityAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -60,7 +62,7 @@ class KeywordDensityAssessment extends Assessment {
 		return assessmentResult;
 	}
 
-	/*
+	/**
 	 * Checks whether there are no keyword matches in the text.
 	 *
 	 * @returns {boolean} Returns true if the keyword count is 0.
@@ -69,7 +71,7 @@ class KeywordDensityAssessment extends Assessment {
 		return this._keywordCount === 0;
 	}
 
-	/*
+	/**
 	 * Checks whether there are too few keyword matches in the text. One keyword match is always considered
 	 * as bad, regardless of the density.
 	 *
@@ -81,7 +83,7 @@ class KeywordDensityAssessment extends Assessment {
 			this._keywordCount === 1;
 	}
 
-	/*
+	/**
 	 * Checks whether there is a good number of keyword matches in the text. Two keyword matches are always
 	 * considered as good, regardless of the density.
 	 *
@@ -93,7 +95,7 @@ class KeywordDensityAssessment extends Assessment {
 			( this._keywordCount === 2 && this._minRecommendedKeywordCount <= 2 );
 	}
 
-	/*
+	/**
 	 * Checks whether the number of keyword matches in the text is between the recommended maximum and the
 	 * specified overMaximum value.
 	 *

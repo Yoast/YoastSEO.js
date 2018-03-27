@@ -1,7 +1,8 @@
 /** @module analyses/getKeywordDensity */
 
 const countWords = require( "../stringProcessing/countWords.js" );
-const keyphraseLength = require( "./keyphraseLength" );
+const keyphraseLength = require( "./keyphraseLength.js" );
+const keyphraseLengthFactor = require( "../helpers/keyphraseLengthFactor.js" );
 
 /**
  * Calculates the keyword density.
@@ -12,18 +13,19 @@ const keyphraseLength = require( "./keyphraseLength" );
  */
 module.exports = function( paper, researcher ) {
 	const wordCount = countWords( paper.getText() );
-	const lengthKeyphrase = keyphraseLength( paper );
 
 	if ( wordCount === 0 ) {
 		return 0;
 	}
+
+	const lengthKeyphrase = keyphraseLength( paper );
+	const lengthKeyphraseFactor = keyphraseLengthFactor( lengthKeyphrase );
 	const keywordCount = researcher.getResearch( "keywordCount" );
 
 	/*
 	 * This formula consists of the basic keyword density formula
 	 * (keywordCount / wordCount) * 100, with an added factor for
-	 * keyphrase length. Keyphrase length gets a base weight of 0.7, plus a
-	 * specific weight for the keyphrase length (lengthKeyphrase / 3).
+	 * keyphrase length.
 	 */
-	return ( keywordCount / wordCount ) * 100 * ( 0.7 + lengthKeyphrase / 3 );
+	return ( keywordCount / wordCount ) * 100 * lengthKeyphraseFactor;
 };
