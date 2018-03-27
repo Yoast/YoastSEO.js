@@ -5,8 +5,7 @@ let merge = require( "lodash/merge" );
 /**
  * Assessment for calculating the length of the meta description.
  */
-class MetaDescriptionKeywordAssessment extends Assessment
-{
+class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *

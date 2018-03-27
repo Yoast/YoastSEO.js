@@ -64,7 +64,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword with a stopword ", function() {
+	it( "additionally runs assessments that require a keyword with a stopword", function() {
 		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
@@ -83,7 +83,7 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a url that is too long", function() {
-		assessor.assess( new Paper( "text", { url: "12345678901234567890123456789012345678901" } ) );
+		assessor.assess( new Paper( "text", { url: "https://www.thisisanextremelylongurlwithlotsofcharacters.com" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
@@ -99,7 +99,7 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a url with a stopword", function() {
-		assessor.assess( new Paper( "text", { url: "the url" } ) );
+		assessor.assess( new Paper( "text", { url: "https://www.the-website.com" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
@@ -115,7 +115,7 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a url and a keyword", function() {
-		assessor.assess( new Paper( "text", { url: "sample url", keyword: "keyword" } ) );
+		assessor.assess( new Paper( "text", { url: "https://www.website.com", keyword: "keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
