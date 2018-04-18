@@ -16,7 +16,7 @@ module.exports = function( paper ) {
 	let htmlBlock = {};
 
 	/*
-	 * Gets the tag names for all HTML blocks. In case an HTML block is an H1, also the content is included.
+	 * Get the tag names for all HTML blocks. In case an HTML block is an H1, also the content is included.
 	 * The content is required for marking.
 	 */
 	let parser = new htmlparser.Parser( {
@@ -46,7 +46,7 @@ module.exports = function( paper ) {
 
 	let h1s = [];
 
-	// Pushes all H1s into an array and adds their position with regards to the other HTML blocks in the body.
+	// Push all H1s into an array and adds their position with regards to the other HTML blocks in the body.
 	for ( let i = 0; i < allHTMLBlocks.length; i++ ) {
 		if( allHTMLBlocks[ i ].tag === "h1" ) {
 			allHTMLBlocks[ i ].position = i;

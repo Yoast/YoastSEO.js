@@ -10,7 +10,6 @@ describe( "Gets all H1s in the text", function() {
 	it( "should return all H1s in the text", function() {
 		let mockPaper = new Paper( "<h1>first h1</h1><p>not an h1</p><h1>second h1</h1><h2>not an h1</h2>" );
 
-		let h1sInText = h1s( mockPaper );
 		expect( h1s( mockPaper ) ).toEqual( [
 			{ tag: "h1", content: "first h1", position: 0 },
 			{ tag: "h1", content: "second h1", position: 2 },

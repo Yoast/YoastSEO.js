@@ -31,7 +31,7 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Runs the h1 research and based on this returns an assessment result with score.
+	 * Runs the h1 research and based on this returns an assessment result with a score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
@@ -44,13 +44,13 @@ class singleH1Assessment extends Assessment {
 
 		let assessmentResult = new AssessmentResult();
 
-		// Returns the default assessment result if there are no H1s in the body.
+		// Return the default assessment result if there are no H1s in the body.
 		if ( this._h1s.length === 0 ) {
 			return assessmentResult;
 		}
 
 		/*
-		 * Removes the first H1 from the array if that H1 is in the first position of the body.
+		 * Remove the first H1 from the array if that H1 is in the first position of the body.
 		 * The very beginning of the body is the only position where an H1 is deemed acceptable.
 		 */
 		if ( this.firstH1AtBeginning() ) {
@@ -76,7 +76,7 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Checks if there is a single H1 in the body.
+	 * Checks whether there is a single H1 in the body.
 	 *
 	 * @returns {boolean} Returns true if there is exactly one H1 in the body.
 	 */
@@ -87,7 +87,7 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Checks if there are multiple H1s in the body.
+	 * Checks whether there are multiple H1s in the body.
 	 *
 	 * @returns {boolean} Returns true if the number of H1s in the body exceeds 1.
 	 */
@@ -103,11 +103,7 @@ class singleH1Assessment extends Assessment {
 	 * @returns {number} The calculated score.
 	 */
 	calculateScore() {
-		if ( this.bodyContainsOneH1() ) {
-			return this._config.scores.textContainsH1;
-		}
-
-		if ( this.bodyContainsMultipleH1s() ) {
+		if ( this.bodyContainsOneH1() || this.bodyContainsMultipleH1s() ) {
 			return this._config.scores.textContainsH1;
 		}
 	}
