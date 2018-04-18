@@ -155,5 +155,5 @@ describe( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth"
 		] );
-	}) ;
+	} ) ;
 } );

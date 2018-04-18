@@ -1,5 +1,5 @@
 let Assessor = require( "../../js/cornerstone/seoAssessor.js" );
-let Paper = require("../../js/values/Paper.js");
+let Paper = require( "../../js/values/Paper.js" );
 let factory = require( "../helpers/factory.js" );
 let getResults = require( "../specHelpers/getListOfAssessmentResults" );
 let i18n = factory.buildJed();
