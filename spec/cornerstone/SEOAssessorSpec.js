@@ -25,6 +25,11 @@ describe ( "running assessments in the assessor", function() {
 		expect( assessor.getValidResults().length ).toBe( 8 );
 	});
 
+	it( "additionally runs assessments that require text and an H1", function() {
+		assessor.assess( new Paper( "<h1>h1</h1>", { keyword: "keyword" } ) );
+		expect( assessor.getValidResults().length ).toBe( 9 );
+	});
+
 	it( "additionally runs assessments that require an url", function() {
 		assessor.assess( new Paper( "text", { url: "sample url" } ) );
 		expect( assessor.getValidResults().length ).toBe( 7 );

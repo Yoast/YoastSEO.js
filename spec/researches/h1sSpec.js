@@ -1,25 +1,19 @@
-var h1s = require( "../../js/researches/h1s.js" );
-var Paper = require( "../../js/values/Paper.js" );
+let h1s = require( "../../js/researches/h1s.js" );
+let Paper = require( "../../js/values/Paper.js" );
 
-describe( "gets all H1s in the text", function() {
+describe( "Gets all H1s in the text", function() {
 	it( "should return empty when there is no H1", function() {
-		var mockPaper = new Paper( "some content<h2>content h2</h2>" );
+		let mockPaper = new Paper( "some content<h2>content h2</h2>" );
 		expect( h1s( mockPaper ) ).toEqual( [] );
 	});
 
 	it( "should return all H1s in the text", function() {
+		let mockPaper = new Paper( "<h1>first h1</h1><p>not an h1</p><h1>second h1</h1><h2>not an h1</h2>" );
 
-		var mockPaper = new Paper( "<h1>content h1</h1>content outside the h1<h2>content h2</h2>" );
-
-		var h1sInText = h1s( mockPaper );
-		var expectations = [
-			[ "<h1>content h1</h1>", "1", "content h1" ],
-		];
-
-		expectations.forEach( function( expectation, i ) {
-			expectation.forEach( function( value, j ) {
-				expect( h1sInText[ i ][ j ] ).toBe( value );
-			})
-		});
-	});
+		let h1sInText = h1s( mockPaper );
+		expect( h1s( mockPaper ) ).toEqual( [
+			{ tag: "h1", content: "first h1", position: 0 },
+			{ tag: "h1", content: "second h1", position: 2 },
+		] );
+	} );
 } );
