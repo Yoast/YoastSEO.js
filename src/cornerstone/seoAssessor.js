@@ -4,7 +4,6 @@ let SEOAssessor = require( "../seoAssessor" );
 let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
 let keyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
 let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
-let keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment.js" );
 let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
 let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
 let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
@@ -16,8 +15,6 @@ let internalLinks = require( "../assessments/seo/internalLinksAssessment" );
 let titleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
 let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
-let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
-let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -35,7 +32,6 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 		introductionKeyword,
 		keyphraseLength,
 		new KeywordDensity(),
-		keywordStopWords,
 		new MetaDescriptionKeyword(),
 		new MetaDescriptionLength( {
 			scores:	{
@@ -94,12 +90,6 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		new UrlLength( {
-			scores: {
-				tooLong: 3,
-			},
-		} ),
-		urlStopWords,
 	];
 };
 
