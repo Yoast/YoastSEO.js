@@ -5,7 +5,7 @@
  *
  * @returns {Array} The list of assessments for which there are results.
  */
-module.exports = function ( results ) {
+module.exports = function( results ) {
 	let assessments = [];
 
 	for ( let result of results ) {
