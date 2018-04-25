@@ -33,6 +33,7 @@ var calculateKeywordLengthResult = function( keyphraseLength, i18n ) {
 		};
 	}
 };
+
 /**
  * Assesses the keyphrase presence and length
  *
