@@ -49,7 +49,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		return assessmentResult;
 	}
 
-	/*
+	/**
 	 * Checks whether there are too few keyword matches in the meta description.
 	 *
 	 * @returns {boolean} Returns true if there is less than 1 keyword match in the meta description.
@@ -58,7 +58,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		return this._keywordMatches < this._config.recommendedMinimumMatches;
 	}
 
-	/*
+	/**
 	 * Checks whether there is a good number of keyword matches in the meta description.
 	 *
 	 * @returns {boolean} Returns true if the number of keyword matches is within the recommended range.
