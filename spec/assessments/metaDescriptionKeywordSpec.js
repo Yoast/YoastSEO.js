@@ -1,37 +1,42 @@
-var metaDescriptionKeyword = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment.js" );
+var MetaDescriptionKeywordAssessment = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
 
+let descriptionKeywordAssessment = new MetaDescriptionKeywordAssessment();
+
 describe( "the metadescription keyword assessment", function() {
-	it( "should score a meta with no matching keyword as bad", function() {
-		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
-		var researcher = factory.buildMockResearcher( 0 );
+    it( "returns a bad result when the meta description doesn't contain the keyword", function() {
+        var mockPaper = new Paper();
+        var assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 0 ), i18n );
 
-		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
+        expect( assessment.getScore() ).toBe( 3 );
+        expect( assessment.getText() ).toBe( "A meta description has been specified, but it does not contain the focus keyword." );
+    } );
 
-		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "A meta description has been specified, but it does not contain the focus keyword." );
-	} );
+    it( "returns a good result and an appropriate feedback message when the meta description contains the keyword once", function() {
+        var mockPaper = new Paper();
+        var assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 1 ), i18n );
 
-	it( "should score a meta with no matching keyword as bad", function() {
-		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
-		var researcher = factory.buildMockResearcher( 1 );
+        expect( assessment.getScore() ).toBe( 9 );
+        expect( assessment.getText() ).toBe( "The meta description contains the focus keyword. That's great." );
+    } );
 
-		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
+    it( "returns a good result and an appropriate feedback message when the meta description contains the keyword two times", function() {
+        var mockPaper = new Paper();
+        var assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 2 ), i18n );
 
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The meta description contains the focus keyword." );
-	} );
+        expect( assessment.getScore() ).toBe( 9 );
+        expect( assessment.getText() ).toBe( "The meta description contains the focus keyword 2 times. That's great." );
+    } );
 
-	it( "should not score since there is no meta", function() {
-		var paper = new Paper( "text", { keyword: "keyword", description: "" } );
-		var researcher = factory.buildMockResearcher( -1 );
+    it( "returns a bad result when the meta description contains the keyword too often", function() {
+        var mockPaper = new Paper();
+        var assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 3 ), i18n );
 
-		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
-
-		expect( result.getText() ).toBe( "" );
-	} );
+        expect( assessment.getScore() ).toBe( 3 );
+        expect( assessment.getText() ).toBe( "The meta description contains the focus keyword 3 times, which is over the advised maximum of 2 times." );
+    } );
 } );
 

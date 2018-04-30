@@ -3,9 +3,9 @@ let SEOAssessor = require( "../seoAssessor" );
 
 let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
 let keyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
-let keywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
+let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
 let keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment.js" );
-let metaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
+let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
 let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
 let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
 let textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
@@ -35,9 +35,9 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 	this._assessments = [
 		introductionKeyword,
 		keyphraseLength,
-		keywordDensity,
+		new KeywordDensity(),
 		keywordStopWords,
-		metaDescriptionKeyword,
+		new MetaDescriptionKeyword(),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,

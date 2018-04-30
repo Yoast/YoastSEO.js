@@ -36,6 +36,7 @@ var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
+var readingTime = require( "./researches/readingTime" );
 const h1s = require( "./researches/h1s.js" );
 
 /**
@@ -77,6 +78,7 @@ var Researcher = function( paper ) {
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
+		readingTime: readingTime,
 		sentences,
 		h1s,
 	};
@@ -121,9 +123,9 @@ Researcher.prototype.addResearch = function( name, research ) {
  */
 Researcher.prototype.hasResearch = function( name ) {
 	return Object.keys( this.getAvailableResearches() ).filter(
-	function( research ) {
-		return research === name;
-	} ).length > 0;
+		function( research ) {
+			return research === name;
+		} ).length > 0;
 };
 
 /**
