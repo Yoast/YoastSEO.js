@@ -3,8 +3,8 @@ node_js:
 - 9
 - node
 matrix:
-  allowed_failures:
-    node_js: node
+  allow_failures:
+    - node_js: node
 sudo: false
 cache:
   yarn: true
