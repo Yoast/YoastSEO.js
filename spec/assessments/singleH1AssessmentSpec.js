@@ -37,7 +37,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		let mockPaper = new Paper( "<p>a paragraph</p><h1>heading 1</h1><p>a paragraph</p><h1>heading 2</h1>" );
 		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ tag: "h1", content: "heading 1", position: 2 },
-			{ tag: "h1", content: "heading 2", position: 4 }
+			{ tag: "h1", content: "heading 2", position: 4 },
 		] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
@@ -48,27 +48,30 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 describe( "A test for marking incorrect H1s in the body", function() {
 	it ( "returns markers for incorrect H1s in the body", function() {
 		let mockPaper = new Paper( "<p>a paragraph</p><h1>heading</h1>" );
-		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
+		let assessment = h1Assessment;
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
 
 		let expected = [
-			new Mark({ original: "<h1>heading</h1>",
-				marked: "<h1><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>" } )
+			new Mark( { original: "<h1>heading</h1>",
+				marked: "<h1><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>" } ),
 		];
 
-		expect( h1Assessment.getMarks() ).toEqual( expected );
+		expect( assessment.getMarks() ).toEqual( expected );
 	} );
 
 	it ( "doesn't return markers for H1s in the first position of the body", function() {
 		let mockPaper = new Paper( "<h1>heading</h1><p>a paragraph</p>" );
-		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
+		let assessment = h1Assessment;
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
 		let expected = [];
 
-		expect( h1Assessment.getMarks() ).toEqual( expected );
+		expect( assessment.getMarks() ).toEqual( expected );
 	} );
 
 	it ( "doesn't return markers when there are no H1s in the body", function() {
 		let mockPaper = new Paper( "<p>a paragraph</p>" );
-		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
+		let assessment = h1Assessment;
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 		let expected = [];
 
 		expect( h1Assessment.getMarks() ).toEqual( expected );

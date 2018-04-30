@@ -5,7 +5,7 @@ describe( "Gets all H1s in the text", function() {
 	it( "should return empty when there is no H1", function() {
 		let mockPaper = new Paper( "some content<h2>content h2</h2>" );
 		expect( h1s( mockPaper ) ).toEqual( [] );
-	});
+	} );
 
 	it( "should return all H1s in the text", function() {
 		let mockPaper = new Paper( "<h1>first h1</h1><p>not an h1</p><h1>second h1</h1><h2>not an h1</h2>" );

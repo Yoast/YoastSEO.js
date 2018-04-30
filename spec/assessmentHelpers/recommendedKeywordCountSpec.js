@@ -116,7 +116,7 @@ describe( "Test for getting the recommended keyword count for a text", function(
 		expect( recommendedKeywordCount( mockPaper, minRecommendedDensity, "min" ) ).toBe( 2 );
 	} );
 
-	it( "returns 0 when the word count of the text is 0", function(){
+	it( "returns 0 when the word count of the text is 0", function() {
 		let mockPaper = new Paper( "<img src='http://image.com/image.png'>", { keyword: "keyword" } );
 		expect( recommendedKeywordCount( mockPaper, maxRecommendedDensity, "max" ) ).toBe( 0 );
 	} );

@@ -24,7 +24,7 @@ describe( "Test for counting the keyword density in a text", function() {
 		mockPaper = new Paper( "a string of text with the key-word in it, density should be 0.0%", { keyword: "key word" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 0 );
 		mockPaper = new Paper( "a string of text with the key&word in it, density should be 7.9%", { keyword: "key&word" } );
-		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.948717948717948);
+		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.948717948717948 );
 		mockPaper = new Paper( "<img src='http://image.com/image.png'>", { keyword: "key&word" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 0 );
 		// Consecutive keywords are skipped, so this will match 2 times.
