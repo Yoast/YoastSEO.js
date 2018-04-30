@@ -44,13 +44,13 @@ class singleH1Assessment extends Assessment {
 
 		let assessmentResult = new AssessmentResult();
 
-		// Return the default assessment result if there are no H1s in the body.
+		// Returns the default assessment result if there are no H1s in the body.
 		if ( this._h1s.length === 0 ) {
 			return assessmentResult;
 		}
 
 		/*
-		 * Remove the first H1 from the array if that H1 is in the first position of the body.
+		 * Removes the first H1 from the array if that H1 is in the first position of the body.
 		 * The very beginning of the body is the only position where an H1 is deemed acceptable.
 		 */
 		if ( this.firstH1AtBeginning() ) {
@@ -70,9 +70,7 @@ class singleH1Assessment extends Assessment {
 	 * @returns {boolean} Returns true if there is an H1 in the first position of the body.
 	 */
 	firstH1AtBeginning() {
-		if( this._h1s[ 0 ].position === 0 ) {
-			return true;
-		}
+		return ( this._h1s[ 0 ].position === 0 );
 	}
 
 	/**
@@ -81,9 +79,7 @@ class singleH1Assessment extends Assessment {
 	 * @returns {boolean} Returns true if there is exactly one H1 in the body.
 	 */
 	bodyContainsOneH1() {
-		if ( this._h1s.length === 1 ) {
-			return true;
-		}
+		return ( this._h1s.length === 1 );
 	}
 
 	/**
@@ -92,9 +88,7 @@ class singleH1Assessment extends Assessment {
 	 * @returns {boolean} Returns true if the number of H1s in the body exceeds 1.
 	 */
 	bodyContainsMultipleH1s() {
-		if ( this._h1s.length > 1 ) {
-			return true;
-		}
+		return ( this._h1s.length > 1 );
 	}
 
 	/**
@@ -131,7 +125,8 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Mark the H1s.
+	 * Marks all H1s in the body of the text (except at the very beginning,
+	 * where they are acceptable and don't need to be changed).
 	 *
 	 * @returns {Array} Array with all the marked H1s.
 	 */
