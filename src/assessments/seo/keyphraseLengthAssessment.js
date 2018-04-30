@@ -71,8 +71,8 @@ class keyphraseLengthAssessment extends Assessment {
 			return {
 				score: 6,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "Your keyphrase is %1$d words long. That's more " +
-					"than the recommended maximum of %2$d words. You might want to make the keyphrase a bit shorter." ),
-					this._keyphraseLength, recommendedMaximum - 1 ),
+					"than the recommended maximum of %2$d words. You might want to make the keyphrase a bit " +
+					"shorter." ), this._keyphraseLength, recommendedMaximum - 1 ),
 			};
 		}
 
@@ -80,8 +80,8 @@ class keyphraseLengthAssessment extends Assessment {
 			return {
 				score: 3,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "Your keyphrase is %1$d words long. That's way " +
-					"more than the recommended maximum of %2$d words. Make the keyphrase shorter." ),
-					this._keyphraseLength, recommendedMaximum - 1 ),
+					"more than the recommended maximum of %2$d words. Make the keyphrase " +
+					"shorter." ), this._keyphraseLength, recommendedMaximum - 1 ),
 			};
 		}
 	}
