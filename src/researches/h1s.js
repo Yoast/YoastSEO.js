@@ -14,6 +14,7 @@ module.exports = function( paper ) {
 	let allHTMLBlocks = [];
 	let isH1 = false;
 	let htmlBlock = {};
+	let h1s = [];
 
 	/*
 	 * Gets the tag names for all HTML blocks. In case an HTML block is an H1, also the content is included.
@@ -43,8 +44,6 @@ module.exports = function( paper ) {
 	}, { decodeEntities: true } );
 
 	parser.write( text );
-
-	let h1s = [];
 
 	// Pushes all H1s into an array and adds their position with regards to the other HTML blocks in the body.
 	for ( let i = 0; i < allHTMLBlocks.length; i++ ) {

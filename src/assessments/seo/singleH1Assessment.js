@@ -13,7 +13,7 @@ class singleH1Assessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -105,7 +105,7 @@ class singleH1Assessment extends Assessment {
 	/**
 	 * Translates the score of the single H1 assessment to a message the user can understand.
 	 *
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
@@ -134,10 +134,9 @@ class singleH1Assessment extends Assessment {
 		let h1s = this._h1s;
 
 		return map( h1s, function( h1 ) {
-			let marked = "<h1>" + marker( h1.content ) + "</h1>";
 			return new Mark( {
 				original: "<h1>" + h1.content + "</h1>",
-				marked: marked,
+				marked: "<h1>" + marker( h1.content ) + "</h1>",
 			} );
 		} );
 	}
