@@ -31,7 +31,7 @@ var SEOAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		introductionKeyword,
-		keyphraseLength,
+		new keyphraseLength(),
 		new KeywordDensity(),
 		keywordStopWords,
 		new MetaDescriptionKeyword(),

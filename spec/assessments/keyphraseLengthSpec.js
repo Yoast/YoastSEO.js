@@ -4,12 +4,14 @@ var Paper = require( "../../js/values/Paper.js" );
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
 
+const keyphraseAssessment = new keyphraseLengthAssessment();
+
 describe( "the keyphrase length assessment", function() {
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		var paper = new Paper();
 		var researcher = factory.buildMockResearcher( 0 );
 
-		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
+		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "No focus keyword was set for this page. " +
@@ -20,7 +22,7 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper( "", { keyword: "keyword" } );
 		var researcher = factory.buildMockResearcher( 11 );
 
-		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
+		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "Your keyphrase is 11 words long. That's way more than the recommended maximum of 4 words. " +
@@ -31,7 +33,7 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper( "", { keyword: "keyword" } );
 		var researcher = factory.buildMockResearcher( 6 );
 
-		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
+		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "Your keyphrase is 6 words long. That's more than the recommended maximum of 4 words. " +
@@ -42,7 +44,7 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper( "", { keyword: "keyword" } );
 		var researcher = factory.buildMockResearcher( 3 );
 
-		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
+		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "Your keyphrase has a nice length." );
