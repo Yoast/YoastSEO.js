@@ -156,4 +156,20 @@ describe( "running assessments in the assessor", function() {
 			"titleWidth",
 		] );
 	} );
+
+	it( "additionally runs assessments that require a superfluous H1 in the body of the text", function() {
+		assessor.assess( new Paper( "<p>a paragraph</p><h1>heading</h1>" ) );
+		let assessments = getResults( assessor.getValidResults() );
+
+		expect( assessments ).toEqual( [
+			"keyphraseLength",
+			"metaDescriptionLength",
+			"textImages",
+			"textLength",
+			"externalLinks",
+			"internalLinks",
+			"titleWidth",
+			"singleH1Assessment",
+		] );
+	} );
 } );
