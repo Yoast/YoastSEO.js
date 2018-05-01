@@ -17,12 +17,33 @@ class KeyphraseLengthAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			scores: {
-				keyphraseLength: 0,
+			parameters: {
+				recommendedMinimum: 1,
+				recommendedMaximum: 4,
+				acceptableMaximum: 8,
 			},
-			assessment: {
-				recommendedMaximum: 5,
-				acceptableMaximum: 9,
+			good: {
+				score: 9,
+				resultText: "Your keyphrase has a nice length.",
+				requiresLengthAndMax: false,
+			},
+			okay: {
+				score: 6,
+				resultText: "Your keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. " +
+				"You might want to make the keyphrase a bit shorter.",
+				requiresLengthAndMax: true,
+			},
+			bad: {
+				score: 3,
+				resultText: "Your keyphrase is %1$d words long. That's way more than the recommended maximum of %2$d " +
+				"words. Make the keyphrase shorter.",
+				requiresLengthAndMax: true,
+			},
+			veryBad: {
+				score: -999,
+				resultText: "No focus keyword was set for this page. If you do not set a focus keyword, no score can " +
+				"be calculated.",
+				requiresLengthAndMax: false,
 			},
 		};
 
@@ -42,14 +63,10 @@ class KeyphraseLengthAssessment extends Assessment {
 		this._keyphraseLength = researcher.getResearch( "keyphraseLength" );
 		let assessmentResult =  new AssessmentResult();
 
-		if ( paper.hasKeyword() ) {
-			assessmentResult.setScore( this.calculateScore() );
-			assessmentResult.setText( this.translateScore( i18n ) );
-		} else  {
-			assessmentResult.setScore( -999 );
-			assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
-				"If you do not set a focus keyword, no score can be calculated." ) );
-		}
+		const calculatedScore = this.calculateScore();
+		assessmentResult.setScore( calculatedScore.score );
+		assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresLengthAndMax, i18n ) );
+
 		return assessmentResult;
 	}
 
@@ -58,41 +75,36 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {Object} object with score and text.
 	 */
 	calculateScore() {
-
-		if ( inRange( this._keyphraseLength, 1, this._config.assessment.recommendedMaximum ) ) {
-			return 9;
+		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
+			return this._config.veryBad;
 		}
 
-		if ( inRange( this._keyphraseLength, this._config.assessment.recommendedMaximum, this._config.assessment.acceptableMaximum ) ) {
-			return 6;
+		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMinimum, this._config.parameters.recommendedMaximum + 1 ) ) {
+			return this._config.good;
 		}
 
-		if ( this._keyphraseLength >= this._config.assessment.acceptableMaximum ) {
-			return 3;
+		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMaximum + 1, this._config.parameters.acceptableMaximum + 1 ) ) {
+			return this._config.okay;
+		}
+
+		if ( this._keyphraseLength > this._config.parameters.acceptableMaximum ) {
+			return this._config.bad;
 		}
 	}
 
 	/**
 	 * Translates the score result based into specific feedback to the user.
+	 * @param {text} resultText The text of feedback for a given range of values of the assessment result.
+	 * @param {boolean} requiresLengthAndMax Whether feedback needs to include keyphraseLength and recommendedMaximum.
 	 * @param {object} i18n The i18n-object used for parsing translations.
 	 * @returns {Object} object with score and text.
 	 */
-	translateScore( i18n ) {
-		if ( inRange( this._keyphraseLength, 1, this._config.assessment.recommendedMaximum ) ) {
-			return i18n.dgettext( "js-text-analysis", "Your keyphrase has a nice length." );
+	translateScore( resultText, requiresLengthAndMax, i18n ) {
+		if ( requiresLengthAndMax ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ), this._keyphraseLength,
+				this._config.parameters.recommendedMaximum );
 		}
-
-		if ( inRange( this._keyphraseLength, this._config.assessment.recommendedMaximum, this._config.assessment.acceptableMaximum ) ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "Your keyphrase is %1$d words long. That's more " +
-					"than the recommended maximum of %2$d words. You might want to make the keyphrase a bit " +
-					"shorter." ), this._keyphraseLength, this._config.assessment.recommendedMaximum - 1 );
-		}
-
-		if ( this._keyphraseLength >= this._config.assessment.acceptableMaximum ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "Your keyphrase is %1$d words long. That's way " +
-					"more than the recommended maximum of %2$d words. Make the keyphrase " +
-					"shorter." ), this._keyphraseLength, this._config.assessment.recommendedMaximum - 1 );
-		}
+		return i18n.dgettext( "js-text-analysis", resultText );
 	}
 }
 
