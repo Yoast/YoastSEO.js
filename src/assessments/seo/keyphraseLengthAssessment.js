@@ -36,7 +36,6 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {Jed} i18n The object used for translations.
-	 * 
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
@@ -56,7 +55,6 @@ class KeyphraseLengthAssessment extends Assessment {
 
 	/**
 	 * Calculates the score result based on the keyphraseLength research.
-	 *
 	 * @returns {Object} object with score and text.
 	 */
 	calculateScore() {
@@ -77,7 +75,6 @@ class KeyphraseLengthAssessment extends Assessment {
 	/**
 	 * Translates the score result based into specific feedback to the user.
 	 * @param {object} i18n The i18n-object used for parsing translations.
-	 *
 	 * @returns {Object} object with score and text.
 	 */
 	translateScore( i18n ) {
