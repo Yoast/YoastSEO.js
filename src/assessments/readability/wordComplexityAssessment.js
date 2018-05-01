@@ -1,4 +1,7 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const EmptyAssessmentResult = require( "../../values/EmptyAssessmentResult.js" );
+
+
 var removeSentenceTerminators = require( "../../stringProcessing/removeSentenceTerminators" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var Mark = require( "../../values/Mark.js" );
@@ -9,6 +12,46 @@ var flatMap = require( "lodash/flatMap" );
 var zip = require( "lodash/zip" );
 var forEach = require( "lodash/forEach" );
 var flatten = require( "lodash/flatten" );
+
+class WordComplexityAssessment {
+	constructor( paper, researcher, i18n ) {
+		this._recommendedValue = 3;
+		this._explanationURL = 'https://yoa.st/difficult-words';
+		this._research    = 	researcher.getResearch( "wordComplexity" );
+		this._i18n = i18n;
+
+
+	}
+
+	splitSentence( sentence ) {
+		let whitespace = sentence.split( /\S+/ );
+
+		// Drop first and last elements.
+		whitespace.pop();
+		whitespace.shift();
+
+		return whitespace;
+	}
+
+	assess() {
+		let wordComplexity = this._research;
+
+		wordComplexity = flatMap( wordComplexity, ( sentence ) => sentence.words );
+
+		let wordCount = wordComplexity.length;
+		let complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
+
+
+
+		return new AssessmentResult( complexityResult.score, complexityResult.text );
+	}
+}
+
+
+
+
+
+
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 var recommendedValue = 3;
@@ -163,9 +206,11 @@ var wordComplexityMarker = function( paper, researcher ) {
  */
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
+
 	wordComplexity = flatMap( wordComplexity, function( sentence ) {
 		return sentence.words;
 	} );
+
 	var wordCount = wordComplexity.length;
 
 	var complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
