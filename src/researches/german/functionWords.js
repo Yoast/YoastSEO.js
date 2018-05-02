@@ -282,6 +282,9 @@ module.exports = function() {
 			interrogativeProAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns,
 			reciprocalPronouns, possessivePronouns ),
 
+		// Articles are used in the keywordTitle assessment
+		articles: [].concat( articles ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,

@@ -1,9 +1,11 @@
 /** @module analyses/findKeywordInPageTitle */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-var escapeRegExp = require( "lodash/escapeRegExp" );
-
+const functionWords = require( "../helpers/getFunctionWords" )();
+const wordMatch = require( "../stringProcessing/matchTextWithWord" );
+const escapeRegExp = require( "lodash/escapeRegExp" );
+const stripSpaces = require( "../stringProcessing/stripSpaces" );
+const createRegexFromArray = require( "../stringProcessing/createRegexFromArray" );
+const getLanguage = require( "../helpers/getLanguage" );
+const isUndefined = require( "lodash/isUndefined" );
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
@@ -13,39 +15,22 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  */
 
 module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = escapeRegExp( paper.getKeyword() );
-	var locale = paper.getLocale();
-
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
-	return result;
-};
-
-
-/** @module analyses/findKeywordInPageTitle */
-/* const functionWords = [];
-const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-const escapeRegExp = require( "lodash/escapeRegExp" );
-
-module.exports = function( paper ) {
-	const title = paper.getTitle();
+	let title = paper.getTitle();
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const locale = paper.getLocale();
-	 const firstWordTitle = title.replace( / .star/, "" );
 
 	let result = { matches: 0, position: -1 };
 	result.matches = wordMatch( title, keyword, locale );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
+	result.position = title.toLocaleLowerCase().indexOf( keyword.toLocaleLowerCase() );
 
-	 if ( functionWords.includes( firstWordTitle ) && result.position === 1 ) {
-		result.position = 0;
+	if ( result.matches > 0 && result.position > 0 ) {
+		const articles = functionWords[ getLanguage( locale ) ].articles;
+		if ( ! isUndefined( articles ) ) {
+			const articlesRegex = createRegexFromArray( articles );
+			title = stripSpaces( title.toLocaleLowerCase().replace( articlesRegex, "" ) );
+			result.position = title.toLocaleLowerCase().indexOf( keyword.toLocaleLowerCase() );
+		}
 	}
 
 	return result;
 };
-
-*/
