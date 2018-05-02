@@ -2,6 +2,7 @@ let Assessment = require( "../../assessment.js" );
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 const inRange = require( "lodash/inRange" );
 const merge = require( "lodash/merge" );
+
 /**
  * Assessment to check whether the keyphrase has a good length.
  */
