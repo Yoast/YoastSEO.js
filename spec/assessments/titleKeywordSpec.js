@@ -1,7 +1,9 @@
-var pageTitleKeywordAssessment = require( "../../js/assessments/seo/titleKeywordAssessment.js" );
+var PageTitleKeywordAssessment = require( "../../js/assessments/seo/titleKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+const pageTitleKeywordAssessment = new PageTitleKeywordAssessment();
 
 describe( "an assessment to check if the keyword is in the pageTitle", function() {
 	it( "returns an assementresult with keyword not found", function() {
