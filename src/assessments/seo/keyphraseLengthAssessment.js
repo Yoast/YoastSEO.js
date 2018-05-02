@@ -65,19 +65,19 @@ class KeyphraseLengthAssessment extends Assessment {
 		this._keyphraseLength = researcher.getResearch( "keyphraseLength" );
 		let assessmentResult =  new AssessmentResult();
 
-		const calculatedScore = this.calculateScore();
-		assessmentResult.setScore( calculatedScore.score );
-		assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresLengthAndMax, i18n ) );
+		const calculatedResult = this.calculateResult();
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresLengthAndMax, i18n ) );
 
 		return assessmentResult;
 	}
 
 	/**
-	 * Calculates the score result based on the keyphraseLength research.
+	 * Calculates the result based on the keyphraseLength research.
 	 *
-	 * @returns {Object} object with score and text.
+	 * @returns {Object} Object with score and text.
 	 */
-	calculateScore() {
+	calculateResult() {
 		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
 			return this._config.veryBad;
 		}
@@ -96,18 +96,23 @@ class KeyphraseLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Translates the score result based into specific feedback to the user.
+	 * Translates the score into a specific feedback to the user.
 	 *
 	 * @param {text} resultText The text of feedback for a given range of values of the assessment result.
 	 * @param {boolean} requiresLengthAndMax Whether feedback needs to include keyphraseLength and recommendedMaximum.
-	 * @param {object} i18n The i18n-object used for parsing translations.
+	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {string} Text feedback.
 	 */
 	translateScore( resultText, requiresLengthAndMax, i18n ) {
 		if ( requiresLengthAndMax ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ), this._keyphraseLength,
-				this._config.parameters.recommendedMaximum );
+			return i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the number of words in the keyphrase,
+				%2$d expands to the recommended minimum of words in the keyphrase. */
+				resultText
+				), this._keyphraseLength, this._config.parameters.recommendedMaximum
+			);
 		}
 		return i18n.dgettext( "js-text-analysis", resultText );
 	}
