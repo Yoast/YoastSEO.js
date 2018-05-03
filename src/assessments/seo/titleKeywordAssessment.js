@@ -50,18 +50,16 @@ class TitleKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Object} i18n The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment with text and score
 	 */
 	getResult( paper, researcher, i18n ) {
-
 		this._keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 
 		let assessmentResult = new AssessmentResult();
 
 		if ( paper.hasKeyword() && paper.hasTitle() ) {
-
 			const calculatedScore = this.calculateScore();
 			assessmentResult.setScore( calculatedScore.score );
 			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresKeyword,
@@ -72,7 +70,7 @@ class TitleKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the score result based on the keyphraseLength research.
+	 * Calculates the result based on the keyphraseLength research.
 	 *
 	 * @returns {Object} object with score and text.
 	 */
@@ -86,9 +84,7 @@ class TitleKeywordAssessment extends Assessment {
 		if ( matches >= this._config.parameters.recommendedMinimum && position === this._config.parameters.position ) {
 			return this._config.good;
 		}
-		if ( matches >= this._config.parameters.recommendedMinimum && position > 0 ) {
-			return this._config.okay;
-		}
+		return this._config.okay;
 	}
 
 	/**
@@ -103,7 +99,11 @@ class TitleKeywordAssessment extends Assessment {
 	 */
 	translateScore( resultText, requiresKeyword, keyword, i18n ) {
 		if ( requiresKeyword ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ), keyword );
+			return i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the keyphrase. */
+				resultText
+			), keyword );
 		}
 
 		return i18n.dgettext( "js-text-analysis", resultText );
