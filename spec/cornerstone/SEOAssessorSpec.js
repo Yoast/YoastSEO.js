@@ -14,7 +14,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"textLength",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 
@@ -24,11 +24,12 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"textLength",
 			"titleKeyword",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 
@@ -43,7 +44,7 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 
@@ -53,6 +54,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"textImages",
@@ -60,7 +62,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleKeyword",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 
@@ -70,6 +72,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordStopWords",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
@@ -78,7 +81,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleKeyword",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 
@@ -94,7 +97,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"urlLength"
+			"urlLength",
 		] );
 	} );
 
@@ -110,7 +113,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"urlStopWords"
+			"urlStopWords",
 		] );
 	} );
 
@@ -120,6 +123,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"textImages",
@@ -128,7 +132,7 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleKeyword",
 			"titleWidth",
-			"urlKeyword"
+			"urlKeyword",
 		] );
 	} );
 
@@ -145,6 +149,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
@@ -153,7 +158,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleKeyword",
-			"titleWidth"
+			"titleWidth",
 		] );
 	} );
 } );
