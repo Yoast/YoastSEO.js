@@ -12,9 +12,9 @@ const isUndefined = require( "lodash/isUndefined" );
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
  *
- * @param {object} paper The paper containing title and keyword.
+ * @param {Object} paper The paper containing title and keyword.
  *
- * @returns {object} result with the matches and position.
+ * @returns {Object} Result with the matches and position.
  */
 
 module.exports = function( paper ) {

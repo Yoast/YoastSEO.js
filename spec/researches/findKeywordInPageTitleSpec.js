@@ -21,9 +21,10 @@ describe( "Match keywords in string", function() {
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 0 );
 
-		mockPaper = new Paper( "", { keyword: "нечто", title: "ст, чтобы проверить нечто Test текст, чтобы " } );
+		mockPaper = new Paper( "", { keyword: "нечто", title: "ст, чтобы проверить нечто Test текст, чтобы ", locale: "ru_RU" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 1 );
+		expect( result.position ).toBe( 20 );
 
 		mockPaper = new Paper( "", { keyword: "äbc", title: "äbc" } );
 		result = pageTitleKeyword( mockPaper );
