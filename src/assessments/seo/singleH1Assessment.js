@@ -22,7 +22,7 @@ class singleH1Assessment extends Assessment {
 
 		let defaultConfig = {
 			scores: {
-				textContainsH1: 1,
+				textContainsSuperfluousH1: 1,
 			},
 		};
 
@@ -74,21 +74,12 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is a single H1 in the body.
+	 * Checks whether there are superfluous (i.e., non-title) H1s in the text.
 	 *
-	 * @returns {boolean} Returns true if there is exactly one H1 in the body.
+	 * @returns {boolean} Returns true if there are superfluous H1s in the text.
 	 */
-	bodyContainsOneH1() {
-		return ( this._h1s.length === 1 );
-	}
-
-	/**
-	 * Checks whether there are multiple H1s in the body.
-	 *
-	 * @returns {boolean} Returns true if the number of H1s in the body exceeds 1.
-	 */
-	bodyContainsMultipleH1s() {
-		return ( this._h1s.length > 1 );
+	bodyContainsSuperfluousH1s() {
+		return ( this._h1s.length >= 1 );
 	}
 
 	/**
@@ -97,8 +88,8 @@ class singleH1Assessment extends Assessment {
 	 * @returns {number} The calculated score.
 	 */
 	calculateScore() {
-		if ( this.bodyContainsOneH1() || this.bodyContainsMultipleH1s() ) {
-			return this._config.scores.textContainsH1;
+		if ( this.bodyContainsSuperfluousH1s() ) {
+			return this._config.scores.textContainsSuperfluousH1;
 		}
 	}
 
@@ -110,16 +101,9 @@ class singleH1Assessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( i18n ) {
-		if ( this.bodyContainsOneH1() ) {
-			return i18n.dgettext( "js-text-analysis", "The body of your text contains an H1. " +
-				"Change it to the appropriate heading level."
-			);
-		}
-
-
-		if ( this.bodyContainsMultipleH1s() ) {
-			return i18n.dgettext( "js-text-analysis", "The body of your text contains multiple H1s. " +
-				"Change them to the appropriate heading level."
+		if ( this.bodyContainsSuperfluousH1s() ) {
+			return i18n.dgettext( "js-text-analysis", "Your text should only have one title. " +
+				"Change all H1s in your text that aren't your main title to a lower heading level."
 			);
 		}
 	}

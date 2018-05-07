@@ -25,15 +25,16 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		expect( assessment.hasScore() ).toEqual ( false );
 	} );
 
-	it( "returns a bad score and appropriate feedback when there is one H1 in the body of the text", function() {
+	it( "returns a bad score and appropriate feedback when there is one superfluous (i.e., non-title) H1s in the body of the text", function() {
 		let mockPaper = new Paper( "<p>a paragraph</p><h1>heading</h1>" );
 		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual ( "The body of your text contains an H1. Change it to the appropriate heading level." );
+		expect( assessment.getText() ).toEqual ( "Your text should only have one title. " +
+			"Change all H1s in your text that aren't your main title to a lower heading level." );
 	} );
 
-	it( "returns a bad score and appropriate feedback when there are multiple H1s in the body of the text", function() {
+	it( "returns a bad score and appropriate feedback when there are multiple one superfluous (i.e., non-title) H1s in the body of the text", function() {
 		let mockPaper = new Paper( "<p>a paragraph</p><h1>heading 1</h1><p>a paragraph</p><h1>heading 2</h1>" );
 		let assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ tag: "h1", content: "heading 1", position: 2 },
@@ -41,7 +42,8 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual ( "The body of your text contains multiple H1s. Change them to the appropriate heading level." );
+		expect( assessment.getText() ).toEqual ( "Your text should only have one title. " +
+			"Change all H1s in your text that aren't your main title to a lower heading level." );
 	} );
 } );
 
@@ -74,7 +76,7 @@ describe( "A test for marking incorrect H1s in the body", function() {
 		assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 		let expected = [];
 
-		expect( h1Assessment.getMarks() ).toEqual( expected );
+		expect( assessment.getMarks() ).toEqual( expected );
 	} );
 } );
 
