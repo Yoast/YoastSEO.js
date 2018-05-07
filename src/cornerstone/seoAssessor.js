@@ -92,6 +92,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			}
 		),
 		new SingleH1Assessment(),
+	];
 };
 
 require( "util" ).inherits( CornerstoneSEOAssessor, SEOAssessor );
