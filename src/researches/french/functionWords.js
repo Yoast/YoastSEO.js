@@ -252,7 +252,7 @@ module.exports = function() {
 		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
 		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
 
-		// Articles are used in the keywordTitle assessment
+		// Articles are used in the keywordTitle assessment.
 		articles: [].concat( articles ),
 
 		// This export contains all of the above words.

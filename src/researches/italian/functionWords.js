@@ -245,7 +245,7 @@ module.exports = function() {
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
 			interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
 
-		// Articles are used in the keywordTitle assessment
+		// Articles are used in the keywordTitle assessment.
 		articles: [].concat( articles ),
 
 		// This export contains all of the above words.

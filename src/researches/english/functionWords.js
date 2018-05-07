@@ -157,7 +157,7 @@ module.exports = function() {
 		*/
 		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 
-		// Articles are used in the keywordTitle assessment
+		// Articles are used in the keywordTitle assessment.
 		articles: [].concat( articles ),
 
 		// This export contains all of the above words.

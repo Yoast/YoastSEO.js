@@ -167,7 +167,7 @@ module.exports = function() {
 			interrogativeProAdverbs, locativeAdverbs, otherAuxiliaries, copula, subordinatingConjunctions, interviewVerbs, additionalTransitionWords,
 			delexicalizedVerbs, interjections, recipeWords, timeWords, vagueNouns, miscellaneous, titles ),
 
-		// Articles are used in the keywordTitle assessment
+		// Articles are used in the keywordTitle assessment.
 		articles: [].concat( articles ),
 
 		// This export contains all of the above words.

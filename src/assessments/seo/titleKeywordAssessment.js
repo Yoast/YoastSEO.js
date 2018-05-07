@@ -60,7 +60,7 @@ class TitleKeywordAssessment extends Assessment {
 		let assessmentResult = new AssessmentResult();
 
 		if ( paper.hasKeyword() && paper.hasTitle() ) {
-			const calculatedScore = this.calculateScore();
+			const calculatedScore = this.calculateResult();
 			assessmentResult.setScore( calculatedScore.score );
 			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresKeyword,
 				escape( paper.getKeyword() ), i18n ) );
@@ -72,9 +72,9 @@ class TitleKeywordAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the keyphraseLength research.
 	 *
-	 * @returns {Object} object with score and text.
+	 * @returns {Object} Object with score and text.
 	 */
-	calculateScore() {
+	calculateResult() {
 		const matches = this._keywordMatches.matches;
 		const position = this._keywordMatches.position;
 
@@ -106,7 +106,7 @@ class TitleKeywordAssessment extends Assessment {
 			), keyword );
 		}
 
-		return i18n.dgettext( "js-text-analysis", resultText );
+		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
 	}
 }
 

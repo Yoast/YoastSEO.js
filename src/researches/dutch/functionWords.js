@@ -177,7 +177,7 @@ module.exports = function() {
 			correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous,
 			prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns ),
 
-		// Articles are used in the keywordTitle assessment
+		// Articles are used in the keywordTitle assessment.
 		articles: [].concat( articles ),
 
 		// This export contains all of the above words.
