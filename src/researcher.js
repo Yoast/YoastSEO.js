@@ -11,13 +11,10 @@ var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var linkCount = require( "./researches/countLinks.js" );
 var getLinks = require( "./researches/getLinks.js" );
-var urlLength = require( "./researches/urlIsTooLong.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 const getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 const keywordCount = require( "./researches/keywordCount" );
-var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
-var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 var imageCount = require( "./researches/imageCountInText.js" );
@@ -49,7 +46,6 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		urlLength: urlLength,
 		wordCountInText: wordCountInText,
 		findKeywordInPageTitle: findKeywordInPageTitle,
 		calculateFleschReading: calculateFleschReading,
@@ -61,8 +57,6 @@ var Researcher = function( paper ) {
 		matchKeywordInSubheadings: matchKeywordInSubheadings,
 		keywordCount: keywordCount,
 		getKeywordDensity: getKeywordDensity,
-		stopWordsInKeyword: stopWordsInKeyword,
-		stopWordsInUrl: stopWordsInUrl,
 		metaDescriptionLength: metaDescriptionLength,
 		keyphraseLength: keyphraseLength,
 		keywordCountInUrl: keywordCountInUrl,
