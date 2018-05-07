@@ -168,6 +168,7 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
+			"titleWidth",
 		] );
 	} );
 } );
