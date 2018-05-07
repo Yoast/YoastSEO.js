@@ -79,6 +79,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
+
 	it( "additionally runs assessments that require a keyword with a stopword", function() {
 		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
