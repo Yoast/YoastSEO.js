@@ -78,7 +78,7 @@ describe( "running assessments in the assessor", function() {
 			"titleWidth",
 		] );
 	} );
-	
+
 	it( "additionally runs assessments that require a url and a keyword", function() {
 		assessor.assess( new Paper( "text", { url: "https://www.website.com", keyword: "keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
