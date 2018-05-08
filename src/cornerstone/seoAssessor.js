@@ -15,6 +15,7 @@ let internalLinks = require( "../assessments/seo/internalLinksAssessment" );
 let titleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
 let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
+let SingleH1Assessment = require( "../assessments/seo/singleH1Assessment.js" );
 
 /**
  * Creates the Assessor
@@ -90,6 +91,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
+		new SingleH1Assessment(),
 	];
 };
 

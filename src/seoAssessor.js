@@ -14,6 +14,8 @@ var internalLinks = require( "./assessments/seo/internalLinksAssessment" );
 var titleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
 var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
+var SingleH1Assessment = require( "./assessments/seo/singleH1Assessment.js" );
+
 /**
  * Creates the Assessor
  *
@@ -41,6 +43,7 @@ var SEOAssessor = function( i18n, options ) {
 		titleKeyword,
 		new TitleWidth(),
 		new UrlKeyword(),
+		new SingleH1Assessment(),
 	];
 };
 
