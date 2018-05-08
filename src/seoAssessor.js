@@ -15,6 +15,7 @@ var titleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
 var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 var LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
+var SingleH1Assessment = require( "./assessments/seo/singleH1Assessment.js" );
 
 /**
  * Creates the Assessor
@@ -44,6 +45,7 @@ var SEOAssessor = function( i18n, options ) {
 		new TitleWidth(),
 		new UrlKeyword(),
 		new LargestKeywordDistance(),
+		new SingleH1Assessment(),
 	];
 };
 
