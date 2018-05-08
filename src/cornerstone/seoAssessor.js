@@ -2,10 +2,9 @@ let Assessor = require( "../assessor.js" );
 let SEOAssessor = require( "../seoAssessor" );
 
 let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
-let keyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
-let keywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
-let keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment.js" );
-let metaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
+let KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
+let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
+let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
 let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
 let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
 let textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
@@ -16,8 +15,7 @@ let internalLinks = require( "../assessments/seo/internalLinksAssessment" );
 let titleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
 let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
-let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
-let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
+let SingleH1Assessment = require( "../assessments/seo/singleH1Assessment.js" );
 
 /**
  * Creates the Assessor
@@ -33,10 +31,9 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		introductionKeyword,
-		keyphraseLength,
-		keywordDensity,
-		keywordStopWords,
-		metaDescriptionKeyword,
+		new KeyphraseLength(),
+		new KeywordDensity(),
+		new MetaDescriptionKeyword(),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
@@ -94,12 +91,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		new UrlLength( {
-			scores: {
-				tooLong: 3,
-			},
-		} ),
-		urlStopWords,
+		new SingleH1Assessment(),
 	];
 };
 

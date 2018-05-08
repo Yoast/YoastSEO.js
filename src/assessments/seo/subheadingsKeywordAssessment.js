@@ -7,7 +7,6 @@ let inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStar
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
 class SubHeadingsKeywordAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -180,7 +179,6 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = SubHeadingsKeywordAssessment;

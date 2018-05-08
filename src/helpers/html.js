@@ -14,7 +14,7 @@ var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^
 var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 
 var contentRegex = /^[^<]+$/;
@@ -97,7 +97,6 @@ function getBlocks( text ) {
 		var nextToken = tokens[ i + 1 ];
 
 		switch ( token.type ) {
-
 			case "content":
 			case "greater-than-sign-content":
 			case "inline-start":

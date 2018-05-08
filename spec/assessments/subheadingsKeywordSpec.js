@@ -10,9 +10,9 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
 
-		expect( assessment.hasScore()).toBe( false );
+		expect( assessment.hasScore() ).toBe( false );
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual ( "" );
+		expect( assessment.getText() ).toEqual( "" );
 	} );
 
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyword", function() {

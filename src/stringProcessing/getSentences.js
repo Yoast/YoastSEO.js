@@ -24,12 +24,12 @@ var newLines = "\n\r|\n|\r";
 var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
-var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
+var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^\s*[[({]\s*$/;
+var blockEndRegex = /^\s*[\])}]\s*$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -217,7 +217,6 @@ function getSentencesFromTokens( tokens ) {
 		var nextCharacters;
 
 		switch ( token.type ) {
-
 			case "html-start":
 			case "html-end":
 				if ( isBreakTag( token.src ) ) {
@@ -235,7 +234,7 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
