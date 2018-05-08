@@ -66,7 +66,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		return paper.hasText() && paper.hasKeyword();
 	}
 
-	/*
+	/**
 	 * Checks whether there are no subheadings with the keyword.
 	 *
 	 * @returns {boolean} Returns true if there are no subheadings with the keyword.
@@ -75,7 +75,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		return this._subHeadings.matches === 0;
 	}
 
-	/*
+	/**
 	 * Checks whether there are too few subheadings with the keyword.
 	 *
 	 * @returns {boolean} Returns true if there are more than 0 subheadings with the keyword,
@@ -85,7 +85,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
 	}
 
-	/*
+	/**
 	 * Checks whether there is a good number of subheadings with the keyword.
 	 *
 	 * @returns {boolean} Returns true if there is only one subheading and
@@ -97,7 +97,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			inRangeStartEndInclusive( this._subHeadings.matches, this._minNumberOfSubheadings, this._maxNumberOfSubheadings );
 	}
 
-	/*
+	/**
 	 * Checks whether there are too many subheadings with the keyword.
 	 * The upper limit is only applicable if there is more than one subheading.
 	 * If there is only one subheading with the keyword this would otherwise
