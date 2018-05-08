@@ -29,14 +29,22 @@ module.exports = function( paper ) {
 	keyword = keyword.toLocaleLowerCase();
 	result.position = title.indexOf( keyword );
 
-	if ( result.matches > 0 && result.position > 0 ) {
-		const articles = functionWords[ getLanguage( locale ) ].articles;
-		if ( ! isUndefined( articles ) ) {
-			const articlesRegex = createRegexFromArray( articles );
-			title = stripSpaces( title.replace( articlesRegex, "" ) );
-			result.position = title.indexOf( keyword );
-		}
+	// Return if no matches were found
+	if  ( result.matches === 0 || result.position <= 0 ) {
+		return result;
 	}
 
+	/*
+	 * If some matches were found, we need to return their position in the title.
+	 * If the keyword is in the beginning of the title, but it is used with an article, we still want to return
+	 * a position 0, not 1.
+	 * Here we trim away all articles and calculate the position of the keyword after that.
+	 */
+	const articles = functionWords[ getLanguage( locale ) ].articles;
+	if ( ! isUndefined( articles ) ) {
+		const articlesRegex = createRegexFromArray( articles );
+		title = stripSpaces( title.replace( articlesRegex, "" ) );
+		result.position = title.indexOf( keyword );
+	}
 	return result;
 };
