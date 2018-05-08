@@ -14,12 +14,11 @@ module.exports = function( paper ) {
 	let text = paper.getText();
 	text = text.toLowerCase();
 	text = normalizeQuotes( text );
-	let textLength = text.length;
+	const textLength = text.length;
 	let keyword = paper.getKeyword();
 	keyword = keyword.toLowerCase();
 	keyword = normalizeQuotes( keyword );
-
-	let keywordIndices = getIndicesByWord( keyword, text );
+	const keywordIndices = getIndicesByWord( keyword, text );
 	let keywordDistances = [];
 
 	/*
@@ -28,12 +27,12 @@ module.exports = function( paper ) {
 	 * and the last keyword and the end of the text.
 	 */
 	forEach( keywordIndices, function( keywordIndex ) {
-		let currentIndexWithinArray = keywordIndices.indexOf( keywordIndex );
+		const currentIndexWithinArray = keywordIndices.indexOf( keywordIndex );
 		let indexOfPreviousKeyword;
 
 		if ( currentIndexWithinArray === 0 && keywordIndices.length === 1 ) {
 			/*
-			 * If there's only one keyword return the distance from the beginning
+			 * If there's only one keyword, return the distance from the beginning
 			 * of the text to the keyword and from the keyword to the end of the text.
 			 */
 			keywordDistances.push( keywordIndex.index );
@@ -46,7 +45,7 @@ module.exports = function( paper ) {
 			keywordDistances.push( keywordIndex.index );
 		} else if ( currentIndexWithinArray === keywordIndices.length - 1 ) {
 			/*
-			 * For the last instance of the keyword calculate the distance between that keyword
+			 * For the last instance of the keyword, calculate the distance between that keyword
 			 * and the previous keyword and also the distance between that keyword and the end
 			 * of the text.
 			 */
@@ -56,7 +55,7 @@ module.exports = function( paper ) {
 			keywordDistances.push( text.length - keywordIndex.index );
 		} else {
 			/*
-			 * For all instances in between first and last calculate the distance between
+			 * For all instances in between first and last, calculate the distance between
 			 * each of these keywords and the preceding keyword.
 			 */
 			indexOfPreviousKeyword = ( keywordIndices[ currentIndexWithinArray - 1 ].index );
@@ -65,7 +64,7 @@ module.exports = function( paper ) {
 	} );
 	keywordDistances = sortBy( keywordDistances );
 	keywordDistances = keywordDistances.reverse();
-	let largestKeywordDistance = keywordDistances[ 0 ];
+	const largestKeywordDistance = keywordDistances[ 0 ];
 
 	return ( largestKeywordDistance / textLength ) * 100;
 };

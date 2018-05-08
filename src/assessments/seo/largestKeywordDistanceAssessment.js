@@ -21,11 +21,17 @@ class largestKeywordDistanceAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMaximumKeyWordDistance: 30,
-			scores: {
-				badDistribution: 1,
-				goodDistribution: 9,
+			good: {
+				score: 9,
+				resultText: "Your keyword is distributed evenly throughout the text. " +
+				"That's great.",
+			},
+			bad: {
+				score: 1,
+				resultText: "Some parts of your text do not contain the keyword. " +
+					"Try to distribute the keyword more evenly.",
 			},
 		};
 
@@ -34,7 +40,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	}
 
 	/**
-	 * Runs the largestKeywordDistance module, based on this returns an assessment result with score.
+	 * Runs the largestKeywordDistance research and based on this returns an assessment result.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
@@ -43,14 +49,30 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
+		const largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( largestKeywordDistance ) );
-		assessmentResult.setText( this.translateScore( largestKeywordDistance, i18n ) );
-		assessmentResult.setHasMarks( ( this.calculateScore( largestKeywordDistance ) < 2 ) );
+		const calculatedResult = this.calculateResult( largestKeywordDistance );
+
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
+		assessmentResult.setHasMarks( ( calculatedResult.score < 2 ) );
 
 		return assessmentResult;
+	}
+
+	/**
+	 *  Calculates the result based on the largestKeywordDistance research.
+	 *
+	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
+	 *
+	 * @returns {Object} Object with score and feedback text.
+	 */
+	calculateResult( largestKeywordDistance ) {
+		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
+			return this._config.bad;
+		}
+		return this._config.good;
 	}
 
 	/**
@@ -60,28 +82,17 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateScore( largestKeywordDistance ) {
-		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
-			return this._config.scores.badDistribution;
-		}
-		return this._config.scores.goodDistribution;
-	}
 
 	/**
 	 * Translates the largest keyword assessment score to a message the user can understand.
 	 *
-	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
-	 * @param {object} i18n The object used for translations.
+	 * @param {string} resultText The feedback text for a given value of the assessment result.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( largestKeywordDistance, i18n ) {
-		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
-			return i18n.dgettext( "js-text-analysis", "Some parts of your text do not contain the keyword. " +
-				"Try to distribute the keyword more evenly." );
-		}
-		return i18n.dgettext( "js-text-analysis", "Your keyword is distributed evenly throughout the text. " +
-				"That's great." );
+	translateScore( resultText, i18n ) {
+		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
 	}
 
 	/**
@@ -110,7 +121,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
-		let keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
+		const keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && keywordCount > 1;
 	}
 }
