@@ -2,7 +2,6 @@ const largestKeyWordDistanceAssessment = require( "../../js/assessments/seo/larg
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
 const i18n = Factory.buildJed();
-const countWords = require( "../../src/stringProcessing/countWords.js" );
 const Mark = require( "../../js/values/Mark.js" );
 
 let keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
@@ -13,7 +12,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual ( "Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
+		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
 	} );
 
 	it( "runs the largest keyword distance assessment on the paper", function() {
@@ -21,7 +20,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "Your keyword is distributed evenly throughout the text. That's great." );
+		expect( assessment.getText() ).toEqual( "Your keyword is distributed evenly throughout the text. That's great." );
 	} );
 } );
 
@@ -33,7 +32,7 @@ describe( "Checks if the assessment is applicable", function() {
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse." + "Lorem ipsum dolor sit amet, vim illum aeque" +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
@@ -73,7 +72,7 @@ describe( "Checks if the assessment is applicable", function() {
 } );
 
 describe( "A test for marking keywords in the text", function() {
-	it ( "returns markers for keywords in the text", function() {
+	it( "returns markers for keywords in the text", function() {
 		let mockPaper = new Paper( "Text.", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment;
 

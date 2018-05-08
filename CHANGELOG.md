@@ -5,6 +5,41 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.31.0 April 26th, 2018
+### Added
+* Adds readability analysis for Russian.
+* Adds prominent words for Russian.
+
+### Changed
+* Improves SVG image accessibility.
+* Updates the language support table in the README.
+
+### Fixed
+* Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
+
+## 1.30.2  March 16th, 2018
+### Changed
+* Reverted the default view of the snippet preview to desktop.
+
+## 1.30.1 March 12th, 2018
+### Fixed
+* Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
+
+## 1.30.0 March 5th, 2018
+### Added
+* Adds a setter for titleWidth to the snippet preview. 
+* Adds a researcher to calculate the reading time for a given paper.
+* Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
+* Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
+* Adds prominent words for Portuguese, props [amesdigital](https://github.com/amesdigital).
+
+### Changed
+* The snippet preview now shows the mobile preview by default.
+* Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
+* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection. 
+* Slightly increased the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
+* Improves the list of Portuguese function words.
+
 ## 1.29.0 January 15th, 2018
 ### Added
 * Adds language support table to the README.

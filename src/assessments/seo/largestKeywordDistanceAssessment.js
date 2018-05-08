@@ -111,7 +111,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		let keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >=200 && keywordCount > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && keywordCount > 1;
 	}
 }
 

@@ -1,4 +1,4 @@
-const largestKeywordDistance = require("../../js/researches/largestKeywordDistance.js");
+const largestKeywordDistance = require( "../../js/researches/largestKeywordDistance.js" );
 const Paper = require( "../../js/values/Paper.js" );
 
 describe( "Test for checking the largest percentage of a text without keyword", function() {
