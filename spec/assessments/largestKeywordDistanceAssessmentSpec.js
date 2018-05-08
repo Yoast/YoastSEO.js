@@ -2,8 +2,10 @@ const largestKeyWordDistanceAssessment = require( "../../js/assessments/seo/larg
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
 const i18n = Factory.buildJed();
+const countWords = require( "../../src/stringProcessing/countWords.js" );
+const Mark = require( "../../js/values/Mark.js" );
 
-const keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
+let keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
 
 describe( "An assessment to check the largest percentage of text in which no keyword occurs", function() {
 	it( "runs the largest keyword distance assessments on the paper", function() {
@@ -11,7 +13,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual ( "There are some parts of your text that do not contain the keyword. Try to distribute the keyword more evenly." );
+		expect( assessment.getText() ).toEqual ( "Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
 	} );
 
 	it( "runs the largest keyword distance assessment on the paper", function() {
@@ -24,15 +26,39 @@ describe( "An assessment to check the largest percentage of text in which no key
 } );
 
 describe( "Checks if the assessment is applicable", function() {
-	it( "is applicable papers with more than 100 words and 2 keywords", function() {
-		let mockPaper = new Paper( "Keyword and keyword. Lorem ipsum dolor sit amet, eum ne novum dictas temporibus, te quodsi nostrum mea. Amet nostrud ut mel, graeco laboramus sit et, sea alia animal an. Probo inciderint ius cu, aperiam fabellas reformidans ei eum. In porro decore neglegentur mel. Ad duo amet causae fuisset, no scripta virtute fuisset nam. Graece inciderint dissentiunt eos te. His ad tritani adolescens honestatis, affert iuvaret cotidieque mea te. Te vis doctus deleniti theophrastus. Ut vim viris delicata assentior, duo ne discere partiendo reformidans, eos solum equidem complectitur in. Ei illum civibus reformidans pro. Te vel senserit elaboraret. Dicta dicam dicant mei ad tale.", { keyword: "keyword" } );
+	it( "is applicable papers with more than 200 words and 2 keywords", function() {
+		let mockPaper = new Paper( "This is a keyword and a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse." + "Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable papers with more than 100 words and only 1 keyword", function() {
-		let mockPaper = new Paper( "The keyword. Lorem ipsum dolor sit amet, eum ne novum dictas temporibus, te quodsi nostrum mea. Amet nostrud ut mel, graeco laboramus sit et, sea alia animal an. Probo inciderint ius cu, aperiam fabellas reformidans ei eum. In porro decore neglegentur mel. Ad duo amet causae fuisset, no scripta virtute fuisset nam. Graece inciderint dissentiunt eos te. His ad tritani adolescens honestatis, affert iuvaret cotidieque mea te. Te vis doctus deleniti theophrastus. Ut vim viris delicata assentior, duo ne discere partiendo reformidans, eos solum equidem complectitur in. Ei illum civibus reformidans pro. Te vel senserit elaboraret. Dicta dicam dicant mei ad tale.", { keyword: "keyword" } );
+	it( "is not applicable papers with more than 200 words and only 1 keyword", function() {
+		let mockPaper = new Paper( "This is the keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( false );
@@ -43,5 +69,19 @@ describe( "Checks if the assessment is applicable", function() {
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( false );
+	} );
+} );
+
+describe( "A test for marking keywords in the text", function() {
+	it ( "returns markers for keywords in the text", function() {
+		let mockPaper = new Paper( "Text.", { keyword: "keyword" } );
+		let assessment = keywordDistanceAssessment;
+
+		let expected = [
+			new Mark( { original: "keyword",
+				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>" } ),
+		];
+
+		expect( assessment.getMarks( mockPaper ) ).toEqual( expected );
 	} );
 } );

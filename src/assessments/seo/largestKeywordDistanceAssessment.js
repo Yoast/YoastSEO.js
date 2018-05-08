@@ -3,6 +3,8 @@ const Assessment = require( "../../assessment.js" );
 const merge = require( "lodash/merge" );
 const countWords = require( "../../stringProcessing/countWords.js" );
 const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
+const Mark = require( "../../values/Mark.js" );
+const marker = require( "../../markers/addMark.js" );
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -46,6 +48,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		assessmentResult.setScore( this.calculateScore( largestKeywordDistance ) );
 		assessmentResult.setText( this.translateScore( largestKeywordDistance, i18n ) );
+		assessmentResult.setHasMarks( ( this.calculateScore( largestKeywordDistance ) < 2 ) );
 
 		return assessmentResult;
 	}
@@ -74,11 +77,27 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	translateScore( largestKeywordDistance, i18n ) {
 		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
-			return i18n.dgettext( "js-text-analysis", "There are some parts of your text that do not contain the keyword. " +
+			return i18n.dgettext( "js-text-analysis", "Some parts of your text do not contain the keyword. " +
 				"Try to distribute the keyword more evenly." );
 		}
 		return i18n.dgettext( "js-text-analysis", "Your keyword is distributed evenly throughout the text. " +
 				"That's great." );
+	}
+
+	/**
+	 * Creates a marker for the keyword.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
+	 * @returns {Array} All markers for the current text.
+	 */
+	getMarks( paper ) {
+		const keyword = paper.getKeyword();
+
+		return [ new Mark( {
+			original: keyword,
+			marked: marker( keyword ),
+		} ) ];
 	}
 
 	/**
@@ -92,7 +111,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		let keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && keywordCount > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >=200 && keywordCount > 1;
 	}
 }
 
