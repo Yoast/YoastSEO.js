@@ -102,7 +102,7 @@ class singleH1Assessment extends Assessment {
 	 */
 	translateScore( i18n ) {
 		if ( this.bodyContainsSuperfluousH1s() ) {
-			return i18n.dgettext( "js-text-analysis", "Your text should only have one title. " +
+			return i18n.dgettext( "js-text-analysis", "H1s should only be used as your main title. " +
 				"Change all H1s in your text that aren't your main title to a lower heading level."
 			);
 		}
