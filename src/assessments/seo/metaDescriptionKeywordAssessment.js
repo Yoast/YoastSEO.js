@@ -16,7 +16,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMinimumMatches: 1,
 			recommendedMaximumMatches: 2,
 			scores: {
@@ -41,7 +41,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-		var assessmentResult = new AssessmentResult();
+		let assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore() );
 		assessmentResult.setText( this.translateScore( i18n ) );

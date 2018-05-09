@@ -8,7 +8,7 @@ let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 describe( "An assessment for matching keywords in subheadings", function() {
 	it( "returns the default assessment values for a string without subheadings", function() {
 		const mockPaper = new Paper();
-		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
+		const assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
 
 		expect( assessment.hasScore() ).toBe( false );
 		expect( assessment.getScore() ).toEqual( 0 );
@@ -31,7 +31,7 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		expect( assessment.getText() ).toEqual( "The focus keyword appears only in 1 out of 4 subheadings. Try to use it in more subheadings." );
 	} );
 
-	it( "returns a good score and appropriate feedback when there is a sufficient amount of subheadings containing the keyword", function() {
+	it( "returns a good score and appropriate feedback when there is a sufficient number of subheadings containing the keyword", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 4, matches: 2 } ), i18n );
 
