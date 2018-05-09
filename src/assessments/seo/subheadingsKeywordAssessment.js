@@ -1,7 +1,7 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
-let inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const merge = require( "lodash/merge" );
+const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -17,7 +17,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				noMatches: 3,
 				tooFewMatches: 3,
@@ -33,11 +33,11 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
+	 * Runs the matchKeywordInSubheadings research and based on this returns an assessment result.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -47,7 +47,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.upperBoundary );
 
 		let assessmentResult = new AssessmentResult();
-		let score = this.calculateScore();
+		const score = this.calculateScore();
 
 		assessmentResult.setScore( score );
 		assessmentResult.setText( this.translateScore( this._subHeadings, i18n ) );
@@ -138,8 +138,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {object} subHeadings The object with all subHeadings matches.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} subHeadings The object with all subHeadings matches.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
@@ -153,7 +153,10 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.hasTooFewMatches() ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d out of %1$d subheadings. " +
+				i18n.dgettext( "js-text-analysis",
+					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
+					 number of subheadings containing the keyword. */
+					"The focus keyword appears only in %2$d out of %1$d subheadings. " +
 					"Try to use it in more subheadings." ),
 					subHeadings.count, subHeadings.matches
 			);
@@ -161,7 +164,10 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.hasGoodNumberOfMatches() ) {
 			return i18n.sprintf(
-				i18n.dngettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheading. " +
+				i18n.dngettext( "js-text-analysis",
+					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
+					 number of subheadings containing the keyword. */
+					"The focus keyword appears in %2$d out of %1$d subheading. " +
 					"That's great.", "The focus keyword appears in %2$d out of %1$d subheadings. " +
 					"That's great.", subHeadings.count ),
 				subHeadings.count, subHeadings.matches
@@ -170,7 +176,10 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.hasTooManyMatches() ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d out of %1$d subheadings. " +
+				i18n.dgettext( "js-text-analysis",
+					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
+					 number of subheadings containing the keyword. */
+					"The focus keyword appears in %2$d out of %1$d subheadings. " +
 					"That might sound a bit repetitive. " +
 					"Try to change some of those subheadings to make the flow of your text sound more natural." ),
 				subHeadings.count, subHeadings.matches
