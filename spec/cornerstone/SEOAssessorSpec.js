@@ -28,6 +28,20 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"textLength",
+			"titleWidth",
+		] );
+	} );
+
+	it( "runs assessments that only require a keyword and a title", function() {
+		assessor.assess( new Paper( "", { keyword: "keyword", title: "title with or without a keyword" } ) );
+		let assessments = getResults( assessor.getValidResults() );
+
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
+			"keyphraseLength",
+			"metaDescriptionKeyword",
+			"metaDescriptionLength",
+			"textLength",
 			"titleKeyword",
 			"titleWidth",
 		] );
@@ -61,7 +75,6 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
-			"titleKeyword",
 			"titleWidth",
 		] );
 	} );
@@ -79,7 +92,6 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
-			"titleKeyword",
 			"titleWidth",
 			"urlKeyword",
 		] );
@@ -106,7 +118,6 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
-			"titleKeyword",
 			"titleWidth",
 		] );
 	} );

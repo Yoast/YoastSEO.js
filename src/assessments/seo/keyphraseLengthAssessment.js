@@ -104,11 +104,12 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	translateScore( resultText, requiresLengthAndMax, i18n ) {
 		if ( requiresLengthAndMax ) {
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the keyphrase,
-				%2$d expands to the recommended maximum of words in the keyphrase. */
-				resultText
+			return i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					/* Translators: %1$d expands to the number of words in the keyphrase,
+					%2$d expands to the recommended maximum of words in the keyphrase. */
+					resultText
 				), this._keyphraseLength, this._config.parameters.recommendedMaximum
 			);
 		}
