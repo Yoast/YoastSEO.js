@@ -1,21 +1,21 @@
-let Assessor = require( "../assessor.js" );
-let SEOAssessor = require( "../seoAssessor" );
+const Assessor = require( "../assessor.js" );
+const SEOAssessor = require( "../seoAssessor" );
 
-let IntroductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
-let KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
-let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
-let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
-let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
-let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
-let textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
-let TextImages = require( "../assessments/seo/textImagesAssessment.js" );
-let TextLength = require( "../assessments/seo/textLengthAssessment.js" );
-let OutboundLinks = require( "../assessments/seo/outboundLinksAssessment.js" );
-let internalLinks = require( "../assessments/seo/internalLinksAssessment" );
-let TitleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
-let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
-let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
-let SingleH1Assessment = require( "../assessments/seo/singleH1Assessment.js" );
+const IntroductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
+const KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
+const KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
+const MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
+const MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
+const SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
+const TextCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
+const TextImages = require( "../assessments/seo/textImagesAssessment.js" );
+const TextLength = require( "../assessments/seo/textLengthAssessment.js" );
+const OutboundLinks = require( "../assessments/seo/outboundLinksAssessment.js" );
+const internalLinks = require( "../assessments/seo/internalLinksAssessment" );
+const TitleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
+const TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
+const UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
+const SingleH1Assessment = require( "../assessments/seo/singleH1Assessment.js" );
 
 /**
  * Creates the Assessor
@@ -49,7 +49,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		textCompetingLinks,
+		new TextCompetingLinks(),
 		new TextImages( {
 			scores: {
 				noImages: 3,
