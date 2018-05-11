@@ -1,7 +1,7 @@
 let Assessor = require( "../assessor.js" );
 let SEOAssessor = require( "../seoAssessor" );
 
-let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
+let IntroductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
 let KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
 let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
 let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
@@ -30,7 +30,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
-		introductionKeyword,
+		new IntroductionKeyword(),
 		new KeyphraseLength(),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),

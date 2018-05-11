@@ -23,7 +23,6 @@ describe( "running assessments in the assessor", function() {
 		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
-			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
@@ -37,7 +36,6 @@ describe( "running assessments in the assessor", function() {
 		let assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
-			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
@@ -62,7 +60,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword", function() {
+	it( "additionally runs assessments that require a text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
@@ -79,7 +77,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a url and a keyword", function() {
+	it( "additionally runs assessments that require a text, a url and a keyword", function() {
 		assessor.assess( new Paper( "text", { url: "https://www.website.com", keyword: "keyword" } ) );
 		let assessments = getResults( assessor.getValidResults() );
 
