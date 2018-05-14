@@ -11,7 +11,7 @@ const TextCompetingLinks = require( "../assessments/seo/textCompetingLinksAssess
 const TextImages = require( "../assessments/seo/textImagesAssessment.js" );
 const TextLength = require( "../assessments/seo/textLengthAssessment.js" );
 const OutboundLinks = require( "../assessments/seo/outboundLinksAssessment.js" );
-const internalLinks = require( "../assessments/seo/internalLinksAssessment" );
+const InternalLinks = require( "../assessments/seo/internalLinksAssessment" );
 const TitleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
 const TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 const UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
@@ -74,7 +74,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				noLinks: 3,
 			},
 		} ),
-		internalLinks,
+		new InternalLinks(),
 		new TitleKeyword(),
 		new TitleWidth(
 			{
