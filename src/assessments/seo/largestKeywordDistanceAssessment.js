@@ -14,7 +14,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -44,7 +44,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -72,6 +72,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
 			return this._config.bad;
 		}
+
 		return this._config.good;
 	}
 
@@ -122,6 +123,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		const keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
+
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && keywordCount > 1;
 	}
 }
