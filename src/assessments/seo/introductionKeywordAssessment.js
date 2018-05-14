@@ -47,10 +47,6 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
 
-		if ( ! this.isApplicable( paper ) ) {
-			return assessmentResult;
-		}
-
 		this._firstParagraphMatches = researcher.getResearch( "firstParagraph" );
 		const calculatedResult = this.calculateResult();
 

@@ -48,10 +48,6 @@ class TextCompetingLinksAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
 
-		if ( ! this.isApplicable( paper ) ) {
-			return assessmentResult;
-		}
-
 		this.linkCount = researcher.getResearch( "getLinkStatistics" );
 
 		const calculatedResult = this.calculateResult();

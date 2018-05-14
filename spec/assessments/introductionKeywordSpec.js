@@ -36,20 +36,12 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns no score if no keyword is defined", function() {
-		const assessment = new FirstParagraphAssessment().getResult(
-			new Paper( "some text" ),
-			Factory.buildMockResearcher( 0 ),
-			i18n
-		);
-		expect( assessment.hasScore() ).toBe( false );
+		const isApplicableResult = new FirstParagraphAssessment().isApplicable( new Paper( "some text" ) );
+		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns no score if no text is defined", function() {
-		const assessment = new FirstParagraphAssessment().getResult(
-			new Paper( "", { keyword: "some keyword" } ),
-			Factory.buildMockResearcher( 0 ),
-			i18n
-		);
-		expect( assessment.hasScore() ).toBe( false );
+		const isApplicableResult = new FirstParagraphAssessment().isApplicable( new Paper( "" ), { keyword: "some keyword" } );
+		expect( isApplicableResult ).toBe( false );
 	} );
 } );

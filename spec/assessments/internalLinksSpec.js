@@ -41,10 +41,8 @@ describe( "An assessor running the linkStatistics for internal links", function(
 	} );
 
 	it( "A paper without text", function() {
-		const mockPaper = new Paper( "" );
-		const assessment = new LinkStatisticAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalTotal: 0 } ), i18n );
-
-		expect( assessment.hasScore() ).toEqual( false );
+		const isApplicableResult = new LinkStatisticAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
+		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "A paper with a broken researcher", function() {

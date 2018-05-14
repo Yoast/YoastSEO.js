@@ -63,10 +63,6 @@ class TextHasInternalLinksAssessment extends Assessment {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		let assessmentResult = new AssessmentResult();
 
-		if ( ! this.isApplicable( paper ) ) {
-			return assessmentResult;
-		}
-
 		if ( ! isEmpty( this.linkStatistics ) ) {
 			const calculatedResult = this.calculateResult();
 			assessmentResult.setScore( calculatedResult.score );
