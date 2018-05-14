@@ -35,9 +35,9 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Runs the matchKeywordInSubheadings research and based on this returns an assessment result.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Paper} paper             The paper to use for the assessment.
+	 * @param {Researcher} researcher   The researcher used for calling research.
+	 * @param {Object} i18n             The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -76,21 +76,21 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are too few subheadings with the keyword.
+	 * Checks whether there are too few subheadings with the keyword. This is the case if the number of subheadings
+	 * with the keyword is more than 0 but less than the specified recommended minimum.
 	 *
-	 * @returns {boolean} Returns true if there are more than 0 subheadings with the keyword,
-	 * but less than the specified recommended minimum.
+	 * @returns {boolean} Returns true if the keyword is included in too few subheadings.
 	 */
 	hasTooFewMatches() {
 		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
 	}
 
 	/**
-	 * Checks whether there is a good number of subheadings with the keyword.
-	 *
-	 * @returns {boolean} Returns true if there is only one subheading and
-	 * that subheading includes the keyword or if the number of subheadings
+	 * Checks whether there is a good number of subheadings with the keyword. This is the case if there
+	 * is only one subheading and that subheading includes the keyword or if the number of subheadings
 	 * with the keyword is within the specified recommended range.
+	 *
+	 * @returns {boolean} Returns true if the keyword is included in a sufficient number of subheadings.
 	 */
 	hasGoodNumberOfMatches() {
 		return ( this._subHeadings.count === 1 && this._subHeadings.matches === 1 ) ||
@@ -111,7 +111,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score for the subheadings.
+	 * Calculates the score for the subheadings.
 	 *
 	 * @returns {number|null} The calculated score.
 	 */
@@ -138,8 +138,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {Object} subHeadings The object with all subHeadings matches.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Object} subHeadings  The object with all subHeadings matches.
+	 * @param {Object} i18n         The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
