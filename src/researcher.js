@@ -35,6 +35,7 @@ var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
 var largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 var readingTime = require( "./researches/readingTime" );
+const h1s = require( "./researches/h1s.js" );
 
 /**
  * This contains all possible, default researches.
@@ -75,6 +76,7 @@ var Researcher = function( paper ) {
 		readingTime: readingTime,
 		sentences,
 		largestKeywordDistance: largestKeywordDistance,
+		h1s,
 	};
 
 	this.customResearches = {};
