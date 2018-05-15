@@ -1,6 +1,6 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const merge = require( "lodash/merge" );
 
 /**
  * Assessment for calculating the length of the meta description.
@@ -16,7 +16,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMinimumMatches: 1,
 			recommendedMaximumMatches: 2,
 			scores: {
@@ -41,7 +41,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-		var assessmentResult = new AssessmentResult();
+		let assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore() );
 		assessmentResult.setText( this.translateScore( i18n ) );
@@ -116,7 +116,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {boolean} True when the paper has a keyword.
 	 */
 	isApplicable( paper ) {
-		return paper.hasKeyword();
+		return paper.hasKeyword() && paper.hasDescription();
 	}
 }
 
