@@ -37,11 +37,11 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
-	it( "checks isApplicable for  a paper without keyword", function() {
+	it( "checks isApplicable for a paper without keyword", function() {
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "some text", { keyword: "" } ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
-	it( "checks isApplicable for  a paper without text", function() {
+	it( "checks isApplicable for a paper with text and keyword", function() {
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "some text", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( true );
 	} );

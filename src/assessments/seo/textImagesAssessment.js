@@ -24,6 +24,26 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
+			noImages: {
+				score: 3,
+				resultText: "No images appear in this page, consider adding some as appropriate.",
+			},
+			withAltKeyword: {
+				score: 9,
+				resultText: "The images on this page contain alt attributes with the focus keyword.",
+			},
+			withAltNonKeyword: {
+				score: 6,
+				resultText: "The images on this page do not have alt attributes containing the focus keyword.",
+			},
+			withAlt: {
+				score: 6,
+				resultText: "The images on this page contain alt attributes.",
+			},
+			noAlt: {
+				score: 6,
+				resultText: "The images on this page are missing alt attributes.",
+			},
 		};
 
 		this.identifier = "textImages";
@@ -41,11 +61,12 @@ class TextImagesAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
-		let imageCount = researcher.getResearch( "imageCount" );
-		let altProperties = researcher.getResearch( "altTagCount" );
+		this.imageCount = researcher.getResearch( "imageCount" );
+		this.altProperties = researcher.getResearch( "altTagCount" );
 
-		assessmentResult.setScore( this.calculateScore( imageCount, altProperties ) );
-		assessmentResult.setText( this.translateScore( imageCount, altProperties, i18n ) );
+		const calculatedResult = this.calculateResult();
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
 
 		return assessmentResult;
 	}
@@ -62,76 +83,43 @@ class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the score based on the current image count and current image alt-tag count.
+	 * Calculate the result based on the current image count and current image alt-tag count.
 	 *
-	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {object} altProperties An object containing the various alt-tags.
-	 *
-	 * @returns {number} The calculated score.
+	 * @returns {Object} The calculated result.
 	 */
-	calculateScore( imageCount, altProperties ) {
-		if ( imageCount === 0 ) {
-			return this._config.scores.noImages;
+	calculateResult() {
+		if ( this.imageCount === 0 ) {
+			return this._config.noImages;
 		}
 
 		// Has alt-tag and keywords
-		if ( altProperties.withAltKeyword > 0 ) {
-			return this._config.scores.withAltKeyword;
+		if ( this.altProperties.withAltKeyword > 0 ) {
+			return this._config.withAltKeyword;
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
-		if ( altProperties.withAltNonKeyword > 0 ) {
-			return this._config.scores.withAltNonKeyword;
+		if ( this.altProperties.withAltNonKeyword > 0 ) {
+			return this._config.withAltNonKeyword;
 		}
 
 		// Has alt-tag, but no keyword is set
-		if ( altProperties.withAlt > 0 ) {
-			return this._config.scores.withAlt;
+		if ( this.altProperties.withAlt > 0 ) {
+			return this._config.withAlt;
 		}
 
-		// Has no alt-tag
-		if ( altProperties.noAlt > 0 ) {
-			return this._config.scores.noAlt;
-		}
-
-		return null;
+		return this._config.noAlt;
 	}
 
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {object} altProperties An object containing the various alt-tags.
-	 * @param {object} i18n The object used for translations.
+	 * @param {string} resultText The feedback to give to the user.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( imageCount, altProperties, i18n ) {
-		if ( imageCount === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." );
-		}
-
-		// Has alt-tag and keywords
-		if ( altProperties.withAltKeyword > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." );
-		}
-
-		// Has alt-tag, but no keywords and it's not okay
-		if ( altProperties.withAltNonKeyword > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing the focus keyword." );
-		}
-
-		// Has alt-tag, but no keyword is set
-		if ( altProperties.withAlt > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes." );
-		}
-
-		// Has no alt-tag
-		if ( altProperties.noAlt > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page are missing alt attributes." );
-		}
-
-		return "";
+	translateScore( resultText, i18n ) {
+		return i18n.dgettext( "js-text-analysis", resultText );
 	}
 }
 
