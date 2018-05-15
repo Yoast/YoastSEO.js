@@ -11,7 +11,7 @@ var TextImages = require( "./assessments/seo/textImagesAssessment.js" );
 var TextLength = require( "./assessments/seo/textLengthAssessment.js" );
 var OutboundLinks = require( "./assessments/seo/outboundLinksAssessment.js" );
 var internalLinks = require( "./assessments/seo/internalLinksAssessment" );
-var titleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
+var TitleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
 var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 var LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
@@ -41,7 +41,7 @@ var SEOAssessor = function( i18n, options ) {
 		new TextLength(),
 		new OutboundLinks(),
 		internalLinks,
-		titleKeyword,
+		new TitleKeyword(),
 		new TitleWidth(),
 		new UrlKeyword(),
 		new LargestKeywordDistance(),
