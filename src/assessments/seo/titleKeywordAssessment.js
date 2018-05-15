@@ -59,14 +59,23 @@ class TitleKeywordAssessment extends Assessment {
 
 		let assessmentResult = new AssessmentResult();
 
-		if ( paper.hasKeyword() && paper.hasTitle() ) {
-			const calculatedScore = this.calculateResult();
-			assessmentResult.setScore( calculatedScore.score );
-			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresKeyword,
-				escape( paper.getKeyword() ), i18n ) );
-		}
+		const calculatedScore = this.calculateResult();
+		assessmentResult.setScore( calculatedScore.score );
+		assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresKeyword,
+			escape( paper.getKeyword() ), i18n ) );
 
 		return assessmentResult;
+	}
+
+	/**
+	 * Checks whether the assessment is applicable to the paper
+	 *
+	 * @param {Paper} paper The Paper object to assess.
+	 *
+	 * @returns {boolean} Whether the paper has a keyword and a title
+	 */
+	isApplicable( paper ) {
+		return paper.hasKeyword() && paper.hasTitle();
 	}
 
 	/**

@@ -49,6 +49,5 @@ describe( "An assessment for the text competing links", function() {
 	it( "is not applicable for papers without keyword and text", function() {
 		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( new Paper( "", { keyword: "" } ) );
 		expect( isApplicableResult ).toBe( false );
-
 	} );
 } );

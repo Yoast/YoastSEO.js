@@ -17,13 +17,34 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			recommendedMaximumLength: 120,
-			maximumLength: 320,
-			scores: {
-				noMetaDescription: 1,
-				tooLong: 6,
-				tooShort: 6,
-				correctLength: 9,
+			parameters: {
+				recommendedMaximumLength: 120,
+				maximumLength: 320,
+			},
+			noMetaDescription: {
+				score: 1,
+				resultText: "No meta description has been specified. Search engines will display copy from the page instead.",
+				requiresRecommendedMax: false,
+				requiresMax: false,
+			},
+			tooLong: {
+				score: 6,
+				resultText: "The meta description is over %1$d characters. " +
+				"Reducing the length will ensure the entire description will be visible.",
+				requiresRecommendedMax: false,
+				requiresMax: true,
+			},
+			tooShort: {
+				score: 6,
+				resultText: "The meta description is under %1$d characters long. However, up to %2$d characters are available.",
+				requiresRecommendedMax: true,
+				requiresMax: true,
+			},
+			good: {
+				score: 9,
+				resultText: "The meta description has a nice length.",
+				requiresRecommendedMax: false,
+				requiresMax: false,
 			},
 		};
 
@@ -41,69 +62,75 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+		this.descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
-		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );
+		const calculatedResult = this.calculateResult();
+
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresRecommendedMax,
+			calculatedResult.requiresMax, i18n ) );
 
 		return assessmentResult;
 	}
 
 	/**
-	 * Returns the score for the descriptionLength.
-	 *
-	 * @param {number} descriptionLength The length of the metadescription.
+	 * Returns the result based on the descriptionLength.
 	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateScore( descriptionLength ) {
-		if ( descriptionLength === 0 ) {
-			return this._config.scores.noMetaDescription;
+	calculateResult() {
+		if ( this.descriptionLength === 0 ) {
+			return this._config.noMetaDescription;
 		}
 
-		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
-			return this._config.scores.tooShort;
+		if ( this.descriptionLength <= this._config.parameters.recommendedMaximumLength ) {
+			return this._config.tooShort;
 		}
 
-		if ( descriptionLength > this._config.maximumLength ) {
-			return this._config.scores.tooLong;
+		if ( this.descriptionLength > this._config.parameters.maximumLength ) {
+			return this._config.tooLong;
 		}
 
-		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return this._config.scores.correctLength;
-		}
-
-		return 0;
+		return this._config.good;
 	}
 
 	/**
 	 * Translates the descriptionLength to a message the user can understand.
 	 *
-	 * @param {number} descriptionLength The length of the metadescription.
+	 * @param {string} resultText The text of the result from the configuration.
+	 * @param {boolean} requiresRecommendedMax Whether the translation requires the recommended maximum length of the metadescription
+	 * @param {boolean} requiresMax Whether the translation requires the maximum length of the metadescription
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( descriptionLength, i18n ) {
-		if ( descriptionLength === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No meta description has been specified. " +
-				"Search engines will display copy from the page instead." );
+	translateScore( resultText, requiresRecommendedMax, requiresMax, i18n ) {
+		if ( requiresRecommendedMax === true && requiresMax === true ) {
+			return i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					/**
+					  * Translators: %1$d expands to the recommended maximum length of the metadescription in words,
+					  * %2$d expands to the maximum length of the metadescription in words.
+					  */
+					resultText ),
+				this._config.parameters.recommendedMaximumLength,
+				this._config.parameters.maximumLength
+			);
 		}
 
-		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters long. " +
-				"However, up to %2$d characters are available." ), this._config.recommendedMaximumLength, this._config.maximumLength );
+		if ( requiresMax === true ) {
+			return i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					// Translators: %1$d expands to the maximum length of the metadescription in words.
+					resultText ),
+				this._config.parameters.maximumLength
+			);
 		}
 
-		if ( descriptionLength > this._config.maximumLength ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is over %1$d characters. " +
-				"Reducing the length will ensure the entire description will be visible." ), this._config.maximumLength );
-		}
-
-		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return i18n.dgettext( "js-text-analysis", "The meta description has a nice length." );
-		}
+		return i18n.dgettext( "js-text-analysis", resultText );
 	}
 }
 
