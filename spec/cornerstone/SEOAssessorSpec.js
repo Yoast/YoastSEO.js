@@ -106,7 +106,6 @@ describe( "running assessments in the assessor", function() {
 			"textLength",
 			"externalLinks",
 			"internalLinks",
-			"titleKeyword",
 			"titleWidth",
 			"largestKeywordDistance",
 		] );
