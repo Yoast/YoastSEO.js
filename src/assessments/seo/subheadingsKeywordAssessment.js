@@ -17,10 +17,18 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			scores: {
-				noMatches: 6,
-				oneMatch: 9,
-				multipleMatches: 9,
+			parameters: {
+				recommendedMinimum: 1,
+			},
+			good: {
+				score: 9,
+				resultText: "The focus keyword appears in %1$d (out of %2$d) subheadings in your copy.",
+				requiresMatchesAndSubheadings: true,
+			},
+			bad: {
+				score: 6,
+				resultText: "You have not used the focus keyword in any subheading (such as an H2) in your copy.",
+				requiresMatchesAndSubheadings: false,
 			},
 		};
 
@@ -38,12 +46,15 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+		this.subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 		let assessmentResult = new AssessmentResult();
-		let score = this.calculateScore( subHeadings );
 
-		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( score, subHeadings, i18n ) );
+		if ( this.subHeadings.count > 0 ) {
+			const calculatedResult = this.calculateResult();
+
+			assessmentResult.setScore( calculatedResult.score );
+			assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresMatchesAndSubheadings, i18n ) );
+		}
 
 		return assessmentResult;
 	}
@@ -60,52 +71,42 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score for the subheadings.
+	 * Returns the result for the subheadings.
 	 *
-	 * @param {object} subHeadings The object with all subHeadings matches.
-	 *
-	 * @returns {number|null} The calculated score.
+	 * @returns {Object} The calculated result.
 	 */
-	calculateScore( subHeadings ) {
-		if ( subHeadings.matches === 0 ) {
-			return this._config.scores.noMatches;
-		}
-		if ( subHeadings.matches === 1 ) {
-			return this._config.scores.oneMatch;
+	calculateResult() {
+		if ( this.subHeadings.matches < this._config.parameters.recommendedMinimum ) {
+			return this._config.bad;
 		}
 
-		if ( subHeadings.matches > 1 ) {
-			return this._config.scores.multipleMatches;
-		}
-
-		return null;
+		return this._config.good;
 	}
 
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {number} score The score for this assessment.
-	 * @param {object} subHeadings The object with all subHeadings matches.
-	 * @param {object} i18n The object used for translations.
+	 * @param {string} resultText The text of the result to be displayed.
+	 * @param {boolean} requiresMatchesAndSubheadings Whether the translation requires the number of matches and subheadings in the text.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( score, subHeadings, i18n ) {
-		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
+	translateScore( resultText, requiresMatchesAndSubheadings, i18n ) {
+		if ( requiresMatchesAndSubheadings ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy." ),
-				subHeadings.count, subHeadings.matches
+				i18n.dgettext(
+					"js-text-analysis",
+					/**
+					 * Translators: %1$d expands the number of subheadings that contain the keyword,
+					 * %2$d expands to the total number of subheadings in the text*/
+					 resultText
+				),
+				this.subHeadings.matches, this.subHeadings.count
 			);
 		}
 
-		if ( score === this._config.scores.noMatches ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"You have not used the focus keyword in any subheading (such as an H2) in your copy."
-			);
-		}
-
-		return "";
+		return i18n.dgettext( "js-text-analysis", resultText );
 	}
 }
 
