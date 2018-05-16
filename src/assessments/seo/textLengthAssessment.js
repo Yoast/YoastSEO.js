@@ -10,7 +10,7 @@ class TextLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -68,7 +68,7 @@ class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Object} i18n The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -112,9 +112,9 @@ class TextLengthAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {string} resultText The text of the feedback from the configuration
-	 * @param {string} resultTextPlural The text of the feedback from the configuration (for the plural)
-	 * @param {object} i18n The object used for translations.
+	 * @param {string} resultText The text of the feedback from the configuration.
+	 * @param {string} resultTextPlural The text of the feedback from the configuration (for the plural).
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

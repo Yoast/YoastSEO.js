@@ -59,7 +59,7 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	/**
 	 * Checks if assessment is applicable to the paper.
 	 *
-	 * @param {Paper} paper The paper to be analysed.
+	 * @param {Paper} paper The paper to be analyzed.
 	 *
 	 * @returns {boolean} Whether the paper has both keyword and text.
 	 */
@@ -70,7 +70,7 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of occurrences of keyphrase in the first paragraph.
 	 *
-	 * @returns {object} Result object with a score and translation text.
+	 * @returns {Object} ResultObject with a score and translation text.
 	 */
 	calculateResult() {
 		if ( this._firstParagraphMatches >= this._config.parameters.recommendedMinimum ) {
@@ -82,8 +82,7 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	/**
 	 * Translates the score into a specific feedback to the user.
 	 *
-	 * @param {string} resultText The text string from the config to be returned for this number of occurrences of keyphrase
-	 * in the first paragraph.
+	 * @param {string} resultText The feedback string.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {string} Text feedback.

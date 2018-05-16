@@ -101,7 +101,7 @@ class TitleKeywordAssessment extends Assessment {
 	 *
 	 * @param {text} resultText The text of feedback for a given value of the assessment result.
 	 * @param {boolean} requiresKeyword Whether feedback text needs to include keyword.
-	 * @param {string} keyword The keyword of the paper
+	 * @param {string} keyword The keyword of the paper.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {string} Text feedback.

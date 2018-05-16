@@ -55,9 +55,9 @@ class TextHasInternalLinksAssessment extends Assessment {
 	 * Runs the getLinkStatistics module, based on this returns an assessment result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Object} researcher The researcher used for calling research.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {Object} i18n The object used for translations
-	 * @returns {Object} the AssessmentResult.
+	 * @returns {Object} The AssessmentResult.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
@@ -76,7 +76,7 @@ class TextHasInternalLinksAssessment extends Assessment {
 	/**
 	 * Checks if assessment is applicable to the paper.
 	 *
-	 * @param {Paper} paper The paper to be analysed.
+	 * @param {Paper} paper The paper to be analyzed.
 	 *
 	 * @returns {boolean} Whether the paper has text.
 	 */
@@ -87,7 +87,7 @@ class TextHasInternalLinksAssessment extends Assessment {
 	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
-	 * @returns {object} resultObject with score and text
+	 * @returns {Object} ResultObject with score and text
 	 */
 	calculateResult() {
 		if ( this.linkStatistics.internalTotal === 0 ) {
@@ -108,10 +108,9 @@ class TextHasInternalLinksAssessment extends Assessment {
 	/**
 	 * Translates the score into a specific feedback to the user.
 	 *
-	 * @param {string} resultText The text string from the config to be returned for this number of occurrences of keyphrase
-	 * in the first paragraph.
-	 * @param {boolean} requiresInternalDofollow Whether the translated score needs to include the number of follow-links
-	 * @param {boolean} requiresInternalNofollow Whether the translated score needs to include the number of no-follow-links
+	 * @param {string} resultText The feedback string.
+	 * @param {boolean} requiresInternalDofollow Whether the translated score needs to include the number of follow-links.
+	 * @param {boolean} requiresInternalNofollow Whether the translated score needs to include the number of no-follow-links.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {string} Text feedback.

@@ -9,7 +9,7 @@ const merge = require( "lodash/merge" );
 const isUndefined = require( "lodash/isUndefined" );
 
 /**
- * Assessment to check whether the keyphrase is encountered in the first paragraph of the article.
+ * Assessment to check whether you're linking to a different page with the focus keyword from this page.
  */
 class TextCompetingLinksAssessment extends Assessment {
 	/**
@@ -40,10 +40,11 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Runs the linkCount module, based on this returns an assessment result with score.
 	 *
-	 * @param {object} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
-	 * @returns {object} the AssessmentResult
+	 * @param {Object} paper The paper to use for the assessment.
+	 * @param {Object} researcher The researcher used for calling research.
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The AssessmentResult.
 	 */
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
@@ -77,7 +78,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of links.
 	 *
-	 * @returns {object} resultObject with score and text
+	 * @returns {Object} ResultObject with score and text
 	 */
 	calculateResult() {
 		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
@@ -88,8 +89,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Translates the score into a specific feedback to the user.
 	 *
-	 * @param {string} resultText The text string from the config to be returned for this number of occurrences of keyphrase
-	 * in the first paragraph.
+	 * @param {string} resultText The feedback string.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {string} Text feedback.

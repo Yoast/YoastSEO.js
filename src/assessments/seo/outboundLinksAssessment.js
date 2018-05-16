@@ -53,7 +53,7 @@ class OutboundLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -106,8 +106,8 @@ class OutboundLinksAssessment extends Assessment {
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {string} resultText The text of the result from the configuration.
-	 * @param {boolean} requiresExternalDofollow Whether the translation requires the number of do-follow external links
-	 * @param {boolean} requiresExternalNofollow Whether the translation requires the number of no-follow external links
+	 * @param {boolean} requiresExternalDofollow Whether the translation requires the number of do-follow external links.
+	 * @param {boolean} requiresExternalNofollow Whether the translation requires the number of no-follow external links.
 	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
@@ -141,7 +141,7 @@ class OutboundLinksAssessment extends Assessment {
 			i18n.dgettext(
 				"js-text-analysis",
 				/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+				resultText
 			),
 			this.linkStatistics.externalNofollow,
 			this.linkStatistics.externalDofollow

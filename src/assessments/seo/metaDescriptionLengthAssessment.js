@@ -9,7 +9,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -57,7 +57,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -99,9 +99,9 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * Translates the descriptionLength to a message the user can understand.
 	 *
 	 * @param {string} resultText The text of the result from the configuration.
-	 * @param {boolean} requiresRecommendedMax Whether the translation requires the recommended maximum length of the metadescription
-	 * @param {boolean} requiresMax Whether the translation requires the maximum length of the metadescription
-	 * @param {object} i18n The object used for translations.
+	 * @param {boolean} requiresRecommendedMax Whether the translation requires the recommended maximum length of the metadescription.
+	 * @param {boolean} requiresMax Whether the translation requires the maximum length of the metadescription.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
