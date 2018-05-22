@@ -290,6 +290,9 @@ module.exports = function() {
 		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
 		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( copulaEstar, copulaEstarInfinitive ),
 
+		// Articles are used in the keywordTitle assessment.
+		articles: [].concat( articles ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
