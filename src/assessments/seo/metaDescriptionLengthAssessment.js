@@ -23,30 +23,11 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				recommendedMaximumLength: 120,
 				maximumLength: 320,
 			},
-			noMetaDescription: {
-				score: 1,
-				resultText: "No meta description has been specified. Search engines will display copy from the page instead.",
-				requiresRecommendedMax: false,
-				requiresMax: false,
-			},
-			tooLong: {
-				score: 6,
-				resultText: "The meta description is over %1$d characters. " +
-				"Reducing the length will ensure the entire description will be visible.",
-				requiresRecommendedMax: false,
-				requiresMax: true,
-			},
-			tooShort: {
-				score: 6,
-				resultText: "The meta description is under %1$d characters long. However, up to %2$d characters are available.",
-				requiresRecommendedMax: true,
-				requiresMax: true,
-			},
-			good: {
-				score: 9,
-				resultText: "The meta description has a nice length.",
-				requiresRecommendedMax: false,
-				requiresMax: false,
+			scores: {
+				noMetaDescription: 1,
+				tooLong: 6,
+				tooShort: 6,
+				good: 9,
 			},
 		};
 
@@ -76,17 +57,10 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		this.descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 		let assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText(
-			this.translateScore(
-				calculatedResult.resultText,
-				calculatedResult.requiresRecommendedMax,
-				calculatedResult.requiresMax,
-				i18n
-			)
-		);
+		assessmentResult.setText( calculatedResult.resultText );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.maximumLength;
@@ -98,61 +72,63 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	/**
 	 * Returns the result based on the descriptionLength.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {number} The calculated score.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.descriptionLength === 0 ) {
-			return this._config.noMetaDescription;
+			return {
+				score: this._config.scores.noMetaDescription,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"No meta description has been specified. Search engines will display copy from the page instead."
+					)
+				),
+			};
 		}
 
 		if ( this.descriptionLength <= this._config.parameters.recommendedMaximumLength ) {
-			return this._config.tooShort;
+			return {
+				score: this._config.scores.tooShort,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the recommended maximum length of the metadescription in words,
+					%2$d expands to the maximum length of the metadescription in words. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The meta description is under %1$d characters long. However, up to %2$d characters are available."
+					),
+					this._config.parameters.recommendedMaximumLength,
+					this._config.parameters.maximumLength
+				),
+			};
 		}
 
 		if ( this.descriptionLength > this._config.parameters.maximumLength ) {
-			return this._config.tooLong;
-		}
-
-		return this._config.good;
-	}
-
-	/**
-	 * Translates the descriptionLength to a message the user can understand.
-	 *
-	 * @param {string} resultText The text of the result from the configuration.
-	 * @param {boolean} requiresRecommendedMax Whether the translation requires the recommended maximum length of the metadescription.
-	 * @param {boolean} requiresMax Whether the translation requires the maximum length of the metadescription.
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( resultText, requiresRecommendedMax, requiresMax, i18n ) {
-		if ( requiresRecommendedMax === true && requiresMax === true ) {
-			return i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					/**
-					  * Translators: %1$d expands to the recommended maximum length of the metadescription in words,
-					  * %2$d expands to the maximum length of the metadescription in words.
-					  */
-					resultText ),
-				this._config.parameters.recommendedMaximumLength,
-				this._config.parameters.maximumLength
-			);
-		}
-
-		if ( requiresMax === true ) {
-			return i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
+			return {
+				score: this._config.scores.tooLong,
+				resultText: i18n.sprintf(
 					// Translators: %1$d expands to the maximum length of the metadescription in words.
-					resultText ),
-				this._config.parameters.maximumLength
-			);
+					i18n.dgettext(
+						"js-text-analysis",
+						"The meta description is over %1$d characters. " +
+						"Reducing the length will ensure the entire description will be visible."
+					),
+					this._config.parameters.maximumLength
+				),
+			};
 		}
 
-		return i18n.dgettext( "js-text-analysis", resultText );
+		return {
+			score: this._config.scores.good,
+			resultText: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					"The meta description has a nice length."
+				)
+			),
+		};
 	}
 }
-
 module.exports = MetaDescriptionLengthAssessment;

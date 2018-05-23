@@ -1,7 +1,6 @@
 const Assessment = require( "../../assessment.js" );
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const merge = require( "lodash/merge" );
-const isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.
@@ -21,29 +20,11 @@ class TextHasInternalLinksAssessment extends Assessment {
 			parameters: {
 				recommendedMinimum: 1,
 			},
-			allInternalFollow: {
-				score: 9,
-				resultText: "This page has %1$s internal link(s).",
-				requiresInternalDofollow: true,
-				requiresInternalNofollow: false,
-			},
-			someInternalFollow: {
-				score: 8,
-				resultText: "This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s).",
-				requiresInternalDofollow: true,
-				requiresInternalNofollow: true,
-			},
-			noneInternalFollow: {
-				score: 7,
-				resultText: "This page has %1$s internal link(s), all nofollowed.",
-				requiresInternalDofollow: false,
-				requiresInternalNofollow: true,
-			},
-			noInternal: {
-				score: 3,
-				resultText: "No internal links appear in this page, consider adding some as appropriate.",
-				requiresInternalDofollow: false,
-				requiresInternalNofollow: false,
+			scores: {
+				allInternalFollow: 9,
+				someInternalFollow: 8,
+				noneInternalFollow: 7,
+				noInternal: 3,
 			},
 		};
 
@@ -64,18 +45,9 @@ class TextHasInternalLinksAssessment extends Assessment {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		let assessmentResult = new AssessmentResult();
 
-		if ( ! isEmpty( this.linkStatistics ) ) {
-			const calculatedResult = this.calculateResult();
-			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText(
-				this.translateScore(
-					calculatedResult.resultText,
-					calculatedResult.requiresInternalDofollow,
-					calculatedResult.requiresInternalNofollow,
-					i18n
-				)
-			);
-		}
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
@@ -94,58 +66,62 @@ class TextHasInternalLinksAssessment extends Assessment {
 	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} ResultObject with score and text
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.linkStatistics.internalTotal === 0 ) {
-			return this._config.noInternal;
+			return {
+				score: this._config.scores.noInternal,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"No internal links appear in this page, consider adding some as appropriate."
+					)
+				),
+			};
 		}
 
 		if ( this.linkStatistics.internalNofollow === this.linkStatistics.internalTotal ) {
-			return this._config.noneInternalFollow;
+			return {
+				score: this._config.scores.noneInternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands the number of internal nofollowed links */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$s internal link(s), all nofollowed."
+					),
+					this.linkStatistics.internalNofollow
+				),
+			};
 		}
 
 		if ( this.linkStatistics.internalDofollow === this.linkStatistics.internalTotal ) {
-			return this._config.allInternalFollow;
+			return {
+				score: this._config.scores.allInternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands the number of internal links */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$s internal link(s)."
+					),
+					this.linkStatistics.internalDofollow
+				),
+			};
 		}
-
-		return this._config.someInternalFollow;
-	}
-
-	/**
-	 * Translates the score into a specific feedback to the user.
-	 *
-	 * @param {string} resultText The feedback string.
-	 * @param {boolean} requiresInternalDofollow Whether the translated score needs to include the number of follow-links.
-	 * @param {boolean} requiresInternalNofollow Whether the translated score needs to include the number of no-follow-links.
-	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 *
-	 * @returns {string} Text feedback.
-	 */
-	translateScore( resultText, requiresInternalDofollow, requiresInternalNofollow, i18n ) {
-		if ( requiresInternalDofollow === false && requiresInternalNofollow === false ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
-		}
-
-		if ( requiresInternalDofollow === true && requiresInternalNofollow === false ) {
-			/* Translators: %1$s expands the number of internal links */
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", resultText ),
-				this.linkStatistics.internalDofollow );
-		}
-
-		if ( requiresInternalDofollow === false && requiresInternalNofollow === true ) {
-			/* Translators: %1$s expands the number of internal no-follow links */
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", resultText ),
-				this.linkStatistics.internalNofollow );
-		}
-
-		/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links */
-		return i18n.sprintf(
-			i18n.dgettext( "js-text-analysis", resultText ),
-			this.linkStatistics.internalNofollow, this.linkStatistics.internalDofollow
-		);
+		return {
+			score: this._config.scores.someInternalFollow,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands the number of internal nofollowed links, %2$s expands the number of internal followed links */
+				i18n.dgettext(
+					"js-text-analysis",
+					"This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s)."
+				),
+				this.linkStatistics.internalNofollow,
+				this.linkStatistics.internalDofollow
+			),
+		};
 	}
 }
 

@@ -144,48 +144,66 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	translateScore( i18n ) {
 		if( this.hasNoMatches() ) {
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
+			return i18n.sprintf(
 				/* Translators: %1$d expands to the recommended keyword count. */
-				"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
-				this._keywordCount
-			), this._minRecommendedKeywordCount );
+				i18n.dgettext(
+					"js-text-analysis",
+					"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
+					this._keywordCount
+				),
+				this._minRecommendedKeywordCount
+			);
 		}
 
 		if( this.hasTooFewMatches() ) {
-			return i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
+			return i18n.sprintf(
 				/* Translators: Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
-				"The focus keyword was found %1$d time. That's less than the recommended minimum of %2$d times for a text of this length.",
-				"The focus keyword was found %1$d times. That's less than the recommended minimum of %2$d times for a text of this length.",
-				this._keywordCount
-			), this._keywordCount, this._minRecommendedKeywordCount );
+				i18n.dngettext(
+					"js-text-analysis",
+					"The focus keyword was found %1$d time. That's less than the recommended minimum of %2$d times for a text of this length.",
+					"The focus keyword was found %1$d times. That's less than the recommended minimum of %2$d times for a text of this length.",
+					this._keywordCount
+				),
+				this._keywordCount,
+				this._minRecommendedKeywordCount
+			);
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
+			return i18n.sprintf(
 				/* Translators: %1$d expands to the keyword count. */
-				"The focus keyword was found %1$d times. That's great for a text of this length."
-			), this._keywordCount );
+				i18n.dgettext(
+					"js-text-analysis",
+					"The focus keyword was found %1$d times. That's great for a text of this length."
+				),
+				this._keywordCount
+			);
 		}
 
 		if ( this.hasTooManyMatches() ) {
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
+			return i18n.sprintf(
 				/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
-				"The focus keyword was found %1$d times." +
-				" That's more than the recommended maximum of %2$d times for a text of this length."
-			), this._keywordCount, this._maxRecommendedKeywordCount );
+				i18n.dgettext(
+					"js-text-analysis",
+					"The focus keyword was found %1$d times." +
+					" That's more than the recommended maximum of %2$d times for a text of this length."
+				),
+				this._keywordCount,
+				this._maxRecommendedKeywordCount
+			);
 		}
 
 		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
-		return i18n.sprintf( i18n.dgettext(
-			"js-text-analysis",
+		return i18n.sprintf(
 			/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
-			"The focus keyword was found %1$d times." +
-			" That's way more than the recommended maximum of %2$d times for a text of this length."
-		), this._keywordCount, this._maxRecommendedKeywordCount );
+			i18n.dgettext(
+				"js-text-analysis",
+				"The focus keyword was found %1$d times." +
+				" That's way more than the recommended maximum of %2$d times for a text of this length."
+			),
+			this._keywordCount,
+			this._maxRecommendedKeywordCount
+		);
 	}
 
 	/**

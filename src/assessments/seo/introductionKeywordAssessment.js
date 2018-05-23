@@ -20,14 +20,9 @@ class IntroductionHasKeywordAssessment extends Assessment {
 			parameters: {
 				recommendedMinimum: 1,
 			},
-			good: {
-				score: 9,
-				resultText: "The focus keyword appears in the first paragraph of the copy.",
-			},
-			bad: {
-				score: 3,
-				resultText: "The focus keyword doesn't appear in the first paragraph of the copy. " +
-				"Make sure the topic is clear immediately.",
+			scores: {
+				good: 9,
+				bad: 3,
 			},
 		};
 
@@ -48,10 +43,10 @@ class IntroductionHasKeywordAssessment extends Assessment {
 		let assessmentResult = new AssessmentResult();
 
 		this._firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
@@ -70,25 +65,32 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of occurrences of keyphrase in the first paragraph.
 	 *
-	 * @returns {Object} ResultObject with a score and translation text.
+	 * @param {Jed} i18n The object used for translations.
+	 *
+	 * @returns {Object} result object with a score and translation text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this._firstParagraphMatches >= this._config.parameters.recommendedMinimum ) {
-			return this._config.good;
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword appears in the first paragraph of the copy."
+					)
+				),
+			};
 		}
-		return this._config.bad;
-	}
 
-	/**
-	 * Translates the score into a specific feedback to the user.
-	 *
-	 * @param {string} resultText The feedback string.
-	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 *
-	 * @returns {string} Text feedback.
-	 */
-	translateScore( resultText, i18n ) {
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
+		return {
+			score: this._config.scores.bad,
+			resultText: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					"The focus keyword doesn't appear in the first paragraph of the copy. Make sure the topic is clear immediately."
+				)
+			),
+		};
 	}
 }
 

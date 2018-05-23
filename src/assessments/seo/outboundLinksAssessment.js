@@ -1,6 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
-let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
 /**
@@ -24,23 +23,11 @@ class OutboundLinksAssessment extends Assessment {
 				requiresExternalDofollow: false,
 				requiresExternalNofollow: false,
 			},
-			allNoFollowed: {
-				score: 7,
-				resultText: "This page has %1$s outbound link(s), all nofollowed.",
-				requiresExternalDofollow: false,
-				requiresExternalNofollow: true,
-			},
-			someNoFollowed: {
-				score: 8,
-				resultText: "This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s).",
-				requiresExternalDofollow: true,
-				requiresExternalNofollow: true,
-			},
-			allFollowed: {
-				score: 9,
-				resultText: "This page has %1$s outbound link(s).",
-				requiresExternalDofollow: true,
-				requiresExternalNofollow: false,
+			scores: {
+				allExternalFollow: 9,
+				someExternalFollow: 8,
+				noneExternalFollow: 7,
+				noExternal: 3,
 			},
 		};
 
@@ -61,12 +48,10 @@ class OutboundLinksAssessment extends Assessment {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		let assessmentResult = new AssessmentResult();
 
-		if ( ! isEmpty( this.linkStatistics ) ) {
-			const calculatedResult = this.calculateResult();
-			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresExternalDofollow,
-				calculatedResult.requiresExternalNofollow, i18n ) );
-		}
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
+
 		return assessmentResult;
 	}
 
@@ -84,68 +69,62 @@ class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Returns a score based on the linkStatistics.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.linkStatistics.externalTotal === 0 ) {
-			return this._config.noLinks;
+			return {
+				score: this._config.scores.noExternal,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"No outbound links appear in this page, consider adding some as appropriate."
+					)
+				),
+			};
 		}
 
 		if ( this.linkStatistics.externalNofollow === this.linkStatistics.externalTotal ) {
-			return this._config.allNoFollowed;
+			return {
+				score: this._config.scores.noneExternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands the number of external nofollowed links */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$s outbound link(s), all nofollowed."
+					),
+					this.linkStatistics.externalNofollow
+				),
+			};
 		}
 
 		if ( this.linkStatistics.externalDofollow === this.linkStatistics.externalTotal ) {
-			return this._config.allFollowed;
-		}
-
-		return this._config.someNoFollowed;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {string} resultText The text of the result from the configuration.
-	 * @param {boolean} requiresExternalDofollow Whether the translation requires the number of do-follow external links.
-	 * @param {boolean} requiresExternalNofollow Whether the translation requires the number of no-follow external links.
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( resultText, requiresExternalDofollow, requiresExternalNofollow, i18n ) {
-		if ( ! requiresExternalDofollow && ! requiresExternalNofollow ) {
-			return i18n.dgettext( "js-text-analysis", resultText );
-		}
-
-		if ( requiresExternalDofollow && ! requiresExternalNofollow ) {
-			return i18n.sprintf(
-				i18n.dgettext(
-					/* Translators: %1$s expands the number of outbound links */
-					"js-text-analysis",
-					resultText
+			return {
+				score: this._config.scores.allExternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands the number of external links */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$s outbound link(s)."
+					),
+					this.linkStatistics.externalDofollow
 				),
-				this.linkStatistics.externalDofollow );
+			};
 		}
-
-		if ( ! requiresExternalDofollow && requiresExternalNofollow ) {
-			return i18n.sprintf(
+		return {
+			score: this._config.scores.someExternalFollow,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands the number of external nofollowed links, %2$s expands the number of external followed links */
 				i18n.dgettext(
-					/* Translators: %1$s expands the number of outbound links */
 					"js-text-analysis",
-					resultText
+					"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
 				),
-				this.linkStatistics.externalNofollow );
-		}
-
-		return i18n.sprintf(
-			i18n.dgettext(
-				"js-text-analysis",
-				/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-				resultText
+				this.linkStatistics.externalNofollow,
+				this.linkStatistics.externalDofollow
 			),
-			this.linkStatistics.externalNofollow,
-			this.linkStatistics.externalDofollow
-		);
+		};
 	}
 }
 

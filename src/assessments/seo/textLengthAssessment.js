@@ -79,7 +79,12 @@ class TextLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText(
-			this.translateScore( calculatedResult.resultText, calculatedResult.resultTextPlural, i18n ) );
+			this.translateScore(
+				calculatedResult.resultText,
+				calculatedResult.resultTextPlural,
+				i18n
+			)
+		);
 
 		return assessmentResult;
 	}

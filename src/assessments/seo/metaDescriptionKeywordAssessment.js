@@ -95,26 +95,36 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 */
 	translateScore( i18n ) {
 		if ( this.hasTooFewMatches() ) {
-			return i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." );
+			return i18n.dgettext(
+				"js-text-analysis",
+				"A meta description has been specified, but it does not contain the focus keyword."
+			);
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
-			return i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
+			return i18n.sprintf(
 				/* Translators: %1$d expands to the keyword count in the meta description. */
-				"The meta description contains the focus keyword. That's great.",
-				"The meta description contains the focus keyword %1$d times. That's great.",
-				this._keywordMatches ), this._keywordMatches );
+				i18n.dngettext(
+					"js-text-analysis",
+					"The meta description contains the focus keyword. That's great.",
+					"The meta description contains the focus keyword %1$d times. That's great.",
+					this._keywordMatches
+				),
+				this._keywordMatches
+			);
 		}
 
 		// Implicitly returns this if the number of matches is more than the recommended maximum.
-		return i18n.sprintf( i18n.dgettext(
-			"js-text-analysis",
+		return i18n.sprintf(
 			/* Translators: %1$d expands to the keyword count in the meta description. %2$d expands to the
 			maximum recommended keyword count in the meta description. */
-			"The meta description contains the focus keyword %1$d times, " +
-			"which is over the advised maximum of %2$d times." ),
-			this._keywordMatches, this._config.recommendedMaximumMatches );
+			i18n.dgettext(
+				"js-text-analysis",
+				"The meta description contains the focus keyword %1$d times, which is over the advised maximum of %2$d times."
+			),
+			this._keywordMatches,
+			this._config.recommendedMaximumMatches
+		);
 	}
 
 	/**

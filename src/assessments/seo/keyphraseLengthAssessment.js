@@ -23,6 +23,12 @@ class KeyphraseLengthAssessment extends Assessment {
 				recommendedMaximum: 4,
 				acceptableMaximum: 8,
 			},
+			scores: {
+				veryBad: -999,
+				bad: 3,
+				okay: 6,
+				good: 9,
+			},
 		};
 
 		this.identifier = "keyphraseLength";
@@ -59,7 +65,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	calculateResult( i18n ) {
 		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
 			return {
-				score: -999,
+				score: this._config.scores.veryBad,
 				resultText: i18n.sprintf(
 					i18n.dgettext(
 						"js-text-analysis",
@@ -71,7 +77,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMinimum, this._config.parameters.recommendedMaximum + 1 ) ) {
 			return {
-				score: 9,
+				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					i18n.dgettext(
 						"js-text-analysis",
@@ -83,7 +89,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMaximum + 1, this._config.parameters.acceptableMaximum + 1 ) ) {
 			return {
-				score: 6,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of words in the keyphrase,
 					%2$d expands to the recommended maximum of words in the keyphrase. */
@@ -99,7 +105,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		}
 
 		return {
-			score: 3,
+			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$d expands to the number of words in the keyphrase,
 				%2$d expands to the recommended maximum of words in the keyphrase. */
