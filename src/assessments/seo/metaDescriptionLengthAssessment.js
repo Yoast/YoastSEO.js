@@ -79,8 +79,14 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		const calculatedResult = this.calculateResult();
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresRecommendedMax,
-			calculatedResult.requiresMax, i18n ) );
+		assessmentResult.setText(
+			this.translateScore(
+				calculatedResult.resultText,
+				calculatedResult.requiresRecommendedMax,
+				calculatedResult.requiresMax,
+				i18n
+			)
+		);
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.maximumLength;

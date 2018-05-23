@@ -56,7 +56,8 @@ class TextHasInternalLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} The AssessmentResult.
 	 */
 	getResult( paper, researcher, i18n ) {
@@ -66,8 +67,14 @@ class TextHasInternalLinksAssessment extends Assessment {
 		if ( ! isEmpty( this.linkStatistics ) ) {
 			const calculatedResult = this.calculateResult();
 			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresInternalDofollow,
-				calculatedResult.requiresInternalNofollow, i18n ) );
+			assessmentResult.setText(
+				this.translateScore(
+					calculatedResult.resultText,
+					calculatedResult.requiresInternalDofollow,
+					calculatedResult.requiresInternalNofollow,
+					i18n
+				)
+			);
 		}
 
 		return assessmentResult;
@@ -126,12 +133,14 @@ class TextHasInternalLinksAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", resultText ),
 				this.linkStatistics.internalDofollow );
 		}
+
 		if ( requiresInternalDofollow === false && requiresInternalNofollow === true ) {
 			/* Translators: %1$s expands the number of internal no-follow links */
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", resultText ),
 				this.linkStatistics.internalNofollow );
 		}
+
 		/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links */
 		return i18n.sprintf(
 			i18n.dgettext( "js-text-analysis", resultText ),

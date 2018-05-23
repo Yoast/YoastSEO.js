@@ -57,11 +57,11 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if assessment is applicable to the paper.
+	 * Checks if the paper has both keyword and text.
 	 *
 	 * @param {Paper} paper The paper to be analyzed.
 	 *
-	 * @returns {boolean} Whether the paper has both keyword and text.
+	 * @returns {boolean} Whether the assessment is applicable or not.
 	 */
 	isApplicable( paper ) {
 		return paper.hasKeyword() && paper.hasText();
