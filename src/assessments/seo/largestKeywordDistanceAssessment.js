@@ -23,15 +23,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		const defaultConfig = {
 			recommendedMaximumKeyWordDistance: 30,
-			good: {
-				score: 9,
-				resultText: "Your keyword is distributed evenly throughout the text. " +
-				"That's great.",
-			},
-			bad: {
-				score: 1,
-				resultText: "Some parts of your text do not contain the keyword. " +
-					"Try to distribute the keyword more evenly.",
+			scores: {
+				good: 9,
+				bad: 1,
 			},
 		};
 
@@ -49,13 +43,13 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		const largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
+		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 		let assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( largestKeywordDistance );
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
+		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( ( calculatedResult.score < 2 ) );
 
 		return assessmentResult;
@@ -64,36 +58,28 @@ class largestKeywordDistanceAssessment extends Assessment {
 	/**
 	 *  Calculates the result based on the largestKeywordDistance research.
 	 *
-	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and feedback text.
 	 */
-	calculateResult( largestKeywordDistance ) {
-		if ( largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
-			return this._config.bad;
+	calculateResult( i18n ) {
+		if ( this._largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf( i18n.dgettext(
+					"js-text-analysis",
+					"Some parts of your text do not contain the keyword. " +
+					"Try to distribute the keyword more evenly." ) ),
+			};
 		}
 
-		return this._config.good;
-	}
-
-	/**
-	 * Returns the score for the largest keyword distance assessment.
-	 *
-	 * @param {number} largestKeywordDistance The largest distance between two keywords or a keyword and the start/beginning of the text.
-	 *
-	 * @returns {number} The calculated score.
-	 */
-
-	/**
-	 * Translates the largest keyword assessment score to a message the user can understand.
-	 *
-	 * @param {string} resultText The feedback text for a given value of the assessment result.
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( resultText, i18n ) {
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
+		return {
+			score: this._config.scores.good,
+			resultText: i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				"Your keyword is distributed evenly throughout the text. " +
+				"That's great." ) ),
+		};
 	}
 
 	/**
