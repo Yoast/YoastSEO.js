@@ -5,6 +5,7 @@ const countWords = require( "../../stringProcessing/countWords.js" );
 const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
 const Mark = require( "../../values/Mark.js" );
 const marker = require( "../../markers/addMark.js" );
+const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -22,9 +23,11 @@ class largestKeywordDistanceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedMaximumKeyWordDistance: 30,
+			overRecommendedMaximumKeywordDistance: 40,
+			recommendedMaximumKeywordDistance: 30,
 			scores: {
 				good: 9,
+				okay: 6,
 				bad: 1,
 			},
 		};
@@ -63,9 +66,22 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._largestKeywordDistance > this._config.recommendedMaximumKeyWordDistance ) {
+		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
+				resultText: i18n.sprintf( i18n.dgettext(
+					"js-text-analysis",
+					"Large parts of your text do not contain the keyword. " +
+					"Try to distribute the keyword more evenly." ) ),
+			};
+		}
+
+		if ( inRangeStartEndInclusive(
+			this._largestKeywordDistance,
+			this._config.recommendedMaximumKeywordDistance,
+			this._config.overRecommendedMaximumKeywordDistance ) ) {
+			return {
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf( i18n.dgettext(
 					"js-text-analysis",
 					"Some parts of your text do not contain the keyword. " +
@@ -99,12 +115,12 @@ class largestKeywordDistanceAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a text with at least 100 words, a keyword, and whether
+	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
 	 * the keyword appears more at least twice in the text (required to calculate a distribution).
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 100 words or more,
+	 * @returns {boolean} True when there is a keyword and a text with 200 words or more,
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
