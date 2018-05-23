@@ -2,6 +2,8 @@ let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
+const maximumLength = 320;
+
 /**
  * Assessment for calculating the length of the meta description.
  */
@@ -53,6 +55,15 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Returns the maximum length.
+	 *
+	 * @returns {number} The maximum length.
+	 */
+	getMaximumLength() {
+		return maximumLength;
+	}
+
+	/**
 	 * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
@@ -70,6 +81,10 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.requiresRecommendedMax,
 			calculatedResult.requiresMax, i18n ) );
+
+		// Max and actual are used in the snippet editor progress bar.
+		assessmentResult.max = this._config.maximumLength;
+		assessmentResult.actual = this.descriptionLength;
 
 		return assessmentResult;
 	}

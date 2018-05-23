@@ -1,6 +1,6 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const merge = require( "lodash/merge" );
 
 /**
  * Assessment for calculating the length of the meta description.
@@ -16,7 +16,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMinimumMatches: 1,
 			recommendedMaximumMatches: 2,
 			scores: {
@@ -41,7 +41,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-		var assessmentResult = new AssessmentResult();
+		let assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore() );
 		assessmentResult.setText( this.translateScore( i18n ) );
@@ -99,13 +99,22 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
-			return i18n.sprintf( i18n.dngettext( "js-text-analysis", "The meta description contains the focus keyword. That's great.",
-				"The meta description contains the focus keyword %1$d times. That's great.", this._keywordMatches ), this._keywordMatches );
+			return i18n.sprintf( i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the keyword count in the meta description. */
+				"The meta description contains the focus keyword. That's great.",
+				"The meta description contains the focus keyword %1$d times. That's great.",
+				this._keywordMatches ), this._keywordMatches );
 		}
 
 		// Implicitly returns this if the number of matches is more than the recommended maximum.
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword %1$d times, " +
-			"which is over the advised maximum of %2$d times." ), this._keywordMatches, this._config.recommendedMaximumMatches );
+		return i18n.sprintf( i18n.dgettext(
+			"js-text-analysis",
+			/* Translators: %1$d expands to the keyword count in the meta description. %2$d expands to the
+			maximum recommended keyword count in the meta description. */
+			"The meta description contains the focus keyword %1$d times, " +
+			"which is over the advised maximum of %2$d times." ),
+			this._keywordMatches, this._config.recommendedMaximumMatches );
 	}
 
 	/**
