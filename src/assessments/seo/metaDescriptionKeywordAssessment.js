@@ -21,25 +21,9 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				recommendedMinimumMatches: 1,
 				recommendedMaximumMatches: 2,
 			},
-			tooFewMatches: {
-				score: 3,
-				resultText: "A meta description has been specified, but it does not contain the focus keyword.",
-				requiresMatches: false,
-				requiresMax: false,
-			},
-			tooManyMatches: {
-				score: 3,
-				resultText: "The meta description contains the focus keyword %1$d times, " +
-				"which is over the advised maximum of %2$d times.",
-				requiresMatches: true,
-				requiresMax: true,
-			},
-			correctNumberOfMatches: {
-				score: 9,
-				resultText: "The meta description contains the focus keyword. That's great.",
-				resultTextPlural: "The meta description contains the focus keyword %1$d times. That's great.",
-				requiresMatches: true,
-				requiresMax: false,
+			scores: {
+				good: 9,
+				bad: 3,
 			},
 		};
 
@@ -59,12 +43,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
 		let assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore(
-			calculatedResult.resultText, calculatedResult.resultTextPlural, calculatedResult.requiresMatches, calculatedResult.requiresMax, i18n )
-		);
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
@@ -72,54 +54,47 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} Result object with score and text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this._keywordMatches < this._config.parameters.recommendedMinimumMatches ) {
-			return this._config.tooFewMatches;
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf( i18n.dgettext(
+					"js-text-analysis",
+					"A meta description has been specified, but it does not contain the focus keyword." ) ),
+			};
 		}
 
 		if ( this._keywordMatches >= this._config.parameters.recommendedMinimumMatches &&
 			this._keywordMatches <= this._config.parameters.recommendedMaximumMatches ) {
-			return this._config.correctNumberOfMatches;
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the number of keyword matches in the meta description */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The meta description contains the focus keyword. That's great.",
+						"The meta description contains the focus keyword %1$d times. That's great.",
+					this._keywordMatches
+				), this._keywordMatches ),
+			};
 		}
 
 		// Implicitly return this if the number of matches is more than the recommended maximum.
-		return this._config.tooManyMatches;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {string} resultText        The feedback string.
-	 * @param {string} resultTextPlural  The feedback string for the plural.
-	 * @param {boolean} requiresMatches  Whether the feedback string contains keyword matches.
-	 * @param {boolean} requiresMax      Whether the feedback string contains the recommended maximum of feedback matches.
-	 * @param {Object} i18n              The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( resultText, resultTextPlural, requiresMatches, requiresMax, i18n ) {
-		if ( requiresMatches === true && requiresMax === false ) {
-			return i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$s expands to the number of keyword matches in the meta description */
-				resultText,
-				resultTextPlural,
-				this._keywordMatches
-			), this._keywordMatches );
-		}
-
-		if ( requiresMatches === true && requiresMax === true ) {
-			return i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
+		return {
+			score: this._config.scores.bad,
+			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to the number of keyword matches in the meta description,
-				 * 2$s expands to the maximum recommended number of matches. */
-				resultText
-				), this._keywordMatches, this._config.parameters.recommendedMaximumMatches );
-		}
-
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
+				2$s expands to the maximum recommended number of matches. */
+				i18n.dngettext(
+					"js-text-analysis",
+					"The meta description contains the focus keyword %1$d times, " +
+					"which is over the advised maximum of %2$d times."
+			), this._keywordMatches, this._config.parameters.recommendedMaximumMatches ),
+		};
 	}
 
 	/**
