@@ -2,6 +2,9 @@ let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
+import Config from "../../config/config";
+const maximumMetaDescriptionLength = Config.maxMeta;
+
 /**
  * Assessment for calculating the length of the meta description.
  */
@@ -19,7 +22,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		let defaultConfig = {
 			parameters: {
 				recommendedMaximumLength: 120,
-				maximumLength: 320,
+				maximumLength: maximumMetaDescriptionLength,
 			},
 			scores: {
 				noMetaDescription: 1,

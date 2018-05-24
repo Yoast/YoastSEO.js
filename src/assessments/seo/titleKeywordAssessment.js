@@ -100,7 +100,6 @@ class TitleKeywordAssessment extends Assessment {
 					)
 				),
 			};
-
 		}
 		return {
 			score: this._config.scores.okay,
