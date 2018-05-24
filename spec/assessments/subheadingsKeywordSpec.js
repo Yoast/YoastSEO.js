@@ -6,13 +6,6 @@ const i18n = Factory.buildJed();
 let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function() {
-	it( "returns the default assessment values for a string without subheadings", function() {
-		const mockPaper = new Paper();
-		const assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
-
-		expect( assessment.hasScore() ).toBe( false );
-	} );
-
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyword", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 1, matches: 0 } ), i18n );
@@ -60,12 +53,17 @@ describe( "An assessment for matching keywords in subheadings", function() {
 	} );
 
 	it( "checks isApplicable for a paper without keyword", function() {
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "some text", { keyword: "" } ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "" } ) );
+		expect( isApplicableResult ).toBe( false );
+	} );
+
+	it( "checks isApplicable for a paper without subheadings", function() {
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "<p>some text</p><p>some more text</p>", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "checks isApplicable for a paper with text and keyword", function() {
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "some text", { keyword: "some keyword" } ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );

@@ -24,26 +24,6 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			noImages: {
-				score: 3,
-				resultText: "No images appear in this page, consider adding some as appropriate.",
-			},
-			withAltKeyword: {
-				score: 9,
-				resultText: "The images on this page contain alt attributes with the focus keyword.",
-			},
-			withAltNonKeyword: {
-				score: 6,
-				resultText: "The images on this page do not have alt attributes containing the focus keyword.",
-			},
-			withAlt: {
-				score: 6,
-				resultText: "The images on this page contain alt attributes.",
-			},
-			noAlt: {
-				score: 6,
-				resultText: "The images on this page are missing alt attributes.",
-			},
 		};
 
 		this.identifier = "textImages";
@@ -55,7 +35,7 @@ class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Object} i18n The locale object.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -64,9 +44,9 @@ class TextImagesAssessment extends Assessment {
 		this.imageCount = researcher.getResearch( "imageCount" );
 		this.altProperties = researcher.getResearch( "altTagCount" );
 
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
@@ -85,41 +65,60 @@ class TextImagesAssessment extends Assessment {
 	/**
 	 * Calculate the result based on the current image count and current image alt-tag count.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.imageCount === 0 ) {
-			return this._config.noImages;
+			return {
+				score: this._config.scores.noImages,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"No images appear in this page, consider adding some as appropriate."
+				),
+			};
 		}
 
 		// Has alt-tag and keywords
 		if ( this.altProperties.withAltKeyword > 0 ) {
-			return this._config.withAltKeyword;
+			return {
+				score: this._config.scores.withAltKeyword,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The images on this page contain alt attributes with the focus keyword."
+				),
+			};
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
 		if ( this.altProperties.withAltNonKeyword > 0 ) {
-			return this._config.withAltNonKeyword;
+			return {
+				score: this._config.scores.withAltNonKeyword,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The images on this page do not have alt attributes containing the focus keyword."
+				),
+			};
 		}
 
 		// Has alt-tag, but no keyword is set
 		if ( this.altProperties.withAlt > 0 ) {
-			return this._config.withAlt;
+			return {
+				score: this._config.scores.withAlt,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The images on this page contain alt attributes."
+				),
+			};
 		}
-
-		return this._config.noAlt;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {string} resultText The feedback to give to the user.
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( resultText, i18n ) {
-		return i18n.dgettext( "js-text-analysis", resultText );
+		return {
+			score: this._config.scores.noAlt,
+			resultText: i18n.dgettext(
+				"js-text-analysis",
+				"The images on this page are missing alt attributes."
+			),
+		};
 	}
 }
 

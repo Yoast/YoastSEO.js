@@ -26,10 +26,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			parameters: {
 				recommendedMaximum: 0,
 			},
-			bad: {
-				score: 2,
-				resultText: "You're linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank.",
+			scores: {
+				bad: 2,
 			},
 		};
 
@@ -51,13 +49,14 @@ class TextCompetingLinksAssessment extends Assessment {
 
 		this.linkCount = researcher.getResearch( "getLinkStatistics" );
 
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
+
 		if ( isUndefined( calculatedResult ) ) {
 			return assessmentResult;
 		}
 
 		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( this.translateScore( calculatedResult.resultText, i18n ) );
+		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( true );
 		assessmentResult.setMarker( this.getMarks() );
 
@@ -78,24 +77,23 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of links.
 	 *
-	 * @returns {Object} ResultObject with score and text
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} ResultObject with score and text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
-			return this._config.bad;
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"You're linking to another page with the focus keyword you want this page to rank for. " +
+						"Consider changing that if you truly want this page to rank."
+					)
+				),
+			};
 		}
-	}
-
-	/**
-	 * Translates the score into a specific feedback to the user.
-	 *
-	 * @param {string} resultText The feedback string.
-	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 *
-	 * @returns {string} Text feedback.
-	 */
-	translateScore( resultText, i18n ) {
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
 	}
 
 	/**

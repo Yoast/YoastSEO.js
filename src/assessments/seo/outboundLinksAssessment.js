@@ -9,7 +9,7 @@ class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -17,12 +17,6 @@ class OutboundLinksAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			noLinks: {
-				score: 3,
-				resultText: "No outbound links appear in this page, consider adding some as appropriate.",
-				requiresExternalDofollow: false,
-				requiresExternalNofollow: false,
-			},
 			scores: {
 				allExternalFollow: 9,
 				someExternalFollow: 8,
@@ -67,7 +61,7 @@ class OutboundLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns a score based on the linkStatistics.
+	 * Returns a score and a result text based on the linkStatistics.
 	 *
 	 * @param {Object} i18n The object used for translations.
 	 *

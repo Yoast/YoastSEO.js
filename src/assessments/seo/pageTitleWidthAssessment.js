@@ -3,12 +3,10 @@ let Assessment = require( "../../assessment.js" );
 let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 let merge = require( "lodash/merge" );
 
-
-const maximumLength = 600;
 /**
- * Represents the assessmenth that will calculate if the width of the page title is correct.
+ * Represents the assessment that will calculate if the width of the page title is correct.
  */
-class PageTitleWidthAssesment extends Assessment {
+class PageTitleWidthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -20,8 +18,10 @@ class PageTitleWidthAssesment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			minLength: 400,
-			maxLength: maximumLength,
+			parameters: {
+				minLength: 400,
+				maxLength: 600,
+			},
 			scores: {
 				noTitle: 1,
 				widthTooShort: 6,
@@ -32,15 +32,6 @@ class PageTitleWidthAssesment extends Assessment {
 
 		this.identifier = "titleWidth";
 		this._config = merge( defaultConfig, config );
-	}
-
-	/**
-	 * Returns the maximum length.
-	 *
-	 * @returns {number} The maximum length.
-	 */
-	getMaximumLength() {
-		return maximumLength;
 	}
 
 	/**
@@ -56,70 +47,60 @@ class PageTitleWidthAssesment extends Assessment {
 		let pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
-		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );
+		const calculatedResult = this.calculateResult( pageTitleWidth, i18n  );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		// Max and actual are used in the snippet editor progress bar.
-		assessmentResult.max = this._config.maxLength;
+		assessmentResult.max = this._config.parameters.maxLength;
 		assessmentResult.actual = pageTitleWidth;
 		return assessmentResult;
 	}
 
 	/**
-	 * Returns the score for the pageTitleWidth
+	 * Returns the score and the result text for the pageTitleWidth
 	 *
 	 * @param {number} pageTitleWidth The width of the pageTitle.
+	 * @param {object} i18n The object used for translations
 	 *
-	 * @returns {number} The calculated score.
+	 * @returns {Object} The object that contains a calculated score and result text.
 	 */
-	calculateScore( pageTitleWidth ) {
-		if ( inRange( pageTitleWidth, 1, 400 ) ) {
-			return this._config.scores.widthTooShort;
+	calculateResult( pageTitleWidth, i18n ) {
+		if ( inRange( pageTitleWidth, 1, this._config.parameters.minLength ) ) {
+			return {
+				score: this._config.scores.widthTooShort,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+				),
+			};
 		}
 
-		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
-			return this._config.scores.widthCorrect;
+		if ( inRange( pageTitleWidth, this._config.parameters.minLength, this._config.parameters.maxLength ) ) {
+			return {
+				score: this._config.scores.widthCorrect,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The SEO title has a nice length."
+				),
+			};
 		}
 
-		if ( pageTitleWidth > this._config.maxLength ) {
-			return this._config.scores.widthTooLong;
+		if ( pageTitleWidth > this._config.parameters.maxLength ) {
+			return {
+				score: this._config.scores.widthTooLong,
+				resultText: i18n.dgettext(
+					"js-text-analysis",
+					"The SEO title is wider than the viewable limit."
+				),
+			};
 		}
 
-		return this._config.scores.noTitle;
-	}
-
-	/**
-	 * Translates the pageTitleWidth score to a message the user can understand.
-	 *
-	 * @param {number} pageTitleWidth The width of the pageTitle.
-	 * @param {object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( pageTitleWidth, i18n ) {
-		if ( inRange( pageTitleWidth, 1, 400 ) ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
-			);
-		}
-
-		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title has a nice length."
-			);
-		}
-
-		if ( pageTitleWidth > this._config.maxLength ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title is wider than the viewable limit."
-			);
-		}
-
-		return i18n.dgettext( "js-text-analysis", "Please create an SEO title." );
+		return {
+			score: this._config.scores.noTitle,
+			resultText: i18n.dgettext( "js-text-analysis", "Please create an SEO title." ),
+		};
 	}
 }
 
-module.exports = PageTitleWidthAssesment;
+module.exports = PageTitleWidthAssessment;
