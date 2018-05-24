@@ -39,9 +39,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Runs the largestKeywordDistance research and based on this returns an assessment result.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Object}      i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */

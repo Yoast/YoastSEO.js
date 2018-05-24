@@ -6,9 +6,9 @@ const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
  * Gets the distance (in terms of characters) between two keywords, between the beginning
  * of the text and the first keyword, or the last keyword and the end of the text.
  *
- * @param {number} keywordIndex     The index of the keyword.
- * @param {Array} keywordIndices    All keyword indices.
- * @param {number} textLength       The length of the text in characters.
+ * @param {number}  keywordIndex     The index of the keyword.
+ * @param {Array}   keywordIndices   All keyword indices.
+ * @param {number}  textLength       The length of the text in characters.
  *
  * @returns {Array} The distances for a given keyword in characters.
  */
