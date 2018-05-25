@@ -3,6 +3,8 @@ let Assessment = require( "../../assessment.js" );
 let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 let merge = require( "lodash/merge" );
 
+const maximumLength = 600;
+
 /**
  * Represents the assessment that will calculate if the width of the page title is correct.
  */
@@ -20,7 +22,7 @@ class PageTitleWidthAssessment extends Assessment {
 		let defaultConfig = {
 			parameters: {
 				minLength: 400,
-				maxLength: 600,
+				maxLength: maximumLength,
 			},
 			scores: {
 				noTitle: 1,
@@ -32,6 +34,15 @@ class PageTitleWidthAssessment extends Assessment {
 
 		this.identifier = "titleWidth";
 		this._config = merge( defaultConfig, config );
+	}
+
+	/**
+	 * Returns the maximum length.
+	 *
+	 * @returns {number} The maximum length. The function is needed for the snippet preview, so don't delete it.
+	 */
+	getMaximumLength() {
+		return maximumLength;
 	}
 
 	/**

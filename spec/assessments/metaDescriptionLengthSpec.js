@@ -37,4 +37,10 @@ describe( "An descriptionLength assessment", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "The meta description has a nice length." );
 	} );
+
+	it( "checks if getMaximumLength function returns a correct value", function() {
+		var getMaximumLengthResult = descriptionLengthAssessment.getMaximumLength();
+
+		expect( getMaximumLengthResult ).toEqual( 156 );
+	} );
 } );

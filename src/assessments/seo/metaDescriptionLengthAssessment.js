@@ -37,6 +37,15 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Returns the maximum length. The function is needed for the snippet preview, so don't delete it.
+	 *
+	 * @returns {number} The maximum length.
+	 */
+	getMaximumLength() {
+		return this._config.parameters.maximumLength;
+	}
+
+	/**
 	 * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
