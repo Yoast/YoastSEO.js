@@ -55,12 +55,11 @@ class PageTitleWidthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
+		const pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
 		let assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( pageTitleWidth, i18n  );
-		assessmentResult.setScore( calculatedResult.score );
-		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
+		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.parameters.maxLength;
@@ -69,48 +68,93 @@ class PageTitleWidthAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score and the result text for the pageTitleWidth
+	 * Checks whether the page title is too short.
 	 *
-	 * @param {number} pageTitleWidth The width of the pageTitle.
-	 * @param {object} i18n The object used for translations
+	 * @param {number} pageTitleWidth The width of the page title.
 	 *
-	 * @returns {Object} The object that contains a calculated score and result text.
+	 * @returns {boolean} Returns true if the page title is too short.
 	 */
-	calculateResult( pageTitleWidth, i18n ) {
-		if ( inRange( pageTitleWidth, 1, this._config.parameters.minLength ) ) {
-			return {
-				score: this._config.scores.widthTooShort,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
-				),
-			};
+	tooShort( pageTitleWidth ) {
+		return inRange( pageTitleWidth, 1, this._config.parameters.minLength );
+	}
+
+	/**
+	 * Checks whether the page title has a good length.
+	 *
+	 * @param {number} pageTitleWidth The width of the page title.
+	 *
+	 * @returns {boolean} Returns true if the page title has a good length.
+	 */
+	goodLength( pageTitleWidth ) {
+		return inRange( pageTitleWidth, this._config.parameters.minLength, this._config.parameters.maxLength );
+	}
+
+	/**
+	 * Checks whether the page title is too long.
+	 *
+	 * @param {number} pageTitleWidth The width of the page title.
+	 *
+	 * @returns {boolean} Returns true if the page title is too long.
+	 */
+	tooLong( pageTitleWidth ) {
+		return ( pageTitleWidth > this._config.parameters.maxLength );
+	}
+
+	/**
+	 * Calculates a score based on the page title width. This function is also used in the snippet editor.
+	 * When refactoring this function, make sure that compatibility is maintained.
+	 *
+	 * @param {number} pageTitleWidth The width of the page title.
+	 *
+	 * @returns {number} The score.
+	 */
+	calculateScore( pageTitleWidth ) {
+		if ( this.tooShort( pageTitleWidth ) ) {
+			return this._config.scores.widthTooShort;
 		}
 
-		if ( inRange( pageTitleWidth, this._config.parameters.minLength, this._config.parameters.maxLength ) ) {
-			return {
-				score: this._config.scores.widthCorrect,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The SEO title has a nice length."
-				),
-			};
+		if ( this.goodLength( pageTitleWidth ) ) {
+			return this._config.scores.widthCorrect;
 		}
 
-		if ( pageTitleWidth > this._config.parameters.maxLength ) {
-			return {
-				score: this._config.scores.widthTooLong,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The SEO title is wider than the viewable limit."
-				),
-			};
+		if ( this.tooLong( pageTitleWidth ) ) {
+			return this._config.scores.widthTooLong;
 		}
 
-		return {
-			score: this._config.scores.noTitle,
-			resultText: i18n.dgettext( "js-text-analysis", "Please create an SEO title." ),
-		};
+		return this._config.scores.noTitle;
+	}
+
+	/**
+	 * Translates the score into a feedback text.
+	 *
+	 * @param {number}  pageTitleWidth  The width of the page title.
+	 * @param {Object}  i18n            The object used for translations.
+	 *
+	 * @returns {string} The feedback text.
+	 */
+	translateScore( pageTitleWidth, i18n ) {
+		if ( this.tooShort( pageTitleWidth ) ) {
+			return i18n.dgettext(
+				"js-text-analysis",
+				"The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+			);
+		}
+
+		if ( this.goodLength( pageTitleWidth ) ) {
+			return i18n.dgettext(
+				"js-text-analysis",
+				"The SEO title has a nice length."
+			);
+		}
+
+		if ( this.tooLong( pageTitleWidth ) ) {
+			return i18n.dgettext(
+				"js-text-analysis",
+				"The SEO title is wider than the viewable limit."
+			);
+		}
+
+		return i18n.dgettext( "js-text-analysis", "Please create an SEO title." );
 	}
 }
 
