@@ -37,9 +37,9 @@ class PageTitleWidthAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the maximum length.
+	 * Returns the maximum length. The function is needed for the snippet preview, so don't delete it.
 	 *
-	 * @returns {number} The maximum length. The function is needed for the snippet preview, so don't delete it.
+	 * @returns {number} The maximum length.
 	 */
 	getMaximumLength() {
 		return maximumLength;
