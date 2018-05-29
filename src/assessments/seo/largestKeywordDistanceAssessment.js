@@ -53,7 +53,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( ( calculatedResult.score < 2 ) );
+		assessmentResult.setHasMarks( calculatedResult.score < 2 );
 
 		return assessmentResult;
 	}
