@@ -62,9 +62,12 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		if ( this._keywordMatches < this._config.parameters.recommendedMinimumMatches ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf( i18n.dgettext(
-					"js-text-analysis",
-					"A meta description has been specified, but it does not contain the focus keyword." ) ),
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"A meta description has been specified, but it does not contain the focus keyword."
+					)
+				),
 			};
 		}
 
@@ -78,8 +81,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"The meta description contains the focus keyword. That's great.",
 						"The meta description contains the focus keyword %1$d times. That's great.",
+						this._keywordMatches
+					),
 					this._keywordMatches
-				), this._keywordMatches ),
+				),
 			};
 		}
 
@@ -93,7 +98,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					"js-text-analysis",
 					"The meta description contains the focus keyword %1$d times, " +
 					"which is over the advised maximum of %2$d times."
-			), this._keywordMatches, this._config.parameters.recommendedMaximumMatches ),
+				),
+				this._keywordMatches,
+				this._config.parameters.recommendedMaximumMatches
+			),
 		};
 	}
 

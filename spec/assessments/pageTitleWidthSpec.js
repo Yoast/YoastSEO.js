@@ -42,4 +42,10 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "The SEO title is wider than the viewable limit." );
 	} );
+
+	it( "checks if getMaximumLength function returns a correct value", function() {
+		var getMaximumLengthResult = pageTitleLengthAssessment.getMaximumLength();
+
+		expect( getMaximumLengthResult ).toEqual( 600 );
+	} );
 } );

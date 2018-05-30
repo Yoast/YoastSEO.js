@@ -2,6 +2,7 @@ const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );
 const merge = require( "lodash/merge" );
 const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
+const getSubheadings = require( "../../stringProcessing/getSubheadings" ).getSubheadings;
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -18,14 +19,16 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
+			parameters: {
+				lowerBoundary: 0.3,
+				upperBoundary: 0.75,
+			},
 			scores: {
 				noMatches: 3,
 				tooFewMatches: 3,
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
-			lowerBoundary: 0.3,
-			upperBoundary: 0.75,
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -43,16 +46,28 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.lowerBoundary );
-		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.upperBoundary );
+		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
+		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
 
 		let assessmentResult = new AssessmentResult();
-		const score = this.calculateScore();
 
-		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( this._subHeadings, i18n ) );
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
+	}
+
+	/**
+	 * Checks whether the paper has a subheadings.
+	 *
+	 * @param {Paper} paper The paper to use for the check.
+	 *
+	 * @returns {boolean} True when there is at least one subheading.
+	 */
+	hasSubheadings( paper ) {
+		const subheadings = getSubheadings( paper.getText() );
+		return subheadings.length > 0;
 	}
 
 	/**
@@ -63,16 +78,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} True when there is text and a keyword.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-
-	/**
-	 * Checks whether there are no subheadings with the keyword.
-	 *
-	 * @returns {boolean} Returns true if there are no subheadings with the keyword.
-	 */
-	hasNoMatches() {
-		return this._subHeadings.matches === 0;
+		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper );
 	}
 
 	/**
@@ -107,86 +113,76 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * the keyword is included in less subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
-		return this._subHeadings.count > 1  && this._subHeadings.matches > this._maxNumberOfSubheadings;
+		return this._subHeadings.count > 1 && this._subHeadings.matches > this._maxNumberOfSubheadings;
 	}
 
 	/**
-	 * Calculates the score for the subheadings.
+	 * Determines the score and the Result text for the subheadings.
 	 *
-	 * @returns {number|null} The calculated score.
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The object with the calculated score and the result text.
 	 */
-	calculateScore() {
-		if ( this.hasNoMatches() ) {
-			return this._config.scores.noMatches;
-		}
-
+	calculateResult( i18n ) {
 		if ( this.hasTooFewMatches() ) {
-			return this._config.scores.tooFewMatches;
+			return {
+				score: this._config.scores.tooFewMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the total number of subheadings.
+					%2$d expands to the number of subheadings containing the keyword. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword appears only in %2$d out of %1$d subheadings. " +
+						"Try to use it in more subheadings."
+					),
+					this._subHeadings.count,
+					this._subHeadings.matches
+				),
+			};
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
-			return this._config.scores.goodNumberOfMatches;
+			return {
+				score: this._config.scores.goodNumberOfMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the total number of subheadings.
+					%2$d expands to the number of subheadings containing the keyword. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The focus keyword appears in %2$d out of %1$d subheading. That's great.",
+						"The focus keyword appears in %2$d out of %1$d subheadings. That's great.",
+						this._subHeadings.count
+					),
+					this._subHeadings.count,
+					this._subHeadings.matches
+				),
+			};
 		}
 
 		if ( this.hasTooManyMatches() ) {
-			return this._config.scores.tooManyMatches;
+			return {
+				score: this._config.scores.tooManyMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the total number of subheadings.
+					%2$d expands to the number of subheadings containing the keyword. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword appears in %2$d out of %1$d subheadings. That might sound a bit repetitive. " +
+						"Try to change some of those subheadings to make the flow of your text sound more natural."
+					),
+					this._subHeadings.count,
+					this._subHeadings.matches
+				),
+			};
 		}
 
-		return null;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {Object} subHeadings  The object with all subHeadings matches.
-	 * @param {Object} i18n         The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( subHeadings, i18n ) {
-		if ( this.hasNoMatches() ) {
-			return i18n.dgettext(
+		return {
+			score: this._config.scores.noMatches,
+			resultText: i18n.dgettext(
 				"js-text-analysis",
 				"You have not used the focus keyword in any subheading (such as an H2)."
-			);
-		}
-
-		if ( this.hasTooFewMatches() ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis",
-					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
-					 number of subheadings containing the keyword. */
-					"The focus keyword appears only in %2$d out of %1$d subheadings. " +
-					"Try to use it in more subheadings." ),
-					subHeadings.count, subHeadings.matches
-			);
-		}
-
-		if ( this.hasGoodNumberOfMatches() ) {
-			return i18n.sprintf(
-				i18n.dngettext( "js-text-analysis",
-					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
-					 number of subheadings containing the keyword. */
-					"The focus keyword appears in %2$d out of %1$d subheading. " +
-					"That's great.", "The focus keyword appears in %2$d out of %1$d subheadings. " +
-					"That's great.", subHeadings.count ),
-				subHeadings.count, subHeadings.matches
-			);
-		}
-
-		if ( this.hasTooManyMatches() ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis",
-					/* Translators: %1$d expands to the total number of subheadings. %2$d expands to the
-					 number of subheadings containing the keyword. */
-					"The focus keyword appears in %2$d out of %1$d subheadings. " +
-					"That might sound a bit repetitive. " +
-					"Try to change some of those subheadings to make the flow of your text sound more natural." ),
-				subHeadings.count, subHeadings.matches
-			);
-		}
-
-		return "";
+			),
+		};
 	}
 }
 
