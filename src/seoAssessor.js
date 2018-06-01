@@ -14,6 +14,7 @@ const InternalLinks = require( "./assessments/seo/internalLinksAssessment" );
 const TitleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
 const TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 const UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
+const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 const SingleH1Assessment = require( "./assessments/seo/singleH1Assessment.js" );
 
 /**
@@ -43,6 +44,7 @@ let SEOAssessor = function( i18n, options ) {
 		new TitleKeyword(),
 		new TitleWidth(),
 		new UrlKeyword(),
+		new LargestKeywordDistance(),
 		new SingleH1Assessment(),
 	];
 };

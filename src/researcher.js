@@ -33,6 +33,7 @@ var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
+var largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 var readingTime = require( "./researches/readingTime" );
 const h1s = require( "./researches/h1s.js" );
 
@@ -74,6 +75,7 @@ var Researcher = function( paper ) {
 		relevantWords: relevantWords,
 		readingTime: readingTime,
 		sentences,
+		largestKeywordDistance: largestKeywordDistance,
 		h1s,
 	};
 
