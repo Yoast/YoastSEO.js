@@ -1,24 +1,24 @@
-var ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
-var Paper = require( "../../js/values/Paper.js" );
-var Factory = require( "../helpers/factory.js" );
-var i18n = Factory.buildJed();
+const ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
+const Paper = require( "../../js/values/Paper.js" );
+const Factory = require( "../helpers/factory.js" );
+const i18n = Factory.buildJed();
 
 let imageCountAssessment = new ImageCountAssessment();
 
 describe( "An image count assessment", function() {
 	it( "assesses no images", function() {
-		var mockPaper = new Paper( "sample" );
+		const mockPaper = new Paper( "sample" );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "No images appear in this page, consider adding some as appropriate." );
 	} );
 
 	it( "assesses a single image, without a keyword and alt-tag set", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' />" );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />" );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			noAlt: 1,
 			withAlt: 0,
 			withAltKeyword: 0,
@@ -30,9 +30,9 @@ describe( "An image count assessment", function() {
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			noAlt: 0,
 			withAlt: 1,
 			withAltKeyword: 0,
@@ -40,66 +40,78 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes." );
+		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, also include the keyword where appropriate." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='keyword' />", {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='keyword' />", {
 			keyword: "Sample",
 		} );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 0,
-			withAlt: 0,
-			withAltKeyword: 0,
-			withAltNonKeyword: 1,
-		} ), i18n );
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 1,
+			},
+			imageCount: 1,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
 		} );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 0,
-			withAlt: 0,
-			withAltKeyword: 1,
-			withAltNonKeyword: 0,
-		} ), i18n );
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 1,
+				withAltNonKeyword: 0,
+			},
+			imageCount: 1,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
-		} );
+		}, true );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 0,
-			withAlt: 0,
-			withAltKeyword: 1,
-			withAltNonKeyword: 1,
-		} ), i18n );
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 1,
+				withAltNonKeyword: 1,
+			},
+			imageCount: 1,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
-		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
 		} );
 
-		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 4,
-			withAlt: 0,
-			withAltKeyword: 1,
-			withAltNonKeyword: 1,
-		} ), i18n );
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 4,
+				withAlt: 0,
+				withAltKeyword: 1,
+				withAltNonKeyword: 1,
+			},
+			imageCount: 1,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 	} );
