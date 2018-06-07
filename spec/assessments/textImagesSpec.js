@@ -43,6 +43,24 @@ describe( "An image count assessment", function() {
 		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, also include the keyword where appropriate." );
 	} );
 
+	it( "assesses images with too few keyword matches", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 1,
+				withAltNonKeyword: 5,
+			},
+			imageCount: 6,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "Only in 1 out of 6 images on this page contain alt attributes with the focus keyword. " +
+			"Where appropriate, try to include the focus keyword in more alt attributes." );
+	} );
+
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='keyword' />", {
 			keyword: "Sample",
@@ -62,6 +80,26 @@ describe( "An image count assessment", function() {
 		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
 	} );
 
+
+	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 1,
+				withAltNonKeyword: 1,
+			},
+			imageCount: 2,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+	} );
+
+	// Good number of matches.
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
@@ -78,9 +116,51 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "The image on this page contains an alt attribute with the focus keyword." );
 	} );
 
-	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
+	// Good number of matches.
+	it( "assesses exactly 5 images, with a keyword and alt-tag set to keyword for 2 images", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 2,
+				withAltNonKeyword: 3,
+			},
+			imageCount: 5,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "2 out of 5 images on this page contain alt attributes with the focus keyword." );
+	} );
+
+	// Good number of matches.
+	it( "assesses more than 5 images, with a keyword and alt-tag set to keyword for a sufficient number of imags", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 3,
+				withAltNonKeyword: 3,
+			},
+			imageCount: 6,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "3 out of 6 images on this page contain alt attributes with the focus keyword." );
+	} );
+
+	// Good number of matches.
+	it( "assesses 2 images, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
 		}, true );
@@ -92,27 +172,41 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
 			},
-			imageCount: 1,
+			imageCount: 2,
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "1 out of 2 images on this page contain alt attributes with the focus keyword." );
 	} );
 
-	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
+	// Too many keyword matches.
+	it( "assesses 6 images, with a keyword and alt-tag set to keyword  5 matches", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
-		} );
+		}, true );
 
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			altTagCount: {
-				noAlt: 4,
+				noAlt: 0,
 				withAlt: 0,
-				withAltKeyword: 1,
+				withAltKeyword: 5,
 				withAltNonKeyword: 1,
 			},
-			imageCount: 1,
+			imageCount: 6,
 		}, true ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "5 out of 6 images on this page contain alt attributes with the focus keyword. " +
+			"That's a bit much. Only include the focus keyword when it really fits the image." );
+	} );
+
+	it( "is not applicable when the paper is empty", function() {
+		const isApplicableResult = imageCountAssessment.isApplicable( new Paper( "" ) );
+		expect( isApplicableResult ).toBe( false );
+	} );
+
+	it( "is applicable when there is a paper with a text", function() {
+		const isApplicableResult = imageCountAssessment.isApplicable( new Paper( "text" ) );
+		expect( isApplicableResult ).toBe( true );
 	} );
 } );

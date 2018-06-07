@@ -4,7 +4,7 @@ const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeSt
 let merge = require( "lodash/merge" );
 
 /**
- * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
+ * Represents the assessment that checks whether images have alt-tags and and whether the alt tags contain the keyword.
  */
 class TextImagesAssessment extends Assessment {
 	/**
@@ -60,16 +60,37 @@ class TextImagesAssessment extends Assessment {
 		return assessmentResult;
 	}
 
+	/**
+	 * Checks whether there are too few alt tags with keywords. This check is applicable when there are
+	 * 5 or more images.
+	 *
+	 * @returns {boolean} Returns true if there are at least 5 images and the number of alt tags
+	 * with keywords is under the specified recommended minimum.
+	 */
 	hasTooFewMatches() {
 		return this.imageCount > 4 && this.altProperties.withAltKeyword < this._minNumberOfKeywordMatches;
 	}
 
+	/**
+	 * Checks whether there is a sufficient number of alt tags with keywords. There are different recommended
+	 * ranges for less than 5 keywords, exactly 5 keywords, and more than 5 keywords.
+	 *
+	 * @returns {boolean} Returns true if the number of alt tags with keywords is within the recommended range.
+	 */
 	hasGoodNumberOfMatches() {
 		return ( ( this.imageCount < 5 && this.altProperties.withAltKeyword > 0 ) ||
+			( this.imageCount === 5 && inRangeStartEndInclusive( this.altProperties.withAltKeyword, 2, 4 ) ) ||
 			( this.imageCount > 4 &&
 				inRangeStartEndInclusive( this.altProperties.withAltKeyword, this._minNumberOfKeywordMatches, this._maxNumberOfKeywordMatches ) ) );
 	}
 
+	/**
+	 * Checks whether there is a sufficient number of alt tags with keywords. This check is applicable when there are
+	 * 5 or more images.
+	 *
+	 * @returns {boolean} Returns true if there are at least 5 images and the number of alt tags with keywords
+	 * is within the recommended range.
+	 */
 	hasTooManyMatches() {
 		return this.imageCount > 4 && this.altProperties.withAltKeyword > this._maxNumberOfKeywordMatches;
 	}
@@ -93,6 +114,7 @@ class TextImagesAssessment extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( i18n ) {
+		// No images.
 		if ( this.imageCount === 0 ) {
 			return {
 				score: this._config.scores.noImages,
@@ -103,7 +125,7 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
-		// Has alt-tag, but no keyword is set.
+		// Has alt-tags, but no keyword is set.
 		if ( this.altProperties.withAlt > 0 ) {
 			return {
 				score: this._config.scores.withAlt,
@@ -115,7 +137,7 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
-		// Image count < 5, Has alt-tag, but no keywords and it's not okay.
+		// Image count < 5, has alt-tags, but no keywords while a keyword is set.
 		if ( this.imageCount < 5 && this.altProperties.withAltNonKeyword > 0 && this.altProperties.withAltKeyword === 0 ) {
 			return {
 				score: this._config.scores.withAltNonKeyword,
@@ -126,7 +148,7 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
-		// Has alt-tag and keywords
+		// Image count ≥5, has alt-tags with too few keywords.
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.withAltTooFewKeywordMatches,
@@ -141,6 +163,10 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
+		/*
+		 * This check needs to be made before the check for too many matches because of the special rule for
+		 * exactly 5 matches.
+		 */
 		if ( this.hasGoodNumberOfMatches() ) {
 			return {
 				score: this._config.scores.withAltGoodNumberOfKeywordMatches,
@@ -170,6 +196,7 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
+		// Images, but no alt tags.
 		return {
 			score: this._config.scores.noAlt,
 			resultText: i18n.dgettext(
