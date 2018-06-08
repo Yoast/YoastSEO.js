@@ -10,6 +10,8 @@ module.exports = {
 	Assessor: require( "./js/assessor" ),
 	SEOAssessor: require( "./js/seoAssessor" ),
 	ContentAssessor: require( "./js/contentAssessor" ),
+	SecondaryKeywordAssessor: require( "./js/secondaryKeywordAssessor" ),
+
 	App: require( "./js/app" ),
 	Pluggable: require( "./js/pluggable" ),
 	Researcher: require( "./js/researcher" ),
