@@ -11,7 +11,7 @@ module.exports = {
 	SEOAssessor: require( "./js/seoAssessor" ),
 	ContentAssessor: require( "./js/contentAssessor" ),
 	SecondaryKeywordAssessor: require( "./js/secondaryKeywordAssessor" ),
-	SecondaryKeywordCornerstoneAssessor: ( "./js/cornerstone/secondaryKeywordAssessor" ),
+	SecondaryKeywordCornerstoneAssessor: require( "./js/cornerstone/secondaryKeywordAssessor" ),
 
 	App: require( "./js/app" ),
 	Pluggable: require( "./js/pluggable" ),
