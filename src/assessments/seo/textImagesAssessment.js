@@ -132,7 +132,7 @@ class TextImagesAssessment extends Assessment {
 				resultText: i18n.dgettext(
 					"js-text-analysis",
 					"The images on this page contain alt attributes. " +
-					"Once you've set a focus keyword, also include the keyword where appropriate."
+					"Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate."
 				),
 			};
 		}
@@ -152,7 +152,10 @@ class TextImagesAssessment extends Assessment {
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.withAltTooFewKeywordMatches,
-				resultText: i18n.sprintf( i18n.dgettext(
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+					 * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+					i18n.dgettext(
 					"js-text-analysis",
 					"Only in %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
 					"Where appropriate, try to include the focus keyword in more alt attributes."
@@ -170,7 +173,10 @@ class TextImagesAssessment extends Assessment {
 		if ( this.hasGoodNumberOfMatches() ) {
 			return {
 				score: this._config.scores.withAltGoodNumberOfKeywordMatches,
-				resultText: i18n.sprintf( i18n.dngettext(
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+                     * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+					i18n.dngettext(
 					"js-text-analysis",
 					"The image on this page contains an alt attribute with the focus keyword.",
 					"%1$d out of %2$d images on this page contain alt attributes with the focus keyword.",
@@ -185,7 +191,10 @@ class TextImagesAssessment extends Assessment {
 		if ( this.hasTooManyMatches() ) {
 			return {
 				score: this._config.scores.withAltTooFewKeywordMatches,
-				resultText: i18n.sprintf( i18n.dgettext(
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+                     * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+					i18n.dgettext(
 					"js-text-analysis",
 					"%1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
 					"That's a bit much. Only include the focus keyword when it really fits the image."

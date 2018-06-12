@@ -40,7 +40,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, also include the keyword where appropriate." );
+		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate." );
 	} );
 
 	it( "assesses images with too few keyword matches", function() {
