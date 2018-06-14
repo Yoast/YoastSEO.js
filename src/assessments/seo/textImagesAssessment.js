@@ -4,7 +4,7 @@ const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeSt
 let merge = require( "lodash/merge" );
 
 /**
- * Represents the assessment that checks whether images have alt-tags and and whether the alt tags contain the keyword.
+ * Represents the assessment that checks whether images have alt-tags and whether the alt tags contain the keyword.
  */
 class TextImagesAssessment extends Assessment {
 	/**
@@ -154,11 +154,11 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltTooFewKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-					 * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+					 * %2$d expands to the total number of images. */
 					i18n.dgettext(
-					"js-text-analysis",
-					"Only in %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
-					"Where appropriate, try to include the focus keyword in more alt attributes."
+						"js-text-analysis",
+						"Only in %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
+						"Where appropriate, try to include the focus keyword in more alt attributes."
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount
@@ -175,12 +175,12 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltGoodNumberOfKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-                     * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+                     * %2$d expands to the total number of images. */
 					i18n.dngettext(
-					"js-text-analysis",
-					"The image on this page contains an alt attribute with the focus keyword.",
-					"%1$d out of %2$d images on this page contain alt attributes with the focus keyword.",
-					this.imageCount
+						"js-text-analysis",
+						"The image on this page contains an alt attribute with the focus keyword.",
+						"%1$d out of %2$d images on this page contain alt attributes with the focus keyword.",
+						this.imageCount
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount
@@ -193,11 +193,11 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltTooFewKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-                     * %2$d expands to the number of images that don't contain an alt attribute with the keyword. */
+                     * %2$d expands to the total number of images. */
 					i18n.dgettext(
-					"js-text-analysis",
-					"%1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
-					"That's a bit much. Only include the focus keyword when it really fits the image."
+						"js-text-analysis",
+						"%1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
+						"That's a bit much. Only include the focus keyword when it really fits the image."
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount
