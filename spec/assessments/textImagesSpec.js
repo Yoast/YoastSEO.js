@@ -19,11 +19,32 @@ describe( "An image count assessment", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />" );
 
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 1,
-			withAlt: 0,
-			withAltKeyword: 0,
-			withAltNonKeyword: 0,
-		} ), i18n );
+			altTagCount: {
+				noAlt: 1,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 0,
+		},
+			imageCount: 1,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
+	} );
+
+	it( "assesses 5 images without a keyword and alt-tag set", function() {
+		const mockPaper = new Paper( "<img src='image.jpg' /><img src='image.jpg' /><img src='image.jpg' /><img src='image.jpg' />" +
+			"<img src='image.jpg' />" );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 5,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 0,
+			},
+			imageCount: 5,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
@@ -33,11 +54,14 @@ describe( "An image count assessment", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
 
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			noAlt: 0,
-			withAlt: 1,
-			withAltKeyword: 0,
-			withAltNonKeyword: 0,
-		} ), i18n );
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 1,
+				withAltKeyword: 0,
+				withAltNonKeyword: 0,
+			},
+			imageCount: 1,
+		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate." );
@@ -57,12 +81,12 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Only in 1 out of 6 images on this page contain alt attributes with the focus keyword. " +
+		expect( assessment.getText() ).toEqual( "Only 1 out of 6 images on this page contain alt attributes with the focus keyword. " +
 			"Where appropriate, try to include the focus keyword in more alt attributes." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
-		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='keyword' />", {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='abc' />", {
 			keyword: "Sample",
 		} );
 
@@ -80,6 +104,26 @@ describe( "An image count assessment", function() {
 		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
 	} );
 
+	it( "assesses >5 images, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
+		const mockPaper = new Paper( "<img src='image.jpg' alt='abc' /><img src='image.jpg' alt='abc' />" +
+			"<img src='image.jpg' alt='abc' /><img src='image.jpg' alt='abc' /><img src='image.jpg' alt='abc' />" +
+			"<img src='image.jpg' alt='abc' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 6,
+			},
+			imageCount: 6,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
+	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {

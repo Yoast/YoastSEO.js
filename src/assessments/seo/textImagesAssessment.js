@@ -68,7 +68,8 @@ class TextImagesAssessment extends Assessment {
 	 * with keywords is under the specified recommended minimum.
 	 */
 	hasTooFewMatches() {
-		return this.imageCount > 4 && this.altProperties.withAltKeyword < this._minNumberOfKeywordMatches;
+		return this.imageCount > 4 && this.altProperties.withAltKeyword > 0 &&
+			this.altProperties.withAltKeyword < this._minNumberOfKeywordMatches;
 	}
 
 	/**
@@ -137,8 +138,8 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
-		// Image count < 5, has alt-tags, but no keywords while a keyword is set.
-		if ( this.imageCount < 5 && this.altProperties.withAltNonKeyword > 0 && this.altProperties.withAltKeyword === 0 ) {
+		// Has alt-tags, but no keywords while a keyword is set.
+		if ( this.altProperties.withAltNonKeyword > 0 && this.altProperties.withAltKeyword === 0 ) {
 			return {
 				score: this._config.scores.withAltNonKeyword,
 				resultText: i18n.dgettext(
@@ -157,7 +158,7 @@ class TextImagesAssessment extends Assessment {
 					 * %2$d expands to the total number of images. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Only in %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
+						"Only %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
 						"Where appropriate, try to include the focus keyword in more alt attributes."
 					),
 					this.altProperties.withAltKeyword,
