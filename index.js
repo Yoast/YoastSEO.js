@@ -9,6 +9,8 @@ var helpers = {
 module.exports = {
 	Assessor: require( "./js/assessor" ),
 	SEOAssessor: require( "./js/seoAssessor" ),
+	SEOPremiumAssessor: require( "./js/SEOPremiumAssessor" ),
+	SEOPremiumCornerstoneAssessor: require( "./js/cornerstone/seoPremiumAssessor" ),
 	ContentAssessor: require( "./js/contentAssessor" ),
 	App: require( "./js/app" ),
 	Pluggable: require( "./js/pluggable" ),
