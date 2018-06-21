@@ -3,10 +3,10 @@ const functionWords = require( "../helpers/getFunctionWords" )();
 const wordMatch = require( "../stringProcessing/matchTextWithWord" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 const stripSpaces = require( "../stringProcessing/stripSpaces" );
-const removePunctuation = require( "../stringProcessing/removePunctuation" );
 const createRegexFromArray = require( "../stringProcessing/createRegexFromArray" );
 const getLanguage = require( "../helpers/getLanguage" );
 const isUndefined = require( "lodash/isUndefined" );
+const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
@@ -18,8 +18,8 @@ const isUndefined = require( "lodash/isUndefined" );
  */
 
 module.exports = function( paper ) {
-	let title = removePunctuation( paper.getTitle() );
-	let keyword = escapeRegExp( paper.getKeyword() );
+	let title = normalizeQuotes( paper.getTitle() );
+	let keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
 	const locale = paper.getLocale();
 
 	let result = { matches: 0, position: -1 };
@@ -46,5 +46,6 @@ module.exports = function( paper ) {
 		title = stripSpaces( title.replace( articlesRegex, "" ) );
 		result.position = title.indexOf( keyword );
 	}
+
 	return result;
 };
