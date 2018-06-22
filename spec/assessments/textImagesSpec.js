@@ -1,3 +1,4 @@
+
 const ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
@@ -24,7 +25,7 @@ describe( "An image count assessment", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-		},
+			},
 			imageCount: 1,
 		}, true ), i18n );
 
