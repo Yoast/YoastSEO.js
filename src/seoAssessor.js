@@ -17,6 +17,9 @@ var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 var UrlLength = require( "./assessments/seo/urlLengthAssessment.js" );
 var urlStopWords = require( "./assessments/seo/urlStopWordsAssessment.js" );
+// todo: remove topic density from seoAssessor and move it to seoAssessorPremium after it is ready.
+var TopicDensity = require( "./assessments/seo/topicDensityAssessment.js" );
+const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 /**
  * Creates the Assessor
  *
@@ -47,6 +50,8 @@ var SEOAssessor = function( i18n, options ) {
 		new UrlKeyword(),
 		new UrlLength(),
 		urlStopWords,
+		new TopicDensity(),
+		new LargestKeywordDistance(),
 	];
 };
 
