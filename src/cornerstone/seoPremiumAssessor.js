@@ -1,5 +1,5 @@
 let Assessor = require( "../assessor.js" );
-let SEOAssessor = require( "../seoAssessor" );
+let SEOPremiumAssessor = require( "../seoPremiumAssessor" );
 
 let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
 let keyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
@@ -18,6 +18,8 @@ let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
 let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
 let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
+const TopicDensity = require( "../assessments/seo/topicDensityAssessment.js" );
+const LargestKeywordDistance = require( "../assessments/seo/largestKeywordDistanceAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -28,7 +30,7 @@ let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
  *
  * @constructor
  */
-let CornerstoneSEOAssessor = function( i18n, options ) {
+let CornerstoneSEOPremiumAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -100,9 +102,11 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		urlStopWords,
+		new TopicDensity(),
+		new LargestKeywordDistance(),
 	];
 };
 
-require( "util" ).inherits( CornerstoneSEOAssessor, SEOAssessor );
+require( "util" ).inherits( CornerstoneSEOPremiumAssessor, SEOPremiumAssessor );
 
-module.exports = CornerstoneSEOAssessor;
+module.exports = CornerstoneSEOPremiumAssessor;
