@@ -19,6 +19,7 @@ let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
 let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
 let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
 const TopicDensity = require( "../assessments/seo/topicDensityAssessment.js" );
+const LargestKeywordDistance = require( "../assessments/seo/largestKeywordDistanceAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -102,6 +103,7 @@ let CornerstoneSEOPremiumAssessor = function( i18n, options ) {
 		} ),
 		urlStopWords,
 		new TopicDensity(),
+		new LargestKeywordDistance(),
 	];
 };
 

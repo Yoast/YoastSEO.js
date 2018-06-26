@@ -18,6 +18,7 @@ const UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 const UrlLength = require( "./assessments/seo/urlLengthAssessment.js" );
 const urlStopWords = require( "./assessments/seo/urlStopWordsAssessment.js" );
 const TopicDensity = require( "./assessments/seo/topicDensityAssessment.js" );
+const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -50,6 +51,7 @@ const SEOPremiumAssessor = function( i18n, options ) {
 		new UrlLength(),
 		urlStopWords,
 		new TopicDensity(),
+		new LargestKeywordDistance(),
 	];
 };
 
