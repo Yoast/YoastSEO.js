@@ -1,11 +1,11 @@
 const Assessor = require( "../assessor.js" );
 
-const introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
+const IntroductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
 const KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
 const KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
 const MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
 const TextImages = require( "../assessments/seo/textImagesAssessment.js" );
-const textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
+const TextCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -20,11 +20,11 @@ const secondaryKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
-		introductionKeyword,
+		new IntroductionKeyword(),
 		new KeyphraseLength(),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
-		textCompetingLinks,
+		new TextCompetingLinks(),
 		new TextImages( {
 			scores: {
 				noImages: 3,
