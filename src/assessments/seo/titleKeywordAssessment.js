@@ -27,6 +27,7 @@ class TitleKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 2,
 			},
+			url: "<a href='https://yoa.st/2pn' target='_blank'>",
 		};
 
 		this.identifier = "titleKeyword";
@@ -81,12 +82,15 @@ class TitleKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the keyphrase. */
+					/* Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword '%1$s' does not appear in the SEO title."
+						"The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
 					),
-					this._keyword
+					this._keyword,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -94,21 +98,27 @@ class TitleKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The SEO title contains the focus keyword, at the beginning which is considered to improve rankings."
-					)
+						"The %1$sSEO title%2$s contains the focus keyword, at the beginning which is considered to improve rankings."
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
 		return {
 			score: this._config.scores.okay,
 			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The SEO title contains the focus keyword, but it does not appear at the beginning; " +
+					"The %1$sSEO title%2$s contains the focus keyword, but it does not appear at the beginning; " +
 					"try and move it to the beginning."
-				)
+				),
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

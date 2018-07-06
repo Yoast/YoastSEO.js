@@ -2,9 +2,7 @@ const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );
 const merge = require( "lodash/merge" );
 const countWords = require( "../../stringProcessing/countWords.js" );
-const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
+const topicCount = require( "../../researches/topicCount.js" );
 const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
@@ -23,13 +21,14 @@ class largestKeywordDistanceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			overRecommendedMaximumKeywordDistance: 40,
-			recommendedMaximumKeywordDistance: 30,
+			overRecommendedMaximumKeywordDistance: 50,
+			recommendedMaximumKeywordDistance: 40,
 			scores: {
 				good: 9,
 				okay: 6,
 				bad: 1,
 			},
+			url: "<a href='https://yoa.st/kd1' target='_blank'>",
 		};
 
 		this.identifier = "largestKeywordDistance";
@@ -47,13 +46,16 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
+		this._hasSynonyms = paper.hasSynonyms();
+
 		let assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score < 2 );
+
+		assessmentResult.setHasMarks( calculatedResult.score < 9 );
 
 		return assessmentResult;
 	}
@@ -66,13 +68,26 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
+		if ( this._hasSynonyms ) {
+			this._config.overRecommendedMaximumKeywordDistance = 40;
+			this._config.recommendedMaximumKeywordDistance = 30;
+		}
+
 		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf( i18n.dgettext(
-					"js-text-analysis",
-					"Large parts of your text do not contain the keyword. " +
-					"Try to distribute the keyword more evenly." ) ),
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
+					i18n.dngettext(
+						"js-text-analysis",
+						"Large parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.url,
+					"</a>"
+				),
 			};
 		}
 
@@ -82,19 +97,35 @@ class largestKeywordDistanceAssessment extends Assessment {
 			this._config.overRecommendedMaximumKeywordDistance ) ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf( i18n.dgettext(
-					"js-text-analysis",
-					"Some parts of your text do not contain the keyword. " +
-					"Try to distribute the keyword more evenly." ) ),
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
+					i18n.dngettext(
+						"js-text-analysis",
+						"Some parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.url,
+					"</a>"
+				),
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				"Your keyword is distributed evenly throughout the text. " +
-				"That's great." ) ),
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+				%2$s expands to the anchor end tag */
+				i18n.dngettext(
+					"js-text-analysis",
+					"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great.",
+					"Your keyword and its synonyms are %1$sdistributed%2$s evenly throughout the text. That's great.",
+					this._hasSynonyms + 1
+				),
+				this._config.url,
+				"</a>"
+			),
 		};
 	}
 
@@ -106,17 +137,13 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks( paper ) {
-		const keyword = paper.getKeyword();
-
-		return [ new Mark( {
-			original: keyword,
-			marked: marker( keyword ),
-		} ) ];
+		return topicCount( paper ).markings;
 	}
+
 
 	/**
 	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
-	 * the keyword appears more at least twice in the text (required to calculate a distribution).
+	 * the keyword (or keyword and synonyms) appear(s) more at least twice in the text (required to calculate a distribution).
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -124,9 +151,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
-		const keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
+		const topicUsed = topicCount( paper ).count;
 
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && keywordCount > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && topicUsed > 1;
 	}
 }
 

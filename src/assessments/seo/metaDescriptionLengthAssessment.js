@@ -30,6 +30,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				good: 9,
 			},
+			url: "<a href='https://yoa.st/2pg' target='_blank'>",
 		};
 
 		this.identifier = "metaDescriptionLength";
@@ -136,43 +137,55 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	translateScore( descriptionLength, i18n ) {
 		if( this.noDescription( descriptionLength ) ) {
 			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"No meta description has been specified. Search engines will display copy from the page instead."
-				)
+					"No %1$smeta description%2$s has been specified. Search engines will display copy from the page instead."
+				),
+				this._config.url,
+				"</a>"
 			);
 		}
 
 		if( this.tooShort( descriptionLength ) ) {
 			return i18n.sprintf(
 				/* Translators: %1$d expands to the recommended maximum length of the metadescription in words,
-				%2$d expands to the maximum length of the metadescription in words. */
+				%2$d expands to the maximum length of the metadescription in words,
+				%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The meta description is under %1$d characters long. However, up to %2$d characters are available."
+					"The %3$smeta description%4$s is under %1$d characters long. However, up to %2$d characters are available."
 				),
 				this._config.parameters.recommendedMaximumLength,
-				this._config.parameters.maximumLength
+				this._config.parameters.maximumLength,
+				this._config.url,
+				"</a>"
 			);
 		}
 
 		if( this.tooLong( descriptionLength ) ) {
 			return i18n.sprintf(
-				/* Translators: %1$d expands to the maximum length of the metadescription in words. */
+				/* Translators: %1$d expands to the maximum length of the metadescription in words,
+				%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The meta description is over %1$d characters. " +
+					"The %2$smeta description%3$s is over %1$d characters. " +
 					"Reducing the length will ensure the entire description will be visible."
 				),
-				this._config.parameters.maximumLength
+				this._config.parameters.maximumLength,
+				this._config.url,
+				"</a>"
 			);
 		}
 
 		return i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			i18n.dgettext(
 				"js-text-analysis",
-				"The meta description has a nice length."
-			)
+				"The %1$smeta description%2$s has a nice length."
+			),
+			this._config.url,
+			"</a>"
 		);
 	}
 }

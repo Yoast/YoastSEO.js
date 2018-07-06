@@ -24,6 +24,7 @@ class IntroductionHasKeywordAssessment extends Assessment {
 				good: 9,
 				bad: 3,
 			},
+			url: "<a href='https://yoa.st/2pc' target='_blank'>",
 		};
 
 		this.identifier = "introductionKeyword";
@@ -74,10 +75,10 @@ class IntroductionHasKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
-					i18n.dgettext(
-						"js-text-analysis",
-						"The focus keyword appears in the first paragraph of the copy."
-					)
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy." ),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -85,10 +86,11 @@ class IntroductionHasKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					"The focus keyword doesn't appear in the first paragraph of the copy. Make sure the topic is clear immediately."
-				)
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext( "js-text-analysis", "The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. " +
+					"Make sure the topic is clear immediately." ),
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

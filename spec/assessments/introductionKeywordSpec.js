@@ -11,7 +11,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The focus keyword appears in the first paragraph of the copy." );
+		expect( assessment.getText() ).toBe( "The focus keyword appears in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy." );
 	} );
 
 	it( "returns multiple keywords found in the first paragraph", function() {
@@ -21,7 +21,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The focus keyword appears in the first paragraph of the copy." );
+		expect( assessment.getText() ).toBe( "The focus keyword appears in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy." );
 	} );
 
 	it( "returns no keyword found in the first paragraph", function() {
@@ -31,8 +31,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The focus keyword doesn't appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." );
+		expect( assessment.getText() ).toBe( "The focus keyword doesn't appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy." +
+			" Make sure the topic is clear immediately." );
 	} );
 
 	it( "returns no score if no keyword is defined", function() {

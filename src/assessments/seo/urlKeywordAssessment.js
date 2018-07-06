@@ -21,6 +21,7 @@ class UrlKeywordAssessment extends Assessment {
 				noKeywordInUrl: 6,
 				good: 9,
 			},
+			url: "<a href='https://yoa.st/2pp' target='_blank'>",
 		};
 
 		this.identifier = "urlKeyword";
@@ -70,19 +71,26 @@ class UrlKeywordAssessment extends Assessment {
 		if ( this._totalKeywords === 0 ) {
 			return {
 				score: this._config.scores.noKeywordInUrl,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The focus keyword does not appear in the URL for this page. " +
-					"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword does not appear in the %1$sURL%2$s for this page. " +
+						"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.dgettext(
-				"js-text-analysis",
-				"The focus keyword appears in the URL for this page."
+			resultText: i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

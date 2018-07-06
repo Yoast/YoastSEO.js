@@ -16,11 +16,12 @@ const TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
 const UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
 const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 const SingleH1Assessment = require( "./assessments/seo/singleH1Assessment.js" );
+const TopicDensity = require( "./assessments/seo/topicDensityAssessment.js" );
 
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
+ * @param {Object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  *
@@ -46,6 +47,7 @@ let SEOAssessor = function( i18n, options ) {
 		new UrlKeyword(),
 		new LargestKeywordDistance(),
 		new SingleH1Assessment(),
+		new TopicDensity(),
 	];
 };
 

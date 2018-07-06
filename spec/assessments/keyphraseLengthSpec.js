@@ -14,8 +14,8 @@ describe( "the keyphrase length assessment", function() {
 		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
-		expect( result.getText() ).toEqual( "No focus keyword was set for this page. " +
-			"If you do not set a focus keyword, no score can be calculated." );
+		expect( result.getText() ).toEqual( "No <a href='https://yoa.st/2pdd' target='_blank'>focus keyword</a> was set for this page. " +
+		   "If you do not set a focus keyword, no score can be calculated." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's too long (11 words) as bad", function() {
@@ -25,8 +25,8 @@ describe( "the keyphrase length assessment", function() {
 		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Your keyphrase is 11 words long. That's way more than the recommended maximum of 4 words. " +
-			"Make the keyphrase shorter." );
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is 11 words long. " +
+			"That's way more than the recommended maximum of 4 words. Make the keyphrase shorter." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's a little too long (6 words) as 'can be improved' ", function() {
@@ -36,7 +36,7 @@ describe( "the keyphrase length assessment", function() {
 		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Your keyphrase is 6 words long. That's more than the recommended maximum of 4 words. " +
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is 6 words long. That's more than the recommended maximum of 4 words. " +
 			"You might want to make the keyphrase a bit shorter." );
 	} );
 
@@ -47,6 +47,6 @@ describe( "the keyphrase length assessment", function() {
 		var result = keyphraseAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Your keyphrase has a nice length." );
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length." );
 	} );
 } );

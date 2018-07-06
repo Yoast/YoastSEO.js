@@ -31,6 +31,7 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
+			url: "<a href='https://yoa.st/2pj' target='_blank'>",
 		};
 
 		this.identifier = "textImages";
@@ -119,9 +120,11 @@ class TextImagesAssessment extends Assessment {
 		if ( this.imageCount === 0 ) {
 			return {
 				score: this._config.scores.noImages,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"No images appear in this page, consider adding some as appropriate."
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "No %1$simages%2$s appear in this page, consider adding some as appropriate." ),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -130,10 +133,15 @@ class TextImagesAssessment extends Assessment {
 		if ( this.altProperties.withAlt > 0 ) {
 			return {
 				score: this._config.scores.withAlt,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The images on this page contain alt attributes. " +
-					"Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate."
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The %1$simages%2$s on this page contain alt attributes. " +
+						"Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate."
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -142,9 +150,14 @@ class TextImagesAssessment extends Assessment {
 		if ( this.altProperties.withAltNonKeyword > 0 && this.altProperties.withAltKeyword === 0 ) {
 			return {
 				score: this._config.scores.withAltNonKeyword,
-				resultText: i18n.dgettext(
-					"js-text-analysis",
-					"The images on this page do not have alt attributes containing the focus keyword."
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The %1$simages%2$s on this page do not have alt attributes containing the focus keyword."
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -155,14 +168,17 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltTooFewKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-					 * %2$d expands to the total number of images. */
+					 * %2$d expands to the total number of images,
+					 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Only %1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
+						"Only %1$d out of %2$d %3$simages%4$s on this page contain alt attributes with the focus keyword. " +
 						"Where appropriate, try to include the focus keyword in more alt attributes."
 					),
 					this.altProperties.withAltKeyword,
-					this.imageCount
+					this.imageCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -176,15 +192,18 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltGoodNumberOfKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-                     * %2$d expands to the total number of images. */
+                     * %2$d expands to the total number of images,
+                     * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The image on this page contains an alt attribute with the focus keyword.",
-						"%1$d out of %2$d images on this page contain alt attributes with the focus keyword.",
+						"The %3$simage%4$s on this page contains an alt attribute with the focus keyword.",
+						"%1$d out of %2$d %3$simages%4$s on this page contain alt attributes with the focus keyword.",
 						this.imageCount
 					),
 					this.altProperties.withAltKeyword,
-					this.imageCount
+					this.imageCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -194,14 +213,17 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltTooFewKeywordMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-                     * %2$d expands to the total number of images. */
+                     * %2$d expands to the total number of images,
+                     * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$d out of %2$d images on this page contain alt attributes with the focus keyword. " +
+						"%1$d out of %2$d %3$simages%4$s on this page contain alt attributes with the focus keyword. " +
 						"That's a bit much. Only include the focus keyword when it really fits the image."
 					),
 					this.altProperties.withAltKeyword,
-					this.imageCount
+					this.imageCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -209,9 +231,14 @@ class TextImagesAssessment extends Assessment {
 		// Images, but no alt tags.
 		return {
 			score: this._config.scores.noAlt,
-			resultText: i18n.dgettext(
-				"js-text-analysis",
-				"The images on this page are missing alt attributes."
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The %1$simages%2$s on this page are missing alt attributes."
+				),
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

@@ -36,6 +36,8 @@ var relevantWords = require( "./researches/relevantWords" );
 var largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 var readingTime = require( "./researches/readingTime" );
 const h1s = require( "./researches/h1s.js" );
+var getTopicDensity = require( "./researches/getTopicDensity" );
+var topicCount = require( "./researches/topicCount" );
 
 /**
  * This contains all possible, default researches.
@@ -74,6 +76,8 @@ var Researcher = function( paper ) {
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
 		readingTime: readingTime,
+		getTopicDensity: getTopicDensity,
+		topicCount: topicCount,
 		sentences,
 		largestKeywordDistance: largestKeywordDistance,
 		h1s,

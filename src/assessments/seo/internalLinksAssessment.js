@@ -26,6 +26,7 @@ class TextHasInternalLinksAssessment extends Assessment {
 				noneInternalFollow: 7,
 				noInternal: 3,
 			},
+			url: "<a href='https://yoa.st/2pm' target='_blank'>",
 		};
 
 		this.identifier = "internalLinks";
@@ -75,10 +76,10 @@ class TextHasInternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noInternal,
 				resultText: i18n.sprintf(
-					i18n.dgettext(
-						"js-text-analysis",
-						"No internal links appear in this page, consider adding some as appropriate."
-					)
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "No %1$sinternal links%2$s appear in this page, consider adding some as appropriate." ),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -87,12 +88,12 @@ class TextHasInternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noneInternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands the number of internal nofollowed links */
-					i18n.dgettext(
-						"js-text-analysis",
-						"This page has %1$s internal link(s), all nofollowed."
-					),
-					this.linkStatistics.internalNofollow
+					/* Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed." ),
+					this.linkStatistics.internalNofollow,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -101,24 +102,27 @@ class TextHasInternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.allInternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands the number of internal links */
-					i18n.dgettext(
-						"js-text-analysis",
-						"This page has %1$s internal link(s)."
-					),
-					this.linkStatistics.internalDofollow
+					/* Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s." ),
+					this.linkStatistics.internalTotal,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
 		return {
 			score: this._config.scores.someInternalFollow,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands the number of internal nofollowed links, %2$s expands the number of internal followed links */
+				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag, %4$s to the number of internal links */
 				i18n.dgettext(
 					"js-text-analysis",
-					"This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s)."
+					"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal internal link(s)."
 				),
 				this.linkStatistics.internalNofollow,
+				this._config.url,
+				"</a>",
 				this.linkStatistics.internalDofollow
 			),
 		};

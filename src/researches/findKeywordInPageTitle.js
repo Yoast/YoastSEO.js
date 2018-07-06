@@ -23,7 +23,7 @@ module.exports = function( paper ) {
 	const locale = paper.getLocale();
 
 	let result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale );
+	result.matches = wordMatch( title, keyword, locale ).count;
 
 	title = title.toLocaleLowerCase();
 	keyword = keyword.toLocaleLowerCase();
@@ -46,6 +46,5 @@ module.exports = function( paper ) {
 		title = stripSpaces( title.replace( articlesRegex, "" ) );
 		result.position = title.indexOf( keyword );
 	}
-
 	return result;
 };

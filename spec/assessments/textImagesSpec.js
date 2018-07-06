@@ -13,7 +13,8 @@ describe( "An image count assessment", function() {
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "No images appear in this page, consider adding some as appropriate." );
+		expect( assessment.getText() ).toEqual( "No <a href='https://yoa.st/2pj' target='_blank'>images</a> appear in this page, " +
+			"consider adding some as appropriate." );
 	} );
 
 	it( "assesses a single image, without a keyword and alt-tag set", function() {
@@ -30,25 +31,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
-	} );
-
-	it( "assesses 5 images without a keyword and alt-tag set", function() {
-		const mockPaper = new Paper( "<img src='image.jpg' /><img src='image.jpg' /><img src='image.jpg' /><img src='image.jpg' />" +
-			"<img src='image.jpg' />" );
-
-		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			altTagCount: {
-				noAlt: 5,
-				withAlt: 0,
-				withAltKeyword: 0,
-				withAltNonKeyword: 0,
-			},
-			imageCount: 5,
-		}, true ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"are missing alt attributes." );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
@@ -65,7 +49,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes. Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"contain alt attributes. Once you've set a focus keyword, don't forget to include it in alt attributes, where appropriate." );
 	} );
 
 	it( "assesses images with too few keyword matches", function() {
@@ -82,7 +67,7 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Only 1 out of 6 images on this page contain alt attributes with the focus keyword. " +
+		expect( assessment.getText() ).toEqual( "Only 1 out of 6 <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the focus keyword. " +
 			"Where appropriate, try to include the focus keyword in more alt attributes." );
 	} );
 
@@ -102,7 +87,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"do not have alt attributes containing the focus keyword." );
 	} );
 
 	it( "assesses >5 images, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
@@ -123,7 +109,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"do not have alt attributes containing the focus keyword." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
@@ -161,7 +148,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "The image on this page contains an alt attribute with the focus keyword." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>image</a> on this page " +
+			"contains an alt attribute with the focus keyword." );
 	} );
 
 	// Good number of matches.
@@ -181,7 +169,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "2 out of 5 images on this page contain alt attributes with the focus keyword." );
+		expect( assessment.getText() ).toEqual( "2 out of 5 <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"contain alt attributes with the focus keyword." );
 	} );
 
 	// Good number of matches.
@@ -201,7 +190,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "3 out of 6 images on this page contain alt attributes with the focus keyword." );
+		expect( assessment.getText() ).toEqual( "3 out of 6 <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"contain alt attributes with the focus keyword." );
 	} );
 
 	// Good number of matches.
@@ -221,7 +211,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "1 out of 2 images on this page contain alt attributes with the focus keyword." );
+		expect( assessment.getText() ).toEqual( "1 out of 2 <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"contain alt attributes with the focus keyword." );
 	} );
 
 	// Too many keyword matches.
@@ -241,7 +232,8 @@ describe( "An image count assessment", function() {
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "5 out of 6 images on this page contain alt attributes with the focus keyword. " +
+		expect( assessment.getText() ).toEqual( "5 out of 6 <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page " +
+			"contain alt attributes with the focus keyword. " +
 			"That's a bit much. Only include the focus keyword when it really fits the image." );
 	} );
 

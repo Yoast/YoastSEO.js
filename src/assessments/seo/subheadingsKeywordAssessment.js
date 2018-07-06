@@ -29,6 +29,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
+			url: "<a href='https://yoa.st/2ph' target='_blank'>",
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -129,14 +130,17 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				score: this._config.scores.tooFewMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword. */
+					%2$d expands to the number of subheadings containing the keyword,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword appears only in %2$d out of %1$d subheadings. " +
+						"The focus keyword appears only in %2$d out of %1$d %3$ssubheadings%4$s. " +
 						"Try to use it in more subheadings."
 					),
 					this._subHeadings.count,
-					this._subHeadings.matches
+					this._subHeadings.matches,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -146,15 +150,18 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword. */
+					%2$d expands to the number of subheadings containing the keyword,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The focus keyword appears in %2$d out of %1$d subheading. That's great.",
-						"The focus keyword appears in %2$d out of %1$d subheadings. That's great.",
+						"The focus keyword appears in %2$d out of %1$d %3$ssubheading%4$s. That's great.",
+						"The focus keyword appears in %2$d out of %1$d %3$ssubheadings%4$s. That's great.",
 						this._subHeadings.count
 					),
 					this._subHeadings.count,
-					this._subHeadings.matches
+					this._subHeadings.matches,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -164,23 +171,31 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				score: this._config.scores.tooManyMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword. */
+					%2$d expands to the number of subheadings containing the keyword,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword appears in %2$d out of %1$d subheadings. That might sound a bit repetitive. " +
+						"The focus keyword appears in %2$d out of %1$d %3$ssubheadings%4$s. That might sound a bit repetitive. " +
 						"Try to change some of those subheadings to make the flow of your text sound more natural."
 					),
 					this._subHeadings.count,
-					this._subHeadings.matches
+					this._subHeadings.matches,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
 
 		return {
 			score: this._config.scores.noMatches,
-			resultText: i18n.dgettext(
-				"js-text-analysis",
-				"You have not used the focus keyword in any subheading (such as an H2)."
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"You have not used the focus keyword in any %1$ssubheading%2$s (such as an H2)."
+				),
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

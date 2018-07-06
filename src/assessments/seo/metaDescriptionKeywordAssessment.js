@@ -25,6 +25,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				good: 9,
 				bad: 3,
 			},
+			url: "<a href='https://yoa.st/2pf' target='_blank'>",
 		};
 
 		this.identifier = "metaDescriptionKeyword";
@@ -63,10 +64,13 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"A meta description has been specified, but it does not contain the focus keyword."
-					)
+						"A meta description has been specified, but it %1$sdoes not contain the focus keyword%2$s."
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -76,14 +80,17 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to the number of keyword matches in the meta description */
+					/* Translators: %1$s expands to the number of keyword matches in the meta description,
+					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The meta description contains the focus keyword. That's great.",
-						"The meta description contains the focus keyword %1$d times. That's great.",
+						"The meta description %2$scontains the focus keyword%3$s. That's great.",
+						"The meta description %2$scontains the focus keyword %1$d times%3$s. That's great.",
 						this._keywordMatches
 					),
-					this._keywordMatches
+					this._keywordMatches,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -93,14 +100,17 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to the number of keyword matches in the meta description,
-				2$s expands to the maximum recommended number of matches. */
+				2$s expands to the maximum recommended number of matches,
+				%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The meta description contains the focus keyword %1$d times, " +
+					"The meta description %3$scontains the focus keyword %1$d times%4$s, " +
 					"which is over the advised maximum of %2$d times."
 				),
 				this._keywordMatches,
-				this._config.parameters.recommendedMaximumMatches
+				this._config.parameters.recommendedMaximumMatches,
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

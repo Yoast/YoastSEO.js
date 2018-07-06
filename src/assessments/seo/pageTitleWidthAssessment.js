@@ -30,6 +30,7 @@ class PageTitleWidthAssessment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
+			url: "<a href='https://yoa.st/2po' target='_blank'>",
 		};
 
 		this.identifier = "titleWidth";
@@ -134,27 +135,50 @@ class PageTitleWidthAssessment extends Assessment {
 	 */
 	translateScore( pageTitleWidth, i18n ) {
 		if ( this.tooShort( pageTitleWidth ) ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The %1$sSEO title%2$s is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+				),
+				this._config.url,
+				"</a>"
 			);
 		}
 
 		if ( this.goodLength( pageTitleWidth ) ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title has a nice length."
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The %1$sSEO title%2$s has a nice length."
+				),
+				this._config.url,
+				"</a>"
 			);
 		}
 
 		if ( this.tooLong( pageTitleWidth ) ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The SEO title is wider than the viewable limit."
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The %1$sSEO title%2$s is wider than the viewable limit."
+				),
+				this._config.url,
+				"</a>"
 			);
 		}
 
-		return i18n.dgettext( "js-text-analysis", "Please create an SEO title." );
+		return i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			i18n.dgettext(
+				"js-text-analysis",
+				"Please create an %1$sSEO title%2$s."
+			),
+			this._config.url,
+			"</a>"
+		);
 	}
 }
 

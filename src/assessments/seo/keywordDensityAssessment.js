@@ -3,6 +3,7 @@ const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const countWords = require( "../../stringProcessing/countWords.js" );
 const inRange = require( "../../helpers/inRange.js" );
 const recommendedKeywordCount = require( "../../assessmentHelpers/recommendedKeywordCount.js" );
+const topicCount = require( "../../researches/topicCount" );
 const merge = require( "lodash/merge" );
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
@@ -33,6 +34,7 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
+			url: "<a href='https://yoa.st/2pe' target='_blank'>",
 		};
 
 		this.identifier = "keywordDensity";
@@ -51,7 +53,7 @@ class KeywordDensityAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
 
-		this._keywordCount = researcher.getResearch( "keywordCount" );
+		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 		this._minRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.minimum, "min" );
 		this._maxRecommendedKeywordCount = recommendedKeywordCount( paper, this._config.maximum, "max" );
@@ -59,6 +61,7 @@ class KeywordDensityAssessment extends Assessment {
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
+		assessmentResult.setHasMarks( this._keywordCount > 0 );
 
 		return assessmentResult;
 	}
@@ -119,13 +122,19 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the recommended keyword count. */
+					/* Translators:
+					%1$d expands to the recommended keyword count,
+					%2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword was found 0 times. That's less than the recommended minimum of %1$d times for a text of this length.",
+						"%2$sThe focus keyword was found 0 times%3$s. " +
+						"That's less than the recommended minimum of %1$d times for a text of this length.",
 						this._keywordCount
 					),
-					this._minRecommendedKeywordCount
+					this._minRecommendedKeywordCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -133,15 +142,23 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: i18n.sprintf(
-					/* Translators: Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+					/* Translators:
+					%1$d expands to the keyword count,
+					%2$d expands to the recommended keyword count,
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The focus keyword was found %1$d time. That's less than the recommended minimum of %2$d times for a text of this length.",
-						"The focus keyword was found %1$d times. That's less than the recommended minimum of %2$d times for a text of this length.",
+						"%3$sThe focus keyword was found %1$d time%4$s. " +
+						"That's less than the recommended minimum of %2$d times for a text of this length.",
+						"%3$sThe focus keyword was found %1$d times%4$s. " +
+						"That's less than the recommended minimum of %2$d times for a text of this length.",
 						this._keywordCount
 					),
 					this._keywordCount,
-					this._minRecommendedKeywordCount
+					this._minRecommendedKeywordCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -150,12 +167,18 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.correctDensity,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the keyword count. */
+					/* Translators:
+					%1$d expands to the keyword count,
+					%2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword was found %1$d times. That's great for a text of this length."
+						"%2$sThe focus keyword was found %1$d times%3$s. " +
+						"That's great for a text of this length."
 					),
-					this._keywordCount
+					this._keywordCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -164,14 +187,20 @@ class KeywordDensityAssessment extends Assessment {
 			return {
 				score: this._config.scores.overMaximum,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+					/* Translators:
+					%1$d expands to the keyword count,
+					%2$d expands to the recommended keyword count,
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword was found %1$d times." +
+						"%3$sThe focus keyword was found %1$d times%4$s." +
 						" That's more than the recommended maximum of %2$d times for a text of this length."
 					),
 					this._keywordCount,
-					this._maxRecommendedKeywordCount
+					this._maxRecommendedKeywordCount,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -180,27 +209,46 @@ class KeywordDensityAssessment extends Assessment {
 		return {
 			score: this._config.scores.wayOverMaximum,
 			resultText: i18n.sprintf(
-				/* Translators: %1$d expands to the keyword count. %2$d expands to the recommended keyword count. */
+				/* Translators:
+				%1$d expands to the keyword count,
+				%2$d expands to the recommended keyword count,
+				%3$s expands to a link on yoast.com,
+				%4$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The focus keyword was found %1$d times." +
+					"%3$sThe focus keyword was found %1$d times%4$s." +
 					" That's way more than the recommended maximum of %2$d times for a text of this length."
 				),
 				this._keywordCount,
-				this._maxRecommendedKeywordCount
+				this._maxRecommendedKeywordCount,
+				this._config.url,
+				"</a>"
 			),
 		};
 	}
 
+
 	/**
-	 * Checks whether the paper has a text with at least 100 words and a keyword is set.
+	 * Marks keywords in the text for the keyword density assessment.
+	 *
+	 * @param {Object} paper The paper to use for the assessment.
+	 *
+	 * @returns {Array<Mark>} Marks that should be applied.
+	 */
+	getMarks( paper ) {
+		return topicCount( paper ).markings;
+	}
+
+
+	/**
+	 * Checks whether the paper has a text with at least 100 words, a keyword is set and there are no synonyms.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is text with at least 100 words and a keyword is set.
+	 * @returns {boolean} True if applicable.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && ! ( paper.hasSynonyms() );
 	}
 }
 

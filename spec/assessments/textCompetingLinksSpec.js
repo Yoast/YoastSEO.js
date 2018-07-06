@@ -34,7 +34,8 @@ describe( "An assessment for competing links in the text", function() {
 		);
 
 		expect( result.getScore() ).toBe( 2 );
-		expect( result.getText() ).toBe( "You're linking to another page with the focus keyword you want this page to rank for. " +
+		expect( result.getText() ).toBe( "You're <a href='https://yoa.st/2pi' target='_blank'>linking to another page " +
+			"with the focus keyword</a> you want this page to rank for. " +
 			"Consider changing that if you truly want this page to rank." );
 	} );
 

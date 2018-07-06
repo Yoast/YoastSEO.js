@@ -31,6 +31,7 @@ class TextLengthAssessment extends Assessment {
 				veryBad: -10,
 				veryVeryBad: -20,
 			},
+			url: "<a href='https://yoa.st/2pk' target='_blank'>",
 		};
 
 		this.identifier = "textLength";
@@ -69,15 +70,18 @@ class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The text contains %1$d word. This is more than or equal to the recommended minimum of %2$d words.",
-						"The text contains %1$d words. This is more than or equal to the recommended minimum of %2$d words.",
+						"The text contains %1$d word. This is more than or equal to the %3$srecommended minimum%4$s of %2$d words.",
+						"The text contains %1$d words. This is more than or equal to the %3$srecommended minimum%4$s of %2$d words.",
 						this.wordCount
 					),
 					this.wordCount,
-					this._config.parameters.recommendedMinimum
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -86,15 +90,18 @@ class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The text contains %1$d word. This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-						"The text contains %1$d words. This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
+						"The text contains %1$d word. This is slightly below the %3$srecommended minimum%4$s of %2$d words. Add a bit more copy.",
+						"The text contains %1$d words. This is slightly below the %3$srecommended minimum%4$s of %2$d words. Add a bit more copy.",
 						this.wordCount
 					),
 					this.wordCount,
-					this._config.parameters.recommendedMinimum
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -103,17 +110,20 @@ class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The text contains %1$d word. This is below the recommended minimum of %2$d words. " +
+						"The text contains %1$d word. This is below the %3$srecommended minimum%4$s of %2$d words. " +
 							"Add more content that is relevant for the topic.",
-						"The text contains %1$d words. This is below the recommended minimum of %2$d words. " +
+						"The text contains %1$d words. This is below the %3$srecommended minimum%4$s of %2$d words. " +
 							"Add more content that is relevant for the topic.",
 						this.wordCount
 					),
 					this.wordCount,
-					this._config.parameters.recommendedMinimum
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -122,17 +132,20 @@ class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.veryBad,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The text contains %1$d word. This is far below the recommended minimum of %2$d words. " +
+						"The text contains %1$d word. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
 							"Add more content that is relevant for the topic.",
-						"The text contains %1$d words. This is far below the recommended minimum of %2$d words. " +
+						"The text contains %1$d words. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
 							"Add more content that is relevant for the topic.",
 						this.wordCount
 					),
 					this.wordCount,
-					this._config.parameters.recommendedMinimum
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -143,14 +156,16 @@ class TextLengthAssessment extends Assessment {
 				/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The text contains %1$d word. This is far below the recommended minimum of %2$d words. " +
+					"The text contains %1$d word. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
 						"Add more content that is relevant for the topic.",
-					"The text contains %1$d words. This is far below the recommended minimum of %2$d words. " +
+					"The text contains %1$d words. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
 						"Add more content that is relevant for the topic.",
 					this.wordCount
 				),
 				this.wordCount,
-				this._config.parameters.recommendedMinimum
+				this._config.parameters.recommendedMinimum,
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

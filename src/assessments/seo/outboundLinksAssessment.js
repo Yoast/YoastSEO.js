@@ -23,6 +23,7 @@ class OutboundLinksAssessment extends Assessment {
 				noneExternalFollow: 7,
 				noExternal: 3,
 			},
+			url: "<a href='https://yoa.st/2pl' target='_blank'>",
 		};
 
 		this.identifier = "externalLinks";
@@ -72,10 +73,13 @@ class OutboundLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noExternal,
 				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"No outbound links appear in this page, consider adding some as appropriate."
-					)
+						"No %1$soutbound links%2$s appear in this page, consider adding some as appropriate."
+					),
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -84,12 +88,15 @@ class OutboundLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noneExternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands the number of external nofollowed links */
+					/* Translators: %1$d expands the number of external nofollowed links,
+					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"This page has %1$s outbound link(s), all nofollowed."
+						"This page has %1$d %2$soutbound link(s)%3$s, all nofollowed."
 					),
-					this.linkStatistics.externalNofollow
+					this.linkStatistics.externalNofollow,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -98,25 +105,33 @@ class OutboundLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.allExternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands the number of external links */
+					/* Translators: %1$s expands the number of external links,
+					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"This page has %1$s outbound link(s)."
+						"This page has %1$s %2$soutbound link(s)%3$s."
 					),
-					this.linkStatistics.externalDofollow
+					this.linkStatistics.externalDofollow,
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
+
 		return {
 			score: this._config.scores.someExternalFollow,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands the number of external nofollowed links, %2$s expands the number of external followed links */
+				/* Translators: %1$d expands the number of external nofollowed links,
+				%2$s expands the number of external followed links,
+				%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.*/
 				i18n.dgettext(
 					"js-text-analysis",
-					"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+					"This page has %1$d nofollowed %3$soutbound link(s)%4$s and %2$d normal outbound link(s)."
 				),
 				this.linkStatistics.externalNofollow,
-				this.linkStatistics.externalDofollow
+				this.linkStatistics.externalDofollow,
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

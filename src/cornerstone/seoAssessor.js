@@ -17,6 +17,7 @@ const TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 const UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
 const LargestKeywordDistance = require( "../assessments/seo/largestKeywordDistanceAssessment.js" );
 const SingleH1Assessment = require( "../assessments/seo/singleH1Assessment.js" );
+const TopicDensity = require( "../assessments/seo/topicDensityAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -94,6 +95,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 		),
 		new LargestKeywordDistance(),
 		new SingleH1Assessment(),
+		new TopicDensity(),
 	];
 };
 
