@@ -22,23 +22,12 @@ class TitleKeywordAssessment extends Assessment {
 				recommendedMinimum: 1,
 				position: 0,
 			},
-			good: {
-				score: 9,
-				resultText: "The SEO title contains the focus keyword, at the beginning which is considered to " +
-				"improve rankings.",
-				requiresKeyword: false,
+			scores: {
+				good: 9,
+				okay: 6,
+				bad: 2,
 			},
-			okay: {
-				score: 6,
-				resultText: "The SEO title contains the focus keyword, but it does not appear at the beginning; " +
-				"try and move it to the beginning.",
-				requiresKeyword: false,
-			},
-			bad: {
-				score: 2,
-				resultText: "The focus keyword '%1$s' does not appear in the SEO title.",
-				requiresKeyword: true,
-			},
+			url: "<a href='https://yoa.st/2pn' target='_blank'>",
 		};
 
 		this.identifier = "titleKeyword";
@@ -50,63 +39,88 @@ class TitleKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Object} i18n The locale object.
+	 * @param {Object} i18n The object used for translations.
 	 *
-	 * @returns {AssessmentResult} The result of the assessment with text and score
+	 * @returns {AssessmentResult} The result of the assessment with text and score.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
+		this._keyword = escape( paper.getKeyword() );
 
 		let assessmentResult = new AssessmentResult();
 
-		if ( paper.hasKeyword() && paper.hasTitle() ) {
-			const calculatedScore = this.calculateResult();
-			assessmentResult.setScore( calculatedScore.score );
-			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.requiresKeyword,
-				escape( paper.getKeyword() ), i18n ) );
-		}
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
 
 	/**
+	 * Checks whether the assessment is applicable to the paper
+	 *
+	 * @param {Paper} paper The Paper object to assess.
+	 *
+	 * @returns {boolean} Whether the paper has a keyword and a title.
+	 */
+	isApplicable( paper ) {
+		return paper.hasKeyword() && paper.hasTitle();
+	}
+
+	/**
 	 * Calculates the result based on the keyphraseLength research.
+	 *
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		const matches = this._keywordMatches.matches;
 		const position = this._keywordMatches.position;
 
 		if ( matches < this._config.parameters.recommendedMinimum ) {
-			return this._config.bad;
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
+					%3$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
+					),
+					this._keyword,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 		if ( matches >= this._config.parameters.recommendedMinimum && position === this._config.parameters.position ) {
-			return this._config.good;
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The %1$sSEO title%2$s contains the focus keyword, at the beginning which is considered to improve rankings."
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
-		return this._config.okay;
-	}
-
-	/**
-	 * Translates the score result based into specific feedback to the user.
-	 *
-	 * @param {text} resultText The text of feedback for a given value of the assessment result.
-	 * @param {boolean} requiresKeyword Whether feedback text needs to include keyword.
-	 * @param {string} keyword The keyword of the paper
-	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 *
-	 * @returns {string} Text feedback.
-	 */
-	translateScore( resultText, requiresKeyword, keyword, i18n ) {
-		if ( requiresKeyword ) {
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the keyphrase. */
-				resultText
-			), keyword );
-		}
-
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis", resultText ) );
+		return {
+			score: this._config.scores.okay,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The %1$sSEO title%2$s contains the focus keyword, but it does not appear at the beginning; " +
+					"try and move it to the beginning."
+				),
+				this._config.url,
+				"</a>"
+			),
+		};
 	}
 }
 

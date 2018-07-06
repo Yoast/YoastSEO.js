@@ -10,7 +10,7 @@ class TextLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -18,18 +18,20 @@ class TextLengthAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			recommendedMinimum: 300,
-			slightlyBelowMinimum: 250,
-			belowMinimum: 200,
-			veryFarBelowMinimum: 100,
-
-			scores: {
-				recommendedMinimum: 9,
-				slightlyBelowMinimum: 6,
-				belowMinimum: 3,
-				farBelowMinimum: -10,
-				veryFarBelowMinimum: -20,
+			parameters: {
+				recommendedMinimum: 300,
+				slightlyBelowMinimum: 250,
+				belowMinimum: 200,
+				veryFarBelowMinimum: 100,
 			},
+			scores: {
+				good: 9,
+				okay: 6,
+				bad: 3,
+				veryBad: -10,
+				veryVeryBad: -20,
+			},
+			url: "<a href='https://yoa.st/2pk' target='_blank'>",
 		};
 
 		this.identifier = "textLength";
@@ -41,127 +43,131 @@ class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let wordCount = researcher.getResearch( "wordCountInText" );
+		this.wordCount = researcher.getResearch( "wordCountInText" );
 		let assessmentResult = new AssessmentResult();
 
-		assessmentResult.setScore( this.calculateScore( wordCount ) );
-		assessmentResult.setText(
-			i18n.sprintf( this.translateScore( assessmentResult.getScore(), wordCount, i18n ), wordCount, this._config.recommendedMinimum ) );
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
 
 	/**
-	 * Calculates the score based on the current word count.
+	 * Calculates the result based on the current word count.
 	 *
-	 * @param {number} wordCount The amount of words to be checked against.
-
-	 * @returns {number|null} The score.
+	 * 	@param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The result object with score and resultText.
 	 */
-	calculateScore( wordCount ) {
-		if ( wordCount >= this._config.recommendedMinimum ) {
-			return this._config.scores.recommendedMinimum;
+	calculateResult( i18n ) {
+		if ( this.wordCount >= this._config.parameters.recommendedMinimum ) {
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The text contains %1$d word. This is more than or equal to the %3$srecommended minimum%4$s of %2$d words.",
+						"The text contains %1$d words. This is more than or equal to the %3$srecommended minimum%4$s of %2$d words.",
+						this.wordCount
+					),
+					this.wordCount,
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
-			return this._config.scores.slightlyBelowMinimum;
+		if ( inRange( this.wordCount, this._config.parameters.slightlyBelowMinimum, this._config.parameters.recommendedMinimum ) ) {
+			return {
+				score: this._config.scores.okay,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The text contains %1$d word. This is slightly below the %3$srecommended minimum%4$s of %2$d words. Add a bit more copy.",
+						"The text contains %1$d words. This is slightly below the %3$srecommended minimum%4$s of %2$d words. Add a bit more copy.",
+						this.wordCount
+					),
+					this.wordCount,
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( inRange( wordCount, this._config.belowMinimum, this._config.slightlyBelowMinimum ) ) {
-			return this._config.scores.belowMinimum;
+		if ( inRange( this.wordCount, this._config.parameters.belowMinimum, this._config.parameters.slightlyBelowMinimum ) ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The text contains %1$d word. This is below the %3$srecommended minimum%4$s of %2$d words. " +
+							"Add more content that is relevant for the topic.",
+						"The text contains %1$d words. This is below the %3$srecommended minimum%4$s of %2$d words. " +
+							"Add more content that is relevant for the topic.",
+						this.wordCount
+					),
+					this.wordCount,
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.belowMinimum ) ) {
-			return this._config.scores.farBelowMinimum;
+		if ( inRange( this.wordCount, this._config.parameters.veryFarBelowMinimum, this._config.parameters.belowMinimum ) ) {
+			return {
+				score: this._config.scores.veryBad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words,
+					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The text contains %1$d word. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
+							"Add more content that is relevant for the topic.",
+						"The text contains %1$d words. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
+							"Add more content that is relevant for the topic.",
+						this.wordCount
+					),
+					this.wordCount,
+					this._config.parameters.recommendedMinimum,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( inRange( wordCount, 0, this._config.veryFarBelowMinimum ) ) {
-			return this._config.scores.veryFarBelowMinimum;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {number} score The amount of words to be checked against.
-	 * @param {number} wordCount The amount of words.
-	 * @param {object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( score, wordCount, i18n ) {
-		if ( score === this._config.scores.recommendedMinimum ) {
-			return i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than or equal to the recommended minimum of %2$d word.",
-				"This is more than or equal to the recommended minimum of %2$d words.",
-				this._config.recommendedMinimum
-			);
-		}
-
-		if ( score === this._config.scores.slightlyBelowMinimum ) {
-			return i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				this._config.recommendedMinimum
-			);
-		}
-
-		if ( score === this._config.scores.belowMinimum ) {
-			return i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				this._config.recommendedMinimum
-			);
-		}
-
-		if ( score === this._config.scores.farBelowMinimum || score === this._config.scores.veryFarBelowMinimum ) {
-			return i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				this._config.recommendedMinimum
-			);
-		}
-
-		return "";
+		return {
+			score: this._config.scores.veryVeryBad,
+			resultText: i18n.sprintf(
+				/* Translators: %1$d expands to the number of words in the text, %2$s expands to the recommended minimum of words. */
+				i18n.dngettext(
+					"js-text-analysis",
+					"The text contains %1$d word. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
+						"Add more content that is relevant for the topic.",
+					"The text contains %1$d words. This is far below the %3$srecommended minimum%4$s of %2$d words. " +
+						"Add more content that is relevant for the topic.",
+					this.wordCount
+				),
+				this.wordCount,
+				this._config.parameters.recommendedMinimum,
+				this._config.url,
+				"</a>"
+			),
+		};
 	}
 }
 

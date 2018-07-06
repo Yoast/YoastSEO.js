@@ -1,6 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
-let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
 /**
@@ -10,7 +9,7 @@ class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -19,11 +18,12 @@ class OutboundLinksAssessment extends Assessment {
 
 		let defaultConfig = {
 			scores: {
-				noLinks: 3,
-				allNofollowed: 7,
-				moreNoFollowed: 8,
-				allFollowed: 9,
+				allExternalFollow: 9,
+				someExternalFollow: 8,
+				noneExternalFollow: 7,
+				noExternal: 3,
 			},
+			url: "<a href='https://yoa.st/2pl' target='_blank'>",
 		};
 
 		this.identifier = "externalLinks";
@@ -35,17 +35,18 @@ class OutboundLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let linkStatistics = researcher.getResearch( "getLinkStatistics" );
+		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		let assessmentResult = new AssessmentResult();
-		if ( ! isEmpty( linkStatistics ) ) {
-			assessmentResult.setScore( this.calculateScore( linkStatistics ) );
-			assessmentResult.setText( this.translateScore( linkStatistics, i18n ) );
-		}
+
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
+
 		return assessmentResult;
 	}
 
@@ -61,66 +62,78 @@ class OutboundLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns a score based on the linkStatistics object.
+	 * Returns a score and a result text based on the linkStatistics.
 	 *
-	 * @param {object} linkStatistics The object with all link statistics.
+	 * @param {Object} i18n The object used for translations.
 	 *
-	 * @returns {number|null} The calculated score.
+	 * @returns {Object} The calculated result.
 	 */
-	calculateScore( linkStatistics ) {
-		if ( linkStatistics.externalTotal === 0 ) {
-			return this._config.scores.noLinks;
+	calculateResult( i18n ) {
+		if ( this.linkStatistics.externalTotal === 0 ) {
+			return {
+				score: this._config.scores.noExternal,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"No %1$soutbound links%2$s appear in this page, consider adding some as appropriate."
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-			return this._config.scores.allNofollowed;
+		if ( this.linkStatistics.externalNofollow === this.linkStatistics.externalTotal ) {
+			return {
+				score: this._config.scores.noneExternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands the number of external nofollowed links,
+					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$d %2$soutbound link(s)%3$s, all nofollowed."
+					),
+					this.linkStatistics.externalNofollow,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
-			return this._config.scores.moreNoFollowed;
+		if ( this.linkStatistics.externalDofollow === this.linkStatistics.externalTotal ) {
+			return {
+				score: this._config.scores.allExternalFollow,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands the number of external links,
+					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"This page has %1$s %2$soutbound link(s)%3$s."
+					),
+					this.linkStatistics.externalDofollow,
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-			return this._config.scores.allFollowed;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {object} linkStatistics The object with all link statistics.
-	 * @param {object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( linkStatistics, i18n ) {
-		if ( linkStatistics.externalTotal === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." );
-		}
-
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-			/* Translators: %1$s expands the number of outbound links */
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow );
-		}
-
-		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
-			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+		return {
+			score: this._config.scores.someExternalFollow,
+			resultText: i18n.sprintf(
+				/* Translators: %1$d expands the number of external nofollowed links,
+				%2$s expands the number of external followed links,
+				%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.*/
+				i18n.dgettext(
+					"js-text-analysis",
+					"This page has %1$d nofollowed %3$soutbound link(s)%4$s and %2$d normal outbound link(s)."
+				),
+				this.linkStatistics.externalNofollow,
+				this.linkStatistics.externalDofollow,
+				this._config.url,
+				"</a>"
 			),
-			linkStatistics.externalNofollow, linkStatistics.externalDofollow );
-		}
-
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-			/* Translators: %1$s expands to the number of outbound links */
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal );
-		}
-
-		return "";
+		};
 	}
 }
 

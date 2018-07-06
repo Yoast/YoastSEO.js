@@ -20,7 +20,7 @@ module.exports = function( paper, researcher ) {
 
 	const lengthKeyphrase = keyphraseLength( paper );
 	const lengthKeyphraseFactor = keyphraseLengthFactor( lengthKeyphrase );
-	const keywordCount = researcher.getResearch( "keywordCount" );
+	const keywordCount = researcher.getResearch( "keywordCount" ).count;
 
 	/*
 	 * This formula consists of the basic keyword density formula
