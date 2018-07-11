@@ -97,6 +97,7 @@ class PageTitleWidthAssesment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( pageTitleWidth, i18n ) {
+		console.log( "pageTitleWidth=",pageTitleWidth );
 		const url = "<a href='https://yoa.st/2po' target='_blank'>";
 		if ( inRange( pageTitleWidth, 1, 400 ) ) {
 			return i18n.sprintf(
