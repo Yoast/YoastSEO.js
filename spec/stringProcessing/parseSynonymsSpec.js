@@ -9,5 +9,6 @@ describe( "A test for parsing a comma-separated list of synonyms into an array o
 		expect( parseSynonyms( "!, ,?" ) ).toEqual( [] );
 		expect( parseSynonyms( "To be, or not to be, that is the question:" ) ).toEqual( [ "To be", "or not to be", "that is the question" ] );
 		expect( parseSynonyms( "To be,or not to be,that is the question:" ) ).toEqual( [ "To be", "or not to be", "that is the question" ] );
+		expect( parseSynonyms( null ) ).toEqual( [] );
 	} );
 } );

@@ -11,6 +11,10 @@ const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
  * @returns {Array} An array with all synonyms.
  */
 module.exports = function( synonyms ) {
+	if ( typeof synonyms !== "string" ) {
+		synonyms = "";
+	}
+
 	let synonymsSplit = synonyms.split( "," );
 
 	synonymsSplit = synonymsSplit.map( function( synonym ) {
