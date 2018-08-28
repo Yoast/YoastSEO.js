@@ -355,7 +355,7 @@
       },
       "sFormToInfinitive": [
         [ "(..)ies$", "$1y" ],
-        [ "(ss|ch|sh|x|z|o)es$", "$1" ],
+        [ "(ss|ch|sh|x|z|o|ocus)es$", "$1" ],
         [ "([tzlshicgrvdnkmu])es$", "$1e" ],
         [ "(n[dtk]|c[kt]|[eo]n|i[nl]|er|a[ytrl])s$", "$1" ],
         [ "(o[wp])s$", "$1" ],
@@ -364,6 +364,7 @@
         [ "(el)s$", "$1" ],
         [ "(ip)es$", "$1e" ],
         [ "ss$", "ss" ],
+        [ "us$", "us" ],
         [ "s$", "" ]
       ],
       "ingFormToInfinitive": [
@@ -376,14 +377,14 @@
         [ "gging$", "g" ],
         [ "([^aeiou])ying$", "$1y" ],
         [ "([^ae]i[^x])ing$", "$1e" ],
-        [ "(ea.)ing$", "$1" ],
+        [ "(ea.|ocus)ing$", "$1" ],
         [ "(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre|bath|iev|delet|fil|jok|past|rais|vil|ooth|tast|u|car|ys)ing$", "$1e" ],
         [ "(ch|sh)ing$", "$1" ],
         [ "(..)ing$", "$1" ]
       ],
       "edFormToInfinitive": [
         [ "(ued)$", "ue" ],
-        [ "(.)(ss|ch|sh|x|z|o)ed$", "$1$2" ],
+        [ "(.)(ss|ch|sh|x|z|o|ocus)ed$", "$1$2" ],
         [ "a([^aeiouy])ed$", "a$1e" ],
         [ "([aeiou]zz)ed$", "$1" ],
         [ "([ei])lled$", "$1ll" ],
@@ -411,7 +412,7 @@
         [ "(.[aeiou]y)ed$", "$1" ]
       ],
       "infinitiveToSForm": [
-        [ "(ss|ch|sh|x|z|o)$", "$1es" ],
+        [ "(ss|ch|sh|x|z|o|ocus)$", "$1es" ],
         [ "([bcdfghjklmnpqrstvwxz])y$", "$1ies" ],
         [ "(.*)", "$1s" ]
       ],
