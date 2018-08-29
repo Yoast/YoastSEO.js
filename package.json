@@ -59,7 +59,7 @@
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
     "node-sass": "^4.9.3",
-    "ts-jest": "^22.0.0",
+    "ts-jest": "^23.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
