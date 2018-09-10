@@ -1,26 +1,3 @@
-let transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
-let twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
-let transitionWordsGerman = require( "../researches/german/transitionWords.js" )().allWords;
-let twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
-let transitionWordsFrench = require( "../researches/french/transitionWords.js" )().allWords;
-let twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
-let transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" )().allWords;
-let twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
-let transitionWordsDutch = require( "../researches/dutch/transitionWords.js" )().allWords;
-let twoPartTransitionWordsDutch = require( "../researches/dutch/twoPartTransitionWords.js" );
-let transitionWordsItalian = require( "../researches/italian/transitionWords.js" )().allWords;
-let twoPartTransitionWordsItalian = require( "../researches/italian/twoPartTransitionWords.js" );
-let transitionWordsPortuguese = require( "../researches/portuguese/transitionWords.js" )().allWords;
-let twoPartTransitionWordsPortuguese = require( "../researches/portuguese/twoPartTransitionWords.js" );
-let transitionWordsRussian = require( "../researches/russian/transitionWords.js" )().allWords;
-let twoPartTransitionWordsRussian = require( "../researches/russian/twoPartTransitionWords.js" );
-let transitionWordsCatalan = require( "../researches/catalan/transitionWords.js" )().allWords;
-let twoPartTransitionWordsCatalan = require( "../researches/catalan/twoPartTransitionWords.js" );
-let transitionWordsPolish = require( "../researches/polish/transitionWords.js" )().allWords;
-let twoPartTransitionWordsPolish = require( "../researches/polish/twoPartTransitionWords.js" );
-let transitionWordsSwedish = require( "../researches/swedish/transitionWords.js" )().allWords;
-let twoPartTransitionWordsSwedish = require( "../researches/swedish/twoPartTransitionWords.js" );
-
 import transitionWordsEnglishFactory from "../researches/english/transitionWords.js";
 let transitionWordsEnglish = transitionWordsEnglishFactory().allWords;
 import twoPartTransitionWordsEnglish from "../researches/english/twoPartTransitionWords.js";
@@ -53,15 +30,15 @@ import twoPartTransitionWordsPortuguese from "../researches/portuguese/twoPartTr
 import transitionWordsRussianFactory from "../researches/russian/transitionWords.js";
 let transitionWordsRussian = transitionWordsRussianFactory().allWords;
 import twoPartTransitionWordsRussian from "../researches/russian/twoPartTransitionWords.js";
-
 import transitionWordsCatalanFactory from "../researches/catalan/transitionWords.js";
 let transitionWordsCatalan = transitionWordsCatalanFactory().allWords;
 import twoPartTransitionWordsCatalan from "../researches/catalan/twoPartTransitionWords.js";
-
 import transitionWordsPolishFactory from "../researches/polish/transitionWords.js";
 let transitionWordsPolish = transitionWordsPolishFactory().allWords;
-
 import twoPartTransitionWordsPolish from "../researches/polish/twoPartTransitionWords.js";
+import transitionWordsSwedishFactory from "../researches/swedish/transitionWords.js";
+let transitionWordsSwedish = transitionWordsSwedishFactory().allWords;
+import twoPartTransitionWordsSwedish from "../researches/swedish/twoPartTransitionWords.js";
 import getLanguage from "./getLanguage.js";
 
 /**
