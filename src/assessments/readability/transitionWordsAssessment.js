@@ -1,5 +1,5 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let formatNumber = require( "../../helpers/formatNumber.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import formatNumber from "../../helpers/formatNumber.js";
 import { map } from "lodash-es";
 let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;
 let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
@@ -9,6 +9,7 @@ let marker = require( "../../markers/addMark.js" );
 
 let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl", "sv" ];
+
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -120,7 +121,7 @@ let transitionWordsMarker = function( paper, researcher ) {
 	} );
 };
 
-module.exports = {
+export default {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
