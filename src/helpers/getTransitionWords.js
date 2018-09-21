@@ -2,6 +2,7 @@ import transitionWordsEnglishFactory from "../researches/english/transitionWords
 let transitionWordsEnglish = transitionWordsEnglishFactory().allWords;
 import twoPartTransitionWordsEnglish from "../researches/english/twoPartTransitionWords.js";
 
+
 import transitionWordsGermanFactory from "../researches/german/transitionWords.js";
 let transitionWordsGerman = transitionWordsGermanFactory().allWords;
 import twoPartTransitionWordsGerman from "../researches/german/twoPartTransitionWords.js";
@@ -29,15 +30,15 @@ import twoPartTransitionWordsPortuguese from "../researches/portuguese/twoPartTr
 import transitionWordsRussianFactory from "../researches/russian/transitionWords.js";
 let transitionWordsRussian = transitionWordsRussianFactory().allWords;
 import twoPartTransitionWordsRussian from "../researches/russian/twoPartTransitionWords.js";
-
 import transitionWordsCatalanFactory from "../researches/catalan/transitionWords.js";
 let transitionWordsCatalan = transitionWordsCatalanFactory().allWords;
 import twoPartTransitionWordsCatalan from "../researches/catalan/twoPartTransitionWords.js";
-
 import transitionWordsPolishFactory from "../researches/polish/transitionWords.js";
 let transitionWordsPolish = transitionWordsPolishFactory().allWords;
-
 import twoPartTransitionWordsPolish from "../researches/polish/twoPartTransitionWords.js";
+import transitionWordsSwedishFactory from "../researches/swedish/transitionWords.js";
+let transitionWordsSwedish = transitionWordsSwedishFactory().allWords;
+import twoPartTransitionWordsSwedish from "../researches/swedish/twoPartTransitionWords.js";
 import getLanguage from "./getLanguage.js";
 
 /**
@@ -93,6 +94,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsPolish,
 				twoPartTransitionWords: twoPartTransitionWordsPolish,
+			};
+		case "sv":
+			return {
+				transitionWords: transitionWordsSwedish,
+				twoPartTransitionWords: twoPartTransitionWordsSwedish,
 			};
 		default:
 		case "en":

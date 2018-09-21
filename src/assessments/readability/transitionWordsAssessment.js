@@ -6,7 +6,8 @@ import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHT
 import Mark from "../../values/Mark.js";
 import marker from "../../markers/addMark.js";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
+let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl", "sv" ];
+
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
