@@ -19,5 +19,6 @@ export default function( paper ) {
 	const wordMatched = wordMatch( title, keyword, locale );
 	result.matches = wordMatched.count;
 	result.position = wordMatched.position;
+
 	return result;
 }

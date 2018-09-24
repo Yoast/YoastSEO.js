@@ -27,6 +27,7 @@ import TaxonomyAssessor from "../taxonomyAssessor";
 import Pluggable from "../pluggable";
 import Researcher from "../researcher";
 import SnippetPreview from "../snippetPreview";
+import morphologyData from "../morphology/morphologyData.json";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 
@@ -95,6 +96,9 @@ export default class AnalysisWebWorker {
 
 		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = new Researcher( this._paper );
+		// Todo: replace this work-around with a real import from the server
+		this._researcher.addResearchDataProvider( "morphology", morphologyData );
+
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 
@@ -317,8 +321,8 @@ export default class AnalysisWebWorker {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale } )
-				: new SEOAssessor( this._i18n, { locale } );
+				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		}
 
 
