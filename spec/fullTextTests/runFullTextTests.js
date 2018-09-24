@@ -1,6 +1,8 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
+import morphologyData from "../../src/morphology/morphologyData.json";
+import Researcher from "../../src/researcher";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/assessments/seo/IntroductionKeywordAssessment";
@@ -24,7 +26,6 @@ import LargestKeywordDistanceAssessment from "../../src/assessments/seo/LargestK
 
 // Import content assessments
 import FleschReadingAssessment from "../../src/assessments/readability/fleschReadingEaseAssessment";
-
 import SubheadingDistributionTooLongAssessment from "../../src/assessments/readability/subheadingDistributionTooLongAssessment";
 import paragraphTooLongAssessment from "../../src/assessments/readability/paragraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/assessments/readability/sentenceLengthInTextAssessment";
@@ -35,7 +36,6 @@ import sentenceBeginningsAssessment from "../../src/assessments/readability/sent
 
 // Import researches
 import findKeywordInFirstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
-
 import keyphraseLength from "../../src/researches/keyphraseLength";
 import keywordCount from "../../src/researches/keywordCount";
 import getKeywordDensity from "../../src/researches/getKeywordDensity.js";
@@ -68,6 +68,9 @@ import testPapers from "./testTexts";
 testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;
 		let result = {};
@@ -76,7 +79,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
 			result.introductionKeyword = new IntroductionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( findKeywordInFirstParagraph( paper ) ),
+				factory.buildMockResearcher( findKeywordInFirstParagraph( paper, researcher ) ),
 				i18n
 			);
 			expect( result.introductionKeyword.getScore() ).toBe( expectedResults.introductionKeyword.score );
@@ -86,7 +89,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the keyphraseLength assessment", function() {
 			result.keyphraseLength = new KeyphraseLengthAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( keyphraseLength( paper ) ),
+				factory.buildMockResearcher( keyphraseLength( paper, researcher ) ),
 				i18n
 			);
 			expect( result.keyphraseLength.getScore() ).toBe( expectedResults.keyphraseLength.score );
@@ -168,7 +171,7 @@ testPapers.forEach( function( testPaper ) {
 				factory.buildMockResearcher(
 					{
 						imageCount: imageCount( paper ),
-						altTagCount: altTagCount( paper ),
+						altTagCount: altTagCount( paper, researcher ),
 					},
 					true
 				),
