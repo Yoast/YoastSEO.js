@@ -1,4 +1,6 @@
+/* eslint-disable no-useless-escape */
 const wordBoundary = "[ \\u00a0 \\n\\r\\t.,'()\"+\-;!?:/»«‹›<>]";
+/* eslint-enable no-useless-escape */
 const wordBoundaryStart = new RegExp( "^(" + wordBoundary + "+)", "ig" );
 const wordBoundaryEnd = new RegExp( "(" + wordBoundary + "+$)", "ig" );
 

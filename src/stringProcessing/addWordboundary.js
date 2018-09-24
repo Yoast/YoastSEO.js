@@ -12,6 +12,7 @@
 export default function( matchString, positiveLookAhead = false, extraWordBoundary = "" ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 
+	/* eslint-disable no-useless-escape */
 	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
 	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
 	if ( positiveLookAhead ) {
@@ -19,6 +20,7 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 	} else {
 		wordBoundaryEnd = "($|(" + wordBoundary + "])|((['‘’‛`])(" + wordBoundary + "])))";
 	}
+	/* eslint-enable no-useless-escape */
 
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 }

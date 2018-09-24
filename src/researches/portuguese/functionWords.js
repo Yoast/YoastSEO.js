@@ -65,8 +65,8 @@ const otherAuxiliaries = [ "tenho", "tens", "tem", "temos", "tendes", "têm", "t
 
 const otherAuxiliariesInfinitive = [ "ter", "haver" ];
 
-const copula = [ "sou", "és", "é", "somos", "sois", "são", "fui", "foste", "foi", "fomos", "fostes", "foram", "era", "eras", "éramos", "éreis", "eram",
-	"fôramos", "fôreis", "fora", "foras", "foram", "serei", "serás", "será", "seremos", "sereis", "serão", "seria", "serias", "seríamos",
+const copula = [ "sou", "és", "é", "somos", "sois", "são", "fui", "foste", "foi", "fomos", "fostes", "foram", "era", "eras", "éramos", "éreis",
+	"eram", "fôramos", "fôreis", "fora", "foras", "foram", "serei", "serás", "será", "seremos", "sereis", "serão", "seria", "serias", "seríamos",
 	"seríeis", "seriam", "seja", "sejas", "seja", "sejamos", "sejais", "sejam", "fosse", "fosses", "fôssemos", "fôsseis", "fossem", "for",
 	"fores", "formos", "fordes", "forem", "sê", "sede", "sermos", "serdes", "serem", "seres", "sido", "estou", "está", "estamos", "estás",
 	"estás", "estais", "estão", "estive", "estiveste", "esteve", "estivemos", "estivestes", "estiveram", "estava", "estavas", "estávamos",

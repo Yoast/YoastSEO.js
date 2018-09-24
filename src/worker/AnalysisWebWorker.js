@@ -96,6 +96,7 @@ export default class AnalysisWebWorker {
 
 		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = new Researcher( this._paper );
+		/* eslint-disable-next-line no-warning-comments */
 		// Todo: replace this work-around with a real import from the server
 		this._researcher.addResearchDataProvider( "morphology", morphologyData );
 

@@ -163,8 +163,8 @@ const interviewVerbsInfinitive = [ "dire", "penser", "demander", "concéder", "c
 	"écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-const additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement",
-	"notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
+const additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement",
+	"particulièrement", "notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
 	"finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
 	"éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment",
 	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu" ];

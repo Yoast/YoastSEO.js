@@ -4,8 +4,8 @@ const singleWords = [ "ademais", "afinal", "aliás", "analogamente", "anteriorme
 	"posteriormente", "precipuamente", "primeiramente", "primordialmente", "principalmente", "salvo",
 	"semelhantemente", "similarmente", "sobretudo", "surpreendentemente", "todavia" ];
 
-const multipleWords = [ "a fim de", "a fim de que", "a menos que", "a princípio", "a saber", "acima de tudo", "ainda assim", "ainda mais", "ainda que",
-	"além disso", "antes de mais nada", "antes de tudo", "antes que", "ao mesmo tempo", "ao passo que", "ao propósito",
+const multipleWords = [ "a fim de", "a fim de que", "a menos que", "a princípio", "a saber", "acima de tudo", "ainda assim", "ainda mais",
+	"ainda que", "além disso", "antes de mais nada", "antes de tudo", "antes que", "ao mesmo tempo", "ao passo que", "ao propósito",
 	"apesar de", "às vezes", "assim como", "assim que", "assim sendo", "assim também", "bem como", "com a finalidade de",
 	"com efeito", "com o fim de", "com o intuito de", "com o propósito de", "com toda a certeza", "como resultado", "como se",
 	"da mesma forma", "de acordo com", "de conformidade com", "de fato", "de maneira idêntica", "de tal forma que", "de tal sorte que",

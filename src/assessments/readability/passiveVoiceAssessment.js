@@ -21,14 +21,13 @@ const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	let percentage = 0;
 	const recommendedValue = 10;
 	const passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
-	let hasMarks;
 
 	// Prevent division by zero errors.
 	if ( passiveVoice.total !== 0 ) {
 		percentage = formatNumber( ( passiveVoice.passives.length / passiveVoice.total ) * 100 );
 	}
 
-	hasMarks = ( percentage > 0 );
+	const hasMarks = ( percentage > 0 );
 
 	if ( percentage <= 10 ) {
 		// Green indicator.
