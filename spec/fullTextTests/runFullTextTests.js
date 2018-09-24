@@ -73,7 +73,7 @@ testPapers.forEach( function( testPaper ) {
 
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;
-		let result = {};
+		const result = {};
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {

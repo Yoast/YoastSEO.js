@@ -56,7 +56,7 @@ describe( "An assessment for competing links in the text", function() {
 
 describe( "A test for marking competing links", function() {
 	it( "returns markers for links to posts that rank for the same keyword", function() {
-		let paper = new Paper( "some text", { keyword: "some keyword" } );
+		const paper = new Paper( "some text", { keyword: "some keyword" } );
 		const result = new TextCompetingLinksAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher(
@@ -81,7 +81,7 @@ describe( "A test for marking competing links", function() {
 			i18n
 		);
 
-		let expected = [
+		const expected = [
 			new Mark( { original: "http://www.mywebsite.com/competing_content", marked: "<yoastmark class='yoast-text-mark'>http://www.mywebsite.com/competing_content</yoastmark>" } ),
 		];
 		expect( result._marker ).toEqual( expected );

@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
-let matchKeywordAssessment = new SubheadingsKeywordAssessment();
+const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function() {
 	it( "assesses a string without subheadings", function() {
