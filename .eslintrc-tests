@@ -6,9 +6,11 @@ env:
 
 rules:
   complexity: [1, 6]
-  no-new: 0
   max-len: 0
   max-statements: 0
   new-cap: 0
+  no-new: 0
   no-redeclare: 0
+  no-shadow: 1
   no-useless-escape: 1
+  require-jsdoc: 1

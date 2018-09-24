@@ -10,7 +10,7 @@ module.exports = {
 		src: [ "<%= files.jsTests %>" ],
 		options: {
 			configFile: ".eslintrc-tests",
-			maxWarnings: 44,
+			maxWarnings: 102,
 		},
 	},
 };
