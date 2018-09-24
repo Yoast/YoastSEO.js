@@ -15,7 +15,7 @@ const getKeywordDistances = function( keywordIndex, keywordIndices, textLength )
 	const currentIndexWithinArray = keywordIndices.indexOf( keywordIndex );
 	let indexOfPreviousKeyword;
 
-	let distances = [];
+	const distances = [];
 
 	/*
 	 * If there's only one keyword, return the distance from the beginning
@@ -89,8 +89,8 @@ export default function( paper ) {
 
 	let keywordDistances = [];
 
-	for ( let keywordIndex of keywordIndices ) {
-		let currentDistances = getKeywordDistances( keywordIndex, keywordIndices, textLength );
+	for ( const keywordIndex of keywordIndices ) {
+		const currentDistances = getKeywordDistances( keywordIndex, keywordIndices, textLength );
 		keywordDistances = keywordDistances.concat( currentDistances );
 	}
 

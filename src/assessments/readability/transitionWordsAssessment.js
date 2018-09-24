@@ -6,7 +6,7 @@ import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHT
 import Mark from "../../values/Mark.js";
 import marker from "../../markers/addMark.js";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
+const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -15,7 +15,7 @@ let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca",
  * a transition word.
  * @returns {number} The percentage of sentences containing a transition word.
  */
-let calculateTransitionWordPercentage = function( sentences ) {
+const calculateTransitionWordPercentage = function( sentences ) {
 	if ( sentences.transitionWordSentences === 0 || sentences.totalSentences === 0 ) {
 		return 0;
 	}
@@ -30,11 +30,11 @@ let calculateTransitionWordPercentage = function( sentences ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} Object containing score and text.
  */
-let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
+const calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	let score;
-	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
-	let hasMarks   = ( percentage > 0 );
-	let transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
+	const percentage = calculateTransitionWordPercentage( transitionWordSentences );
+	const hasMarks   = ( percentage > 0 );
+	const transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
 	if ( percentage < 20 ) {
 		// Red indicator.
@@ -52,7 +52,7 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	}
 
 	if ( score < 7 ) {
-		let recommendedMinimum = 30;
+		const recommendedMinimum = 30;
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
@@ -87,10 +87,10 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
-let transitionWordsAssessment = function( paper, researcher, i18n ) {
-	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-	let transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
-	let assessmentResult = new AssessmentResult();
+const transitionWordsAssessment = function( paper, researcher, i18n ) {
+	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+	const transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
@@ -105,8 +105,8 @@ let transitionWordsAssessment = function( paper, researcher, i18n ) {
  * @param {Researcher} researcher The researcher containing the necessary research.
  * @returns {Array<Mark>} A list of marks that should be applied.
  */
-let transitionWordsMarker = function( paper, researcher ) {
-	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+const transitionWordsMarker = function( paper, researcher ) {
+	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
 	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
 		let sentence = sentenceResult.sentence;
@@ -122,7 +122,7 @@ export default {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		let isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker,

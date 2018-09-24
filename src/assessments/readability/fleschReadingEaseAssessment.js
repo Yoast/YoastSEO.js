@@ -32,7 +32,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
 		if ( this.isApplicable( paper ) ) {
-			let assessmentResult =  new AssessmentResult( i18n );
+			const assessmentResult =  new AssessmentResult( i18n );
 			const calculatedResult = this.calculateResult( i18n );
 			assessmentResult.setScore( calculatedResult.score );
 			assessmentResult.setText( calculatedResult.resultText );
@@ -63,7 +63,7 @@ class FleschReadingEaseAssessment extends Assessment {
 		%2$s to a link to a Yoast.com article about Flesch reading ease score,
 		%3$s to the easyness of reading,
 		%4$s expands to a note about the flesch reading score. */
-		let text = i18n.dgettext(
+		const text = i18n.dgettext(
 			"js-text-analysis",
 			"The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 		);

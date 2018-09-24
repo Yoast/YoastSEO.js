@@ -17,7 +17,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				noMatches: 6,
 				oneMatch: 9,
@@ -39,9 +39,9 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-		let assessmentResult = new AssessmentResult();
-		let score = this.calculateScore( subHeadings );
+		const subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+		const assessmentResult = new AssessmentResult();
+		const score = this.calculateScore( subHeadings );
 
 		assessmentResult.setScore( score );
 		assessmentResult.setText( this.translateScore( score, subHeadings, i18n ) );
