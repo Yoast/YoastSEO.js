@@ -118,31 +118,33 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		score: 3,
-		resultText: "2 sections of your text are longer than 300 words and are not separated by any subheadings. Add <a href='https://yoa.st/headings' target='_blank'>subheadings</a> to improve readability.",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+		"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+		" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		score: 9,
-		resultText: "None of the paragraphs are too long, which is great.",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
 	},
 	textSentenceLength: {
 		score: 9,
-		resultText: "15.8% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, which is less than or equal to the recommended maximum of 25%.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
 		score: 9,
-		resultText: "42.2% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> or phrase, which is great.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		score: 9,
-		resultText: "0% of the sentences contain <a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, which is less than or equal to the recommended maximum of 10%.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		score: 0,
 		resultText: "",
 	},
 	sentenceBeginnings: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
 	},
 };
 
