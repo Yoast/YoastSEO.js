@@ -23,6 +23,7 @@ describe( "gets Swedish word combinations", function() {
 		let expected = [
 			new WordCombination( [ "smygjagande", "rovdjur", "i", "familjen", "kattdjur", "och", "ett", "vanligt",
 				"sällskapsdjur" ], 8, swedishFunctionWords ),
+			new WordCombination( [ "familjen", "kattdjur", "och", "ett", "vanligt", "sällskapsdjur" ], 8, swedishFunctionWords ),
 			new WordCombination( [ "rovdjur", "i", "familjen", "kattdjur" ], 8, swedishFunctionWords ),
 			new WordCombination( [ "känd", "som", "tamkatt" ], 8, swedishFunctionWords ),
 			new WordCombination( [ "smygjagande", "rovdjur" ], 8, swedishFunctionWords ),
