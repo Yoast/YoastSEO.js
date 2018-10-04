@@ -27,6 +27,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			},
 			scores: {
 				tooFewMatches: 3,
+				oneMatch: 9,
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
@@ -128,7 +129,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	calculateResult( i18n ) {
 		if ( this.hasOneOutOfOneMatch() ) {
 			return {
-				score: this._config.scores.goodNumberOfMatches,
+				score: this._config.scores.oneMatch,
 				resultText: i18n.sprintf(
 					/**
 					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
