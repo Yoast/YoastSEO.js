@@ -184,9 +184,10 @@ describe( "running assessments in the assessor", function() {
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noMatches ).toBe( 3 );
+			expect( assessment._config.scores.tooFewMatches ).toBe( 3 );
+			expect( assessment._config.scores.tooManyMatches ).toBe( 3 );
 			expect( assessment._config.scores.oneMatch ).toBe( 6 );
-			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
+			expect( assessment._config.scores.goodNumberOfMatches ).toBe( 9 );
 		} );
 
 		test( "TextImagesAssessment", () => {
