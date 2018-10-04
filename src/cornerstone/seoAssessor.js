@@ -48,9 +48,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new SubheadingsKeyword(
 			{
 				scores: {
-					noMatches: 3,
 					oneMatch: 6,
-					multipleMatches: 9,
 				},
 			}
 		),
