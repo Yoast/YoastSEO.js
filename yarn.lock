@@ -2199,10 +2199,10 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-yoast@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-3.0.1.tgz#e01397d3634ad81217d3f27b27b1a69ffb8609c0"
-  integrity sha512-FDzv0ixmJvoahbIqkeX4Z9nkhue5aqY3d98gRYsXdAMtDKmvLmiwFpotPHj9RHXQIZ8rko3NNGt3DdL2L/aBJA==
+eslint-config-yoast@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-5.0.1.tgz#d98d11dcb15194205dd7eed99bff12dd42e4db45"
+  integrity sha512-j1QYG63Eq8y26kj9AXuobmwRIsJCIssYkhiR6f/NGNKOC5M11PqItn7zBwm9+zquFzJP6tuyj+SjnPpr7UxHIA==
   dependencies:
     js-yaml "^3.6.0"
 
