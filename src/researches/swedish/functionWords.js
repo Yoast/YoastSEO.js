@@ -115,7 +115,7 @@ let prepositions = [ "åt", "av", "bakom", "bland", "bortom", "bredvid", "efter"
 let intensifiers = [ "absolut", "alldeles", "allra", "bra", "fullständigt", "fullt", "ganska", "helt", "illa", "jätte",
 	"rysligt", "så", "storligen", "totalt", "väldigt", "ytterst" ];
 
-let coordinatingConjunctions = [ "eller", "för", "och" ];
+let coordinatingConjunctions = [ "eller", "och" ];
 
 let subordinatingConjunctions = [ "att" ];
 
