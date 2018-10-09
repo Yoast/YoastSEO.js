@@ -1,7 +1,7 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import Researcher from "../../src/researcher";
 
 // Import SEO assessments
@@ -68,7 +68,7 @@ testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;

@@ -5,7 +5,7 @@ import { step } from "../../src/researches/keyphraseDistribution.js";
 import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {
@@ -122,7 +122,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -146,7 +146,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -165,7 +165,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -184,7 +184,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -209,7 +209,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -230,7 +230,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.13157894736842105,
