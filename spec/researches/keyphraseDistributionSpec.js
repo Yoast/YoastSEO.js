@@ -6,6 +6,7 @@ import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseD
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
 import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import Mark from "../../src/values/Mark.js";
 
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {
@@ -46,6 +47,18 @@ const sentences = [
 	"Words, words, words, how boring!",
 ];
 
+const sentenceMarkersKeyRemarkableSomethingWord = [
+	new Mark( { marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!", original: "How remarkable!" } ),
+	new Mark( { marked: "<yoastmark class='yoast-text-mark'>Remarkable</yoastmark> is a funny <yoastmark class='yoast-text-mark'>word</yoastmark>.", original: "Remarkable is a funny word." } ),
+	new Mark( { marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>remarkable word</yoastmark>.", original: "I have found a key and a remarkable word." } ),
+	new Mark( { marked: "And again a <yoastmark class='yoast-text-mark'>key something</yoastmark>.", original: "And again a key something." } ),
+	new Mark( { marked: "Here comes <yoastmark class='yoast-text-mark'>something</yoastmark> that has nothing to do with a keyword.", original: "Here comes something that has nothing to do with a keyword." } ),
+	new Mark( { marked: "Ha, a <yoastmark class='yoast-text-mark'>key</yoastmark>!", original: "Ha, a key!" } ),
+	new Mark( { marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, " +
+		"<yoastmark class='yoast-text-mark'>words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>" +
+		", how boring!", original: "Words, words, words, how boring!" } ),
+];
+
 const topicShort = [
 	[ "key", "keys" ],
 	[ "word", "words" ],
@@ -67,6 +80,16 @@ const sentencesIT = [
 	"Ah, una chiave!",
 	"Ancora niente!",
 	"Una parola e ancora un'altra e poi un'altra ancora, che schifo!",
+];
+
+const sentencesMarkersITParolaChiaveStraordinariaQualcosa = [
+	new Mark( { marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!", original: "Che cosa straordinaria!" } ),
+	new Mark( { marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>parola</yoastmark> strana.", original: "Straordinaria è una parola strana." } ),
+	new Mark( { marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>parola straordinaria</yoastmark>.", original: "Ho trovato una chiave e una parola straordinaria." } ),
+	new Mark( { marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.", original: "E ancora una chiave e qualcosa." } ),
+	new Mark( { marked: "È <yoastmark class='yoast-text-mark'>qualcosa</yoastmark> che non ha niente da fare con questo che cerchiamo.", original: "È qualcosa che non ha niente da fare con questo che cerchiamo." } ),
+	new Mark( { marked: "Ah, una <yoastmark class='yoast-text-mark'>chiave</yoastmark>!", original: "Ah, una chiave!" } ),
+	new Mark( { marked: "Una <yoastmark class='yoast-text-mark'>parola</yoastmark> e ancora un'altra e poi un'altra ancora, che schifo!", original: "Una parola e ancora un'altra e poi un'altra ancora, che schifo!" } ),
 ];
 
 const topicShortIT = [
@@ -111,7 +134,7 @@ describe( "Test for computing the step function", function() {
 } );
 
 describe( "Test for a step-function research", function() {
-	it( "returns an average score over all sentences and all topic forms; returns markers for sentences that don't contain the topic at all", function() {
+	it( "returns an average score over all sentences and all topic forms; returns markers for sentences that contain the topic words", function() {
 		const paper = new Paper(
 			sentences.join( " " ),
 			{
@@ -126,7 +149,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
-			sentencesToHighlight: [ "Again nothing!" ],
+			sentencesToHighlight: sentenceMarkersKeyRemarkableSomethingWord,
 		} );
 	} );
 
@@ -150,7 +173,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
-			sentencesToHighlight: [ "Again nothing!" ],
+			sentencesToHighlight: sentenceMarkersKeyRemarkableSomethingWord,
 		} );
 	} );
 
@@ -169,7 +192,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
-			sentencesToHighlight: [ "Ancora niente!" ],
+			sentencesToHighlight: sentencesMarkersITParolaChiaveStraordinariaQualcosa,
 		} );
 	} );
 
@@ -188,7 +211,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
-			sentencesToHighlight: [ "Ancora niente!" ],
+			sentencesToHighlight: sentencesMarkersITParolaChiaveStraordinariaQualcosa,
 		} );
 	} );
 
@@ -213,7 +236,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
-			sentencesToHighlight: [ "Ancora niente!" ],
+			sentencesToHighlight: sentencesMarkersITParolaChiaveStraordinariaQualcosa,
 		} );
 	} );
 
@@ -234,7 +257,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.13157894736842105,
-			sentencesToHighlight: [ "Ancora niente!" ],
+			sentencesToHighlight: sentencesMarkersITParolaChiaveStraordinariaQualcosa,
 		} );
 	} );
 } );

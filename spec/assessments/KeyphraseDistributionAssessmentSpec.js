@@ -95,16 +95,16 @@ describe( "A test for marking keywords in the text", function() {
 	it( "returns markers for sentences specified by the researcher", function() {
 		let mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
 		keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher(
-			{ keyphraseDistributionScore: 5, sentencesToHighlight: [ "A sentence.", "Another sentence." ] } ), i18n );
+			{ keyphraseDistributionScore: 5, sentencesToHighlight: [ new Mark( {
+				original: "A sentence with keywords.",
+				marked: "A sentence with<yoastmark class='yoast-text-mark'>keywords</yoastmark>.",
+			} ) ] } ), i18n );
 		let expected = [
 			new Mark( {
-				original: "A sentence.",
-				marked: "<yoastmark class='yoast-text-mark'>A sentence.</yoastmark>",
+				original: "A sentence with keywords.",
+				marked: "A sentence with<yoastmark class='yoast-text-mark'>keywords</yoastmark>.",
 			} ),
-			new Mark( {
-				original: "Another sentence.",
-				marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
-			} ),
+
 		];
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( expected );
 	} );
