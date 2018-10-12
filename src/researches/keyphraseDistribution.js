@@ -6,7 +6,9 @@ import { round } from "lodash-es";
 import { sum } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { zipWith } from "lodash-es";
+import { flattenDeep } from "lodash-es";
 import gini from "../helpers/gini";
+import { markWordsInSentences } from "../stringProcessing/markWordsInSentences";
 
 /**
  * Gets neighbourhood for a sentence. For a sentence checks if there are sentences before and after it and returns a
@@ -201,12 +203,15 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 		return { sentence, score };
 	} );
 
-	// Filter sentences that contain no topic words.
-	const sentencesWithoutTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score < 4 );
+	// For marking we use all sentences that contain any words from the keyphrase.
+	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > 0 );
+	const sentencesToMark = sentencesWithTopic.map( sentenceObject => sentenceObject.sentence );
+	const formsToMark = flattenDeep( topicFormsInOneArray );
+	const markedSentences = markWordsInSentences( formsToMark, sentencesToMark, locale );
 
 	return {
 		maximizedSentenceScores: maximizedSentenceScores,
-		sentencesWithoutTopic: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
+		markings: markedSentences,
 	};
 };
 
@@ -247,7 +252,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	     * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
 	     * Hence these sentences require action most urgently.
 	     */
-		sentencesToHighlight: sentenceScores.sentencesWithoutTopic,
+		sentencesToHighlight: sentenceScores.markings,
 	};
 };
 
