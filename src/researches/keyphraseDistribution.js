@@ -247,11 +247,6 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	return {
 		// Return Gini coefficient of per-portion scores, increase it by eventual punishment for not using all topic words equally.
 		keyphraseDistributionScore: gini( textPortionScores ) + sum( punishment ) / punishment.length,
-
-		/*
-	     * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
-	     * Hence these sentences require action most urgently.
-	     */
 		sentencesToHighlight: sentenceScores.markings,
 	};
 };
