@@ -18,7 +18,7 @@ describe( "A test for creating a language syllable regex", function() {
 		expect( languageSyllableRegex.getRegex() ).toEqual( /(a)/gi );
 	} );
 
-	it( "creates an language syllable regex with a +1 multiplier", function() {
+	it( "creates an language syllable regex with a -2 multiplier", function() {
 		var mockSyllables = {
 			fragments: [ "ee" ],
 			countModifier: -2,
