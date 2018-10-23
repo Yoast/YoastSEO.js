@@ -62,7 +62,7 @@ class AnalysisWorkerWrapper {
 
 		if ( process.env.NODE_ENV === "development" ) {
 			// eslint-disable-next-line no-console
-			console.log( "wrapper <- worker", type, id, payload );
+			// console.log( "wrapper <- worker", type, id, payload );
 		}
 
 		switch ( type ) {
@@ -166,7 +166,7 @@ class AnalysisWorkerWrapper {
 
 		if ( process.env.NODE_ENV === "development" ) {
 			// eslint-disable-next-line no-console
-			console.log( "wrapper -> worker", type, id, payload );
+			// console.log( "wrapper -> worker", type, id, payload );
 		}
 
 		this._worker.postMessage( {

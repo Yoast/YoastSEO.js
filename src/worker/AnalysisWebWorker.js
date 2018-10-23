@@ -181,7 +181,7 @@ export default class AnalysisWebWorker {
 
 		if ( process.env.NODE_ENV === "development" ) {
 			// eslint-disable-next-line no-console
-			console.log( "worker <- wrapper", type, id, payload );
+			// console.log( "worker <- wrapper", type, id, payload );
 		}
 
 		switch ( type ) {
@@ -388,7 +388,7 @@ export default class AnalysisWebWorker {
 
 		if ( process.env.NODE_ENV === "development" ) {
 			// eslint-disable-next-line no-console
-			console.log( "worker -> wrapper", type, id, payload );
+			// console.log( "worker -> wrapper", type, id, payload );
 		}
 
 		this._scope.postMessage( {
@@ -669,6 +669,13 @@ export default class AnalysisWebWorker {
 					results: this._seoAssessor.results,
 					score: this._seoAssessor.calculateOverallScore(),
 				};
+
+				/*
+				 	Get the base forms for the main keyphrase
+				 	(to be used in the previously used keyphrase assessment).
+				 */
+				this._results.seo[ "" ].keyphraseBaseForm =
+					this._researcher.getResearch( "getLemmasFromKeywordForms" );
 			}
 
 			// Start an analysis for every related keyword.
