@@ -2,8 +2,6 @@
 
 import addWordBoundary from "../stringProcessing/addWordboundary.js";
 
-import { map } from "lodash-es";
-
 /**
  * Creates a regex of combined strings from the input array.
  *
@@ -11,18 +9,14 @@ import { map } from "lodash-es";
  * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
  * @returns {RegExp} regex The regex created from the array.
  */
-export default function( array, disableWordBoundary ) {
-	var regexString;
-	var _disableWordBoundary = disableWordBoundary || false;
+export default function( array, disableWordBoundary = false ) {
+	let regexString;
 
-	var boundedArray = map( array, function( string ) {
-		if ( _disableWordBoundary ) {
-			return string;
-		}
-		return addWordBoundary( string, true );
-	} );
+	regexString = array.join( "|" );
 
-	regexString = "(" + boundedArray.join( ")|(" ) + ")";
+	if ( ! disableWordBoundary ) {
+		regexString = addWordBoundary( "(" + regexString + ")", true );
+	}
 
 	return new RegExp( regexString, "ig" );
 }
