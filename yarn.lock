@@ -2928,10 +2928,10 @@ growly@^1.3.0:
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
-grunt-babel@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-babel/-/grunt-babel-7.0.0.tgz#13c90c01f154dec214e0eeb5d66ac7c70cedf2d3"
-  integrity sha512-AFilvH/iPbnIYhL4Wx36AJQCaVEvK55xh0tujAt1DIM5tuxYxRsgUPEpwijBU147B+as/ssGuY9/6JYfTiAWpw==
+grunt-babel@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/grunt-babel/-/grunt-babel-8.0.0.tgz#92ef63aafadf938c488dc2f926ac9846e0c93d1b"
+  integrity sha512-WuiZFvGzcyzlEoPIcY1snI234ydDWeWWV5bpnB7PZsOLHcDsxWKnrR1rMWEUsbdVPPjvIirwFNsuo4CbJmsdFQ==
 
 grunt-browserify@^5.0.0:
   version "5.3.0"
