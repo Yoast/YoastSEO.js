@@ -46,6 +46,7 @@ import { research } from "./researches/buildKeywordForms";
 const morphology = research;
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import h1s from "./researches/h1s";
+import getImageSizes from "./researches/getImageSizes";
 
 /**
  * This contains all possible, default researches.
@@ -94,6 +95,7 @@ var Researcher = function( paper ) {
 		morphology: morphology,
 		functionWordsInKeyphrase: functionWordsInKeyphrase,
 		h1s: h1s,
+		getImageSizes,
 	};
 
 	this._data = {};
