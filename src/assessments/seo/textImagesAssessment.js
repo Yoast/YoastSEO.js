@@ -103,6 +103,7 @@ class TextImagesAssessment extends Assessment {
 			};
 		}
 
+
 		// Has alt-tag, but no keywords and it's not okay
 		if ( altProperties.withAltNonKeyword > 0 ) {
 			return {
