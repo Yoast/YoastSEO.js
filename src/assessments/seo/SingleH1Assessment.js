@@ -121,9 +121,10 @@ class singleH1Assessment extends Assessment {
 		}
 
 		return map( h1s, function( h1 ) {
+			const attributes = h1.attributes ? h1.attributes : "";
 			return new Mark( {
-				original: "<h1>" + h1.content + "</h1>",
-				marked: "<h1>" + marker( h1.content ) + "</h1>",
+				original: `<h1${attributes}>${h1.content}</h1>`,
+				marked: `<h1${attributes}>${marker( h1.content )}</h1>`,
 			} );
 		} );
 	}

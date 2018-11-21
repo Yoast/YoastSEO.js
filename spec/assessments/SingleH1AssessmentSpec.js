@@ -72,6 +72,21 @@ describe( "A test for marking incorrect H1s in the body", function() {
 
 		expect( results._hasMarks ).toEqual( false );
 	} );
+
+	it( "returns markers for incorrect H1s in the body, including attributes", function() {
+		const mockPaper = new Paper( "<p>a paragraph</p><h1 id='heading_id'>heading</h1>" );
+		const assessment = h1Assessment;
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ {
+			content: "heading", position: 2, attributes: " id='heading_id'",
+		} ] ), i18n );
+
+		const expected = [
+			new Mark( { original: "<h1 id='heading_id'>heading</h1>",
+				marked: "<h1 id='heading_id'><yoastmark class='yoast-text-mark'>heading</yoastmark></h1>" } ),
+		];
+
+		expect( assessment.getMarks() ).toEqual( expected );
+	} );
 } );
 
 describe( "Checks if the assessment is applicable", function() {

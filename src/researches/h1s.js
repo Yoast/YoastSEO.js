@@ -1,7 +1,7 @@
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 import { getBlocks } from "../helpers/html";
 
-const h1Regex = /<h1.*?>(.*?)<\/h1>/;
+const h1Regex = /<h1(.*?)>(.*?)<\/h1>/;
 
 /**
  * Gets all H1s in a text, including their content and their position with regards to other HTML blocks.
@@ -20,8 +20,8 @@ export default function( paper ) {
 		const match = h1Regex.exec( block );
 		if ( match ) {
 			h1s.push( {
-				tag: "h1",
-				content: match[ 1 ],
+				attributes: match[ 1 ],
+				content: match[ 2 ],
 				position: index,
 			} );
 		}
