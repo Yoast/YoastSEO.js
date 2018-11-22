@@ -9,6 +9,7 @@ import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import formatNumber from "../../helpers/formatNumber";
 import keyphraseLengthFactor from "../../helpers/keyphraseLengthFactor.js";
 import countWords from "../../stringProcessing/countWords";
+import stemmer from "../../morphology/german/stemmer";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -128,6 +129,12 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
+		const testWords = [ "machen", "tun", "Lieblingsfilme", "grüner", "lieblinge" ]
+
+		for ( const testWord of testWords ) {
+			console.log( stemmer( testWord ) );
+		}
+
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false && getLanguage( paper.getLocale() ) === "en";
 
 		this._keywordCount = researcher.getResearch( "keywordCount" );
