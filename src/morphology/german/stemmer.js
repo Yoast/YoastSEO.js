@@ -165,63 +165,63 @@ export default function stemmer( word ) {
 			if preceded by lich or ig, delete if in R2
 		*/
 
-		var a3Index = word.search( /(end|ung)$/g );
-		var b3Index = word.search( /[^e](ig|ik|isch)$/g );
-		var c3Index = word.search( /(lich|heit)$/g );
-		var d3Index = word.search( /(keit)$/g );
-		if ( b3Index != -1 ) {
-			b3Index++;
-		}
-
-		var index3 = 10000;
-		var optionUsed3 = '';
-		if ( a3Index != -1 && a3Index < index3 ) {
-			optionUsed3 = 'a';
-			index3 = a3Index;
-		}
-		if ( b3Index != -1 && b3Index < index3 ) {
-			optionUsed3 = 'b';
-			index3 = b3Index;
-		}
-		if ( c3Index != -1 && c3Index < index3 ) {
-			optionUsed3 = 'c';
-			index3 = c3Index;
-		}
-		if ( d3Index != -1 && d3Index < index3 ) {
-			optionUsed3 = 'd';
-			index3 = d3Index;
-		}
-
-		if ( index3 != 10000 && r2Index != -1 ) {
-			if ( index3 >= r2Index ) {
-				word = word.substring( 0, index3 );
-				var optionIndex = -1;
-				var optionSubsrt = '';
-				if ( optionUsed3 == 'a' ) {
-					optionIndex = word.search( /[^e](ig)$/ );
-					if ( optionIndex != -1 ) {
-						optionIndex++;
-						if ( optionIndex >= r2Index ) {
-							word = word.substring( 0, optionIndex );
-						}
-					}
-				} else if ( optionUsed3 == 'c' ) {
-					optionIndex = word.search( /(er|en)$/ );
-					if ( optionIndex != -1 ) {
-						if ( optionIndex >= r1Index ) {
-							word = word.substring( 0, optionIndex );
-						}
-					}
-				} else if ( optionUsed3 == 'd' ) {
-					optionIndex = word.search( /(lich|ig)$/ );
-					if ( optionIndex != -1 ) {
-						if ( optionIndex >= r2Index ) {
-							word = word.substring( 0, optionIndex );
-						}
-					}
-				}
-			}
-		}
+		// var a3Index = word.search( /(end|ung)$/g );
+		// var b3Index = word.search( /[^e](ig|ik|isch)$/g );
+		// var c3Index = word.search( /(lich|heit)$/g );
+		// var d3Index = word.search( /(keit)$/g );
+		// if ( b3Index != -1 ) {
+		// 	b3Index++;
+		// }
+		//
+		// var index3 = 10000;
+		// var optionUsed3 = '';
+		// if ( a3Index != -1 && a3Index < index3 ) {
+		// 	optionUsed3 = 'a';
+		// 	index3 = a3Index;
+		// }
+		// if ( b3Index != -1 && b3Index < index3 ) {
+		// 	optionUsed3 = 'b';
+		// 	index3 = b3Index;
+		// }
+		// if ( c3Index != -1 && c3Index < index3 ) {
+		// 	optionUsed3 = 'c';
+		// 	index3 = c3Index;
+		// }
+		// if ( d3Index != -1 && d3Index < index3 ) {
+		// 	optionUsed3 = 'd';
+		// 	index3 = d3Index;
+		// }
+		//
+		// if ( index3 != 10000 && r2Index != -1 ) {
+		// 	if ( index3 >= r2Index ) {
+		// 		word = word.substring( 0, index3 );
+		// 		var optionIndex = -1;
+		// 		var optionSubsrt = '';
+		// 		if ( optionUsed3 == 'a' ) {
+		// 			optionIndex = word.search( /[^e](ig)$/ );
+		// 			if ( optionIndex != -1 ) {
+		// 				optionIndex++;
+		// 				if ( optionIndex >= r2Index ) {
+		// 					word = word.substring( 0, optionIndex );
+		// 				}
+		// 			}
+		// 		} else if ( optionUsed3 == 'c' ) {
+		// 			optionIndex = word.search( /(er|en)$/ );
+		// 			if ( optionIndex != -1 ) {
+		// 				if ( optionIndex >= r1Index ) {
+		// 					word = word.substring( 0, optionIndex );
+		// 				}
+		// 			}
+		// 		} else if ( optionUsed3 == 'd' ) {
+		// 			optionIndex = word.search( /(lich|ig)$/ );
+		// 			if ( optionIndex != -1 ) {
+		// 				if ( optionIndex >= r2Index ) {
+		// 					word = word.substring( 0, optionIndex );
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		/*
 		Finally,
@@ -229,9 +229,9 @@ export default function stemmer( word ) {
 		*/
 		word = word.replace( /U/g, 'u' );
 		word = word.replace( /Y/g, 'y' );
-		word = word.replace( /ä/g, 'a' );
-		word = word.replace( /ö/g, 'o' );
-		word = word.replace( /ü/g, 'u' );
+		// word = word.replace( /ä/g, 'a' );
+		// word = word.replace( /ö/g, 'o' );
+		// word = word.replace( /ü/g, 'u' );
 
 		return word;
 }
