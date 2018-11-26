@@ -250,6 +250,9 @@ function verifyArguments( args ) {
  * @constructor
  */
 var App = function( args ) {
+	// Deprecate the app.
+	console.warn( "App in YoastSEO.js is no longer supported, please use the analysis web worker instead." );
+
 	if ( ! isObject( args ) ) {
 		args = {};
 	}
