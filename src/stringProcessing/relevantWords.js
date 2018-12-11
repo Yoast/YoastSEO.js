@@ -2,8 +2,7 @@ import getWords from "../stringProcessing/getWords.js";
 import getSentences from "../stringProcessing/getSentences.js";
 import WordCombination from "../values/WordCombination.js";
 import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
-import functionWordListsFactory from "../helpers/getFunctionWords.js";
-const functionWordLists = functionWordListsFactory();
+import getFunctionWords from "../helpers/getFunctionWords.js";
 import getLanguage from "../helpers/getLanguage.js";
 
 import { filter } from "lodash-es";
@@ -257,12 +256,8 @@ function filterCombinations( combinations, functionWords, language ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, locale ) {
-	let language = getLanguage( locale );
-	if ( ! functionWordLists.hasOwnProperty( language ) ) {
-		language = "en";
-	}
-
-	const functionWords = functionWordLists[ language ];
+	const language = getLanguage( locale );
+	const functionWords = getFunctionWords( language );
 
 	const words = getWordCombinations( text, 1, functionWords.all );
 	const wordCount = words.length;

@@ -3,8 +3,9 @@
  * stringProcessing script
  */
 
+/*
+Temporary disable:
 import germanFunctionWordsFactory from "../researches/german/functionWords.js";
-
 const germanFunctionWords = germanFunctionWordsFactory();
 import englishFunctionWordsFactory from "../researches/english/functionWords.js";
 const englishFunctionWords = englishFunctionWordsFactory();
@@ -24,13 +25,40 @@ import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
 import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js";
 const swedishFunctionWords = swedishFunctionWordsFactory();
+*/
+
+import { get } from "lodash-es";
+
+import loadWordList from "../locale/loadWordList";
+
+
+// Cached function words.
+const functionWords = {};
 
 /**
  * Returns the function words for all languages.
  *
+ * @param {string} language The language code of the language to get the function words for.
+ *
  * @returns {Object} Function words for all languages.
  */
-export default function() {
+export default function( language = "en" ) {
+	const list = get( functionWords, language, { all: [] } );
+
+	if ( list.all.length === 0 ) {
+		// Lets not fix the async issue right now. Load the word list for the next time only.
+		loadWordList( "functionWords", language )
+			.then( ( { default: wordList } ) => {
+				// Includes default key, because of the require.
+				functionWords[ language ] = wordList;
+			} )
+			.catch( error => console.error( error ) );
+	}
+
+	return list;
+}
+
+/* Was: function() {
 	return {
 		en: englishFunctionWords,
 		de: germanFunctionWords,
@@ -43,4 +71,4 @@ export default function() {
 		pl: polishFunctionWords,
 		sv: swedishFunctionWords,
 	};
-}
+}*/

@@ -2,8 +2,7 @@ import getFormsForLanguageFactory from "../helpers/getFormsForLanguage.js";
 const getFormsForLanguage = getFormsForLanguageFactory();
 import getWords from "../stringProcessing/getWords.js";
 import getLanguage from "../helpers/getLanguage.js";
-import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
-const getFunctionWords = getFunctionWordsFactory();
+import getFunctionWords from "../helpers/getFunctionWords.js";
 import parseSynonyms from "../stringProcessing/parseSynonyms";
 import { getVariationsApostrophe } from "../stringProcessing/getVariationsApostrophe";
 import { getVariationsApostropheInArray } from "../stringProcessing/getVariationsApostrophe";
@@ -30,7 +29,7 @@ const filterFunctionWords = function( array, language ) {
 		language = "en";
 	}
 
-	const functionWords = get( getFunctionWords, [ language ], [] );
+	const functionWords = getFunctionWords( language );
 
 	if ( array.length > 1 ) {
 		const arrayFiltered = filter( array, function( word ) {
