@@ -47,12 +47,11 @@ export default function( language = "en" ) {
 
 	if ( list.all.length === 0 ) {
 		// Lets not fix the async issue right now. Load the word list for the next time only.
-		loadWordList( "functionWords", language )
-			.then( ( { default: wordList } ) => {
-				// Includes default key, because of the require.
-				functionWords[ language ] = wordList;
-			} )
-			.catch( error => console.error( error ) );
+		const fetchedList = loadWordList( "functionWords", language );
+		if ( fetchedList !== null ) {
+			functionWords[ language ] = fetchedList;
+			return fetchedList;
+		}
 	}
 
 	return list;
