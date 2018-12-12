@@ -1,15 +1,11 @@
 /** @module analyses/findKeywordInPageTitle */
 
-import wordMatch from "../stringProcessing/matchTextWithWord.js";
-import { findTopicFormsInString } from "./findKeywordFormsInString.js";
-
-import getFunctionWordsFactory from "../helpers/getFunctionWords";
-
 import { escapeRegExp, filter, get, includes, isEmpty, isUndefined } from "lodash-es";
+import getFunctionWords from "../helpers/getFunctionWords";
 import getLanguage from "../helpers/getLanguage";
 import getWords from "../stringProcessing/getWords";
-
-const getFunctionWords = getFunctionWordsFactory();
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
  * Strips all function words from the start of the given string.
@@ -73,7 +69,8 @@ const adjustPosition = function( title, position, locale ) {
 
 	// Don't do anything if no function words exist for this locale.
 	const language = getLanguage( locale );
-	const functionWords = get( getFunctionWords, [ language ], [] );
+	console.log( "findKeywordInPageTitle", language );
+	const functionWords = getFunctionWords( language );
 	if ( isUndefined( functionWords.all ) ) {
 		return position;
 	}

@@ -1,9 +1,8 @@
 import { filter, get, includes, isEmpty } from "lodash-es";
 import getWords from "../stringProcessing/getWords";
 import getLanguage from "../helpers/getLanguage";
-import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
+import getFunctionWords from "../helpers/getFunctionWords.js";
 
-const getFunctionWords = getFunctionWordsFactory();
 /**
  * Checks if the keyphrase contains of function words only.
  *
@@ -21,7 +20,7 @@ export default function( paper ) {
 	}
 
 	let keyphraseWords = getWords( keyphrase );
-	const functionWords = get( getFunctionWords, [ getLanguage( paper.getLocale() ) ], [] );
+	const functionWords = getFunctionWords( getLanguage( paper.getLocale() ) );
 
 	keyphraseWords = filter( keyphraseWords, function( word ) {
 		return ( ! includes( functionWords.all, word.trim().toLocaleLowerCase() ) );

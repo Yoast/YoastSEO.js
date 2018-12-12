@@ -6,6 +6,7 @@ import getFunctionWords from "./getFunctionWords";
  * @returns {string[]} A list of languages that have function words support.
  */
 export default function() {
+	return [ "en", "nl" ];
 	const functionWords = getFunctionWords();
 
 	return Object.keys( functionWords );
