@@ -18,11 +18,25 @@ describe( "test to check url for keyword", function() {
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "returns no matches for dashed words", function() {
+	it( "returns no matches for differently dashed words", function() {
 		const paper = new Paper( "", { url: "url-with-key-word", keyword: "keyword" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
+	} );
+
+	it( "returns matches for equally dashed words", function() {
+		const paper = new Paper( "", { url: "url-with-key-word", keyword: "key-word" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "returns matches for equally dashed words with more words around", function() {
+		const paper = new Paper( "", { url: "url-with-key-word", keyword: "exciting key-word exciting" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 4, percentWordMatches: 50 } );
 	} );
 
 	it( "returns matches with diacritics", function() {
