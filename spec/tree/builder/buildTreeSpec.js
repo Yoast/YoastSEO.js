@@ -6,6 +6,7 @@ import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
 
 import fullTexts from "../../fullTextTests/testTexts";
+import buildTreeFromYaml from "../../specHelpers/buildTreeFromYaml";
 
 describe( "build tree", () => {
 	it( "can build a tree from HTML source code", () => {
@@ -481,6 +482,30 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
+	it( "Adds leaf nodes as formatting elements to leaf nodes.", () => {
+		const input = "<h1>Hello <p>World!</p></h1>";
+		const expected = buildTreeFromYaml`
+Structured:
+  sourceStartIndex: 0
+  sourceEndIndex: 28
+  tag: root
+  children:
+    - Heading:
+        sourceStartIndex: 0
+        sourceEndIndex: 28
+        level: 1
+        text: Hello World!
+        formatting:
+          - p:
+              textStartIndex: 6
+              textEndIndex: 12
+              sourceStartIndex: 10
+              sourceEndIndex: 23
+`;
+		const output = buildTree( input );
+		expect( output.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse a big HTML text", () => {

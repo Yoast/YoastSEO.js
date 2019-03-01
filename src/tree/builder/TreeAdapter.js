@@ -149,24 +149,22 @@ class TreeAdapter {
 			return;
 		}
 
-		/*
-		  Structured (ignored) nodes can also be contained within headings, paragraphs
-		  and formatting elements, even though it is not entirely valid HTML,
-		  so we need to transform it to a FormattingElement and add it
-		  to the appropriate heading or paragraph ancestor.
-		 */
-		if ( TreeAdapter._isStructuredElement( child ) &&
-			( parent instanceof FormattingElement || parent instanceof LeafNode ) ) {
-			// Add structured (ignored) node as formatting to the first header or paragraph ancestor.
+		// Add all formatting elements to its first ancestor that is either a heading or paragraph.
+		if ( child instanceof FormattingElement ) {
+			TreeAdapter._appendFormattingElement( parent, child );
+			return;
+		} else if ( parent instanceof FormattingElement || parent instanceof LeafNode ) {
+			/*
+			  Non-formatting elements (paragraphs, divs, etc.) can also be contained within headings, paragraphs
+			  and formatting elements, even though it is not entirely valid HTML.
+
+			  We need to transform it to a FormattingElement and add it
+			  to the appropriate heading or paragraph ancestor.
+			 */
 			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
 			TreeAdapter._appendFormattingElement( parent, element );
-			return;
-		}
-
-		// Add formatting element to its first ancestor that is either a heading or paragraph.
-		if ( child instanceof FormattingElement ) {
-			TreeAdapter._appendFormattingElement( parent, child );
+			child.parent = parent;
 			return;
 		}
 
@@ -277,8 +275,14 @@ class TreeAdapter {
 		}
 
 		if ( node instanceof LeafNode ) {
-			// Node may only contain formatting elements.
-			node.textContainer.appendText( text );
+			// Find out if this leaf node is nested inside another one.
+			const leafNodeAncestor = TreeAdapter._findAncestorLeafNode( node );
+			if ( leafNodeAncestor ) {
+				// If so, add text to ancestor (this node has already been added as formatting to the ancestor).
+				leafNodeAncestor.textContainer.appendText( text );
+			} else {
+				node.textContainer.appendText( text );
+			}
 		} else if ( node instanceof FormattingElement ) {
 			TreeAdapter._addFormattingElementText( node, text );
 		} else {
@@ -506,7 +510,7 @@ class TreeAdapter {
 		  Go up the tree until we either find the element we want,
 		  or until we are at the root of the tree (an element with no parent).
 		 */
-		while ( ! ( parent instanceof LeafNode ) && parent !== null ) {
+		while ( ! ( parent instanceof LeafNode ) && parent ) {
 			parent = parent.parent;
 		}
 		return parent;
