@@ -1,10 +1,10 @@
 {
   "files": {
     "included": [
-      "js/**/*.js"
+      "packages/yoastseo/src/**/*.js"
     ],
     "excluded": [
-      "dist/**/*"
+      "packages/yoastseo/dist/**/*"
     ]
   }
 }

@@ -14,12 +14,12 @@ ratings:
   - "**.css"
   - "**.js"
 exclude_paths:
-- src/config/*
-- spec/**/*
-- dist/*
-- examples/*
-- grunt/**/*
-- templates/*
-- languages/*
-- Gruntfile.js
-- src/templates.js
+- packages/yoastseo/src/config/*
+- packages/yoastseo/spec/**/*
+- packages/yoastseo/dist/*
+- packages/yoastseo/examples/*
+- packages/yoastseo/grunt/**/*
+- packages/yoastseo/templates/*
+- packages/yoastseo/languages/*
+- packages/yoastseo/Gruntfile.js
+- packages/yoastseo/src/templates.js
