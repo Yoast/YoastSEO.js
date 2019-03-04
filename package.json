@@ -1,0 +1,14 @@
+{
+  "name": "yoastseo",
+  "private": true,
+  "description": "Yoast monorepo",
+  "homepage": "https://github.com/Yoast/",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/YoastSEO.js"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
