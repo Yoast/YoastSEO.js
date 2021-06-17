@@ -1,16 +1,16 @@
 /** @module config/transitionWords */
 
 const singleWords = [ "ainsi", "alors", "aussi", "car", "cependant", "certainement", "certes", "conséquemment", "d'abord", "d'ailleurs", "d'après",
-	"davantage", "désormais", "deuxièmement", "donc", "dorénavant", "effectivement", "également", "enfin", "ensuite", "entre-temps",
-	"essentiellement", "excepté", "finalement", "globalement", "jusqu'ici", "là-dessus", "lorsque", "mais", "malgré", "néanmoins",
-	"notamment", "partant", "plutôt", "pourtant", "précédemment", "premièrement", "probablement", "puis", "puisque", "quoique",
+	"davantage", "désormais", "deuxièmement", "donc", "dorénavant", "effectivement", "également", "encore", "enfin", "ensuite", "entre-temps",
+	"essentiellement", "et", "excepté", "finalement", "globalement", "jusqu'ici", "là-dessus", "lorsque", "mais", "malgré", "néanmoins",
+	"notamment", "ou", "or", "partant", "plutôt", "pourtant", "précédemment", "premièrement", "probablement", "puis", "puisque", "quoique",
 	"sauf", "selon", "semblablement", "sinon", "suivant", "toutefois", "troisièmement" ];
 
 const multipleWords = [ "à cause de", "à ce jour", "à ce propos", "à ce sujet", "à cet égard", "à cette fin", "à compter de",
 	"à condition que", "à défaut de", "à force de", "à juste titre", "à la lumière de", "à la suite de", "à l'aide de", "à l'appui de",
 	"à l'encontre de", "à l'époque actuelle", "à l'exception de", "à l'exclusion de", "à l'heure actuelle", "à l'image de", "à l'instar de",
 	"à l'inverse", "à l'inverse de", "à l'opposé", "à la condition que", "à mesure que", "à moins que", "à nouveau", "à partir de", "à première vue",
-	"à savoir", "à seule fin que", "à supposer que", "à tel point que", "à tout prendre", "à vrai dire", "afin de", "afin d'attirer l'attention sur",
+	"à propos de", "à savoir", "à seule fin que", "à supposer que", "à tel point que", "à tout prendre", "à vrai dire", "afin de", "afin d'attirer l'attention sur",
 	"afin que", "ainsi donc", "ainsi que", "alors que", "antérieurement", "après cela", "après quoi", "après que",
 	"après réflexion", "après tout", "attendu que", "au cas où", "au contraire", "au fond", "au fur et à mesure", "au lieu de", "au même temps",
 	"au moment où", "au moyen de", "au point que", "au risque de", "au surplus", "au total", "aussi bien que", "aussitôt que", "autant que",
@@ -30,7 +30,7 @@ const multipleWords = [ "à cause de", "à ce jour", "à ce propos", "à ce suje
 	"en ce domaine", "en ce moment", "en ce qui a trait à", "en ce qui concerne", "en ce sens", "en cela", "en comparaison de",
 	"en conclusion", "en conformité avec", "en conséquence", "en d'autres termes", "en définitive", "en dépit de",
 	"en dernier lieu", "en deuxième lieu", "en effet", "en face de", "en fait", "en fin de compte", "en général",
-	"en guise de conclusion", "en matière de", "en même temps que", "en outre", "en particulier", "en plus", "en premier lieu",
+	"en guise de conclusion", "en l'occurence", "en matière de", "en même temps que", "en outre", "en particulier", "en plus", "en premier lieu",
 	"en principe", "en raison de", "en réalité", "en règle générale", "en résumé", "en revanche", "en second lieu", "en somme",
 	"en sorte que", "en supposant que", "en tant que", "en terminant", "en théorie", "en tout cas", "en tout premier lieu", "en troisième lieu",
 	"en un mot", "en vérité", "en vue que", "encore que", "encore une fois", "entre autres", "et même", "et puis", "étant donné qu'à",
@@ -42,16 +42,16 @@ const multipleWords = [ "à cause de", "à ce jour", "à ce propos", "à ce suje
 	"mis à part le fait que", "notons que", "nul doute que", "ou bien", "outre cela", "où que", "par ailleurs",
 	"par conséquent", "par contre", "par exception", "par exemple", "par la suite", "par l'entremise de", "par l'intermédiaire de",
 	"par rapport à", "par suite", "par suite de", "par surcroît", "parce que", "pareillement", "partant de ce fait", "pas du tout",
-	"pendant que", "plus précisément", "plus tard", "pour ainsi dire", "pour autant que", "pour ce qui est de", "pour ces motifs",
+	"pendant que", "plus précisément", "plus tard", "pour ainsi dire", "pour autant que", "pour cela", "pour ce qui est de", "pour ces motifs",
 	"pour ces raisons", "pour cette raison", "pour commencer", "pour conclure", "pour le moment", "pour marquer la causalité", "pour l'instant",
 	"pour peu que", "pour prendre un autre exemple", "pour que", "pour résumé", "pour terminer", "pour tout dire", "pour toutes ces raisons",
 	"pourvu que", "prenons le cas de", "quand bien même que", "quand même", "quant à", "quel que soit", "qui plus est",
 	"qui que", "quitte à", "quoi qu'il en soit", "quoi que", "quoiqu'il en soit", "sans délai", "sans doute", "sans parler de", "sans préjuger",
 	"sans tarder", "sauf si", "selon que", "si bien que", "si ce n'est que", "si l'on songe que", "sitôt que", "somme toute",
-	"sous cette réserve", "sous prétexte que", "sous réserve de", "sous réserve que", "suivant que", "supposé que", "sur le plan de",
-	"tandis que", "tant et si bien que", "tant que", "tel que", "tellement que", "touchant à", "tout à fait", "tout bien pesé", "tout compte fait",
-	"tout d'abord", "tout d'abord examinons", "tout d'abord il faut dire que", "tout de même", "tout en reconnaissant que", "une fois de plus",
-	"vu que" ];
+	"sous cette réserve", "sous prétexte que", "sous réserve de", "sous réserve que", "suivant que", "supposé que", "sur le plan de", "sur ce point", "surtout si",	
+	"surtout quand", "tandis que", "tant et si bien que", "tant que", "tel que", "tellement que", "touchant à", "tout à fait", "tout bien pesé", 
+	"tout compte fait", "tout d'abord", "tout d'abord examinons", "tout d'abord il faut dire que", "tout de même", "tout en reconnaissant que", 
+	"une fois de plus", "vu que" ];
 
 /**
  * Returns an list with transition words to be used by the assessments.
